@@ -109,9 +109,13 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 {
+	CBox* box = dynamic_cast<CBox*>(e->obj);
 	if (e->ny > 0)
 	{
-		e->obj->Delete();
+		if (box->GetState() != BOX_STATE_USED)
+		{
+			box->SetState(BOX_STATE_USED);
+		}
 
 
 
