@@ -90,6 +90,9 @@
     <ClInclude Include="Decoration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MysteryBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -153,6 +156,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Decoration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MysteryBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

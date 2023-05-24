@@ -33,11 +33,14 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 #include "Animation.h"
 #include "Animations.h"
 
+
 #include "Mario.h"
 #include "Brick.h"
 #include "Goomba.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "Decoration.h"
+#include "MysteryBox.h"
 
 #include "SampleKeyEventHandler.h"
 

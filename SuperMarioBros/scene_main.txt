@@ -7,6 +7,7 @@ brick.txt
 BasePlatform.txt
 DecorBush.txt
 goomba.txt
+MysteryBox.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -51,6 +52,9 @@ goomba.txt
 5	628	194	16	16	29	60000	60000	60000
 
 #Decoration
-6	20	180
+#6	20	180
+
+#MysteryBox
+7	170	120
 
 

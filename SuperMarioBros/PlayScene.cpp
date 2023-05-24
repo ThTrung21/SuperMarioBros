@@ -9,6 +9,8 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "Decoration.h"
+#include "MysteryBox.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -138,7 +140,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_MYSTERYBOX:
+	{
 
+		obj = new CBox(x,y);
+		break;
+	}
+	case OBJECT_TYPE_DECOR:
+	{
+		//obj = new CDecoration(x, y);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
