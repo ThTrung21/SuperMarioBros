@@ -103,6 +103,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float x = (float)atof(tokens[1].c_str());
 	float y = (float)atof(tokens[2].c_str());
 
+
 	CGameObject *obj = NULL;
 
 	switch (object_type)
@@ -142,8 +143,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_MYSTERYBOX:
 	{
-
-		obj = new CBox(x,y);
+		int icontent = (int)atoi(tokens[3].c_str());
+		obj = new CBox(x,y,icontent);
 		break;
 	}
 	case OBJECT_TYPE_DECOR:

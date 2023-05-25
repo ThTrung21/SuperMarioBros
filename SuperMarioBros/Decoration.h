@@ -13,5 +13,6 @@ public:
 	CDecoration(float x, float y) : CGameObject(x, y) {}
 	void Render();
 	void Update(DWORD dt) {}
-	
+	int isBlocking() { return 0; }
+
 };

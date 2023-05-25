@@ -6,3 +6,4 @@ void CDecoration::Render()
 	animations->Get(ID_ANI_BUSH)->Render(x, y);
 	
 }
+void

@@ -112,9 +112,14 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 	CBox* box = dynamic_cast<CBox*>(e->obj);
 	if (e->ny > 0)
 	{
-		if (box->GetState() != BOX_STATE_USED)
+		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
 		{
+			float coin_x; float coin_y;
+			box->GetPosition(coin_x, coin_y);
+			CCoin(coin_x,coin_y);
+			coin++;
 			box->SetState(BOX_STATE_USED);
+			
 		}
 
 

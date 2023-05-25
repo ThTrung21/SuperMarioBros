@@ -11,9 +11,10 @@ void CBox::Render()
 	//RenderBoundingBox();
 }
 
-CBox::CBox(float x, float y):CGameObject(x, y)
+CBox::CBox(float x, float y,int content):CGameObject(x, y)
 {
 	state = ID_ANI_BOX;
+	icontent = content;
 }
 void CBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -22,10 +23,15 @@ void CBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = l + BOX_BBOX_WIDTH;
 	b = t + BOX_BBOX_HEIGHT;
 }
-void CBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+
+int CBox::GetContent()
 {
-		CGameObject::Update(dt, coObjects);
-		CCollision::GetInstance()->Process(this, dt, coObjects);	
+	return icontent	;
 }
+//void CBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+//{
+//		//CGameObject::Update(dt, coObjects);
+//		//CCollision::GetInstance()->Process(this, dt, coObjects);	
+//}
 
 
