@@ -14,7 +14,7 @@
 
 #define COIN_POPUP_SPEED 0.05f
 #define COIN_HIDDEN_EATEN 100
-#define COIN_TIMEOUT 500
+#define COIN_TIMEOUT 300
 
 
 
@@ -24,7 +24,7 @@ protected:
 	bool hidden;
 	ULONGLONG coin_disapear_start;
 	
-	int flag = 0;
+
 public:
 	CCoin(float x, float y, bool hidden);
 	void Render();

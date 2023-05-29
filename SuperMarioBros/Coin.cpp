@@ -13,6 +13,8 @@ CCoin::CCoin(float x, float y, bool isHidden) : CGameObject(x, y)
 	state = 1;
 	coin_disapear_start = -1;
 	hidden = isHidden;
+	vy = 0;
+	
 }
 void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -28,6 +30,7 @@ int CCoin::IsHidden()
 }
 void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	y += vy * dt;
 	if (state == COIN_HIDDEN_EATEN && (GetTickCount64()- coin_disapear_start > COIN_TIMEOUT))
 	{
 		isDeleted = true;
@@ -42,8 +45,10 @@ void CCoin::SetState(int state)
 	if (state == COIN_HIDDEN_EATEN && hidden == 1)
 	{
 		coin_disapear_start = GetTickCount64();
-		y -= 16;
-		flag = 1;
+		vy = -0.25f;
+		// y -= 16;
+		 
+		
 
 		//vy = -COIN_POPUP_SPEED;
 		//this->Delete();
