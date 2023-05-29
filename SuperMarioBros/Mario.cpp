@@ -1,6 +1,6 @@
 #include <algorithm>
 #include "debug.h"
-
+#include "debug.h"
 #include "Mario.h"
 #include "Game.h"
 
@@ -8,8 +8,8 @@
 #include "Coin.h"
 #include "Portal.h"
 #include "MysteryBox.h"
-
-
+#include "GameObject.h"
+#include "PlayScene.h"
 
 #include "Collision.h"
 
@@ -97,8 +97,17 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
-	e->obj->Delete();
-	coin++;
+	CCoin* c = dynamic_cast<CCoin*>(e->obj);
+	if (!c->IsHidden())
+	{
+		e->obj->Delete();
+		coin++;
+	}
+	else if(e->ny>0)
+	{
+		c->SetState(COIN_HIDDEN_EATEN);
+		
+	}
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -116,7 +125,8 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 		{
 			float coin_x; float coin_y;
 			box->GetPosition(coin_x, coin_y);
-			CCoin(coin_x,coin_y);
+			//e->obj->Delete();
+			DebugOut(L">>> coin spawn>>> \n");
 			coin++;
 			box->SetState(BOX_STATE_USED);
 			

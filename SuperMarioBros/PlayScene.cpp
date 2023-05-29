@@ -121,8 +121,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-
+	case OBJECT_TYPE_COIN:
+	{
+		bool isHidden = atoi(tokens[3].c_str());
+		obj = new CCoin(x, y, isHidden);
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 
@@ -141,17 +145,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_DECOR:	obj = new CDecoration(x, y); break;
 	case OBJECT_TYPE_MYSTERYBOX:
 	{
 		int icontent = (int)atoi(tokens[3].c_str());
 		obj = new CBox(x,y,icontent);
 		break;
 	}
-	case OBJECT_TYPE_DECOR:
-	{
-		//obj = new CDecoration(x, y);
-		break;
-	}
+	
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
