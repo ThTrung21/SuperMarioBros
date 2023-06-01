@@ -10,6 +10,7 @@
 #include "MysteryBox.h"
 #include "GameObject.h"
 #include "PlayScene.h"
+#include "RedMushroom.h"
 
 #include "Collision.h"
 
@@ -67,6 +68,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CBox*>(e->obj))
 		OnCollisionWithBox(e);
+	else if (dynamic_cast<CMushroom*>(e->obj))
+		OncCollisionWithMushroom(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -131,12 +134,15 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 	{
 		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
 		{
-			float coin_x; float coin_y;
+			/*float coin_x; float coin_y;
 			box->GetPosition(coin_x, coin_y);
-			//e->obj->Delete();
-			DebugOut(L">>> coin spawn>>> \n");
+			DebugOut(L">>> coin spawn>>> \n");*/
 			coin++;
 			box->SetState(BOX_STATE_USED);
+			
+		}
+		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_MUSHROOM)
+		{
 			
 		}
 
@@ -145,6 +151,14 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	if (level = MARIO_LEVEL_SMALL)
+	{
+		level = MARIO_LEVEL_BIG;
+		e->obj->Delete();
+	}
+}
 
 //
 // Get animation ID for small Mario

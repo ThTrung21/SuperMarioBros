@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "Decoration.h"
 #include "MysteryBox.h"
+#include "RedMushroom.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -152,7 +153,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBox(x,y,icontent);
 		break;
 	}
-	
+	case OBJECT_TYPE_MUSHROOM_RED: obj = new CMushroom(x, y); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
