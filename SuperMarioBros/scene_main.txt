@@ -8,6 +8,8 @@ BasePlatform.txt
 DecorBush.txt
 goomba.txt
 MysteryBox.txt
+RedMushroom.txt
+
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -54,4 +56,6 @@ MysteryBox.txt
 7	224	87	1
 7	240	87	2
 
+#RedMushroom
+8	240	93
 
