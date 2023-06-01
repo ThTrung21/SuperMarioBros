@@ -17,6 +17,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+	float x_now, y_now;
+	GetPosition(x_now, y_now);
+	if (y_now > 220)
+	{
+		SetState(MARIO_STATE_DIE);
+	}
+	if (x_now < 10)
+		SetPosition(16, y_now);
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 

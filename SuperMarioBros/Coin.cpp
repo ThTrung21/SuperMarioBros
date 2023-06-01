@@ -46,12 +46,6 @@ void CCoin::SetState(int state)
 	{
 		coin_disapear_start = GetTickCount64();
 		vy = -0.25f;
-		// y -= 16;
-		 
-		
-
-		//vy = -COIN_POPUP_SPEED;
-		//this->Delete();
 
 	}
 

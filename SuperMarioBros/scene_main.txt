@@ -27,7 +27,7 @@ MysteryBox.txt
 #coin inside mystery box
 4	176	135	1
 4	192	135	1
-
+4	224	87	1
 
 #Goomba
 2	300	170
