@@ -2,10 +2,7 @@
 [SPRITES]
 70000	488	146	582	209	30
 
-#72000	182	77	244	124	30
-#73000	190	42	236	73	30	
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
-
-12000	70000	100
+[ANIMATIONS]

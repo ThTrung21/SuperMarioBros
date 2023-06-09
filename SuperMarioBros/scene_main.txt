@@ -13,8 +13,13 @@ RedMushroom.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, 6= Decoration 
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, 6= Decoration
+#		7 = mystery box , 8 = red mushroom
 # See Object_id in AssetID.h
+
+#Decoration
+#6	200	60
+
 
 # MARIO
 0	120	10
@@ -27,17 +32,20 @@ RedMushroom.txt
 4	180	80	0
 
 #coin inside mystery box
-4	176	135	1
-4	192	135	1
+4	177	135	1
+4	193	135	1
 4	224	87	1
+
+#RedMushroom
+8	240	60
 
 #Goomba
 2	300	170
-
+2	250	60
 #Portal
 
 #BRICK
-
+1	240	160
 
 #Platform
 #
@@ -45,8 +53,7 @@ RedMushroom.txt
 5 	628	178	16	16	29	60000	60000	60000
 5	628	194	16	16	29	60000	60000	60000
 
-#Decoration
-#6	600	177
+
 
 #MysteryBox
 #id	x	y	content
@@ -56,6 +63,5 @@ RedMushroom.txt
 7	224	87	1
 7	240	87	2
 
-#RedMushroom
-8	240	93
+
 

@@ -134,15 +134,14 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 	{
 		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
 		{
-			/*float coin_x; float coin_y;
-			box->GetPosition(coin_x, coin_y);
-			DebugOut(L">>> coin spawn>>> \n");*/
+			
 			coin++;
 			box->SetState(BOX_STATE_USED);
 			
 		}
 		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_MUSHROOM)
 		{
+			box->SetState(BOX_STATE_USED);
 			
 		}
 
@@ -153,11 +152,23 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 
 void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
-	if (level = MARIO_LEVEL_SMALL)
+	CMushroom* m = dynamic_cast<CMushroom*>(e->obj);
+	
+	/*if (state == MUSHROOM_STATE_SHOW)
 	{
-		level = MARIO_LEVEL_BIG;
-		e->obj->Delete();
+		if (level = MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_BIG;
+			e->obj->Delete();
+		}
+		else
+			e->obj->Delete();
 	}
+	else 
+	{
+		if (e->ny > 0 && m->GetState() == MUSHROOM_STATE_HIDDEN)
+			m->SetState(MUSHROOM_STATE_SHOW);
+	}*/
 }
 
 //

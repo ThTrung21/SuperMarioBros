@@ -28,6 +28,7 @@ protected:
 
 	int state;
 	
+	
 	bool isDeleted; 
 
 public: 
@@ -64,6 +65,8 @@ public:
 	
 	// Is this object blocking other object? If YES, collision framework will automatically push the other object
 	virtual int IsBlocking() { return 1; }
+
+
 	virtual int IsColorBox() { return 0; }
 
 	~CGameObject();
