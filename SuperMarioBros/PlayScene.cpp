@@ -146,7 +146,30 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
-	case OBJECT_TYPE_DECOR:	obj = new CDecoration(x, y); break;
+	case OBJECT_TYPE_COLORBOX:
+	{
+		float cell_width = (float)atof(tokens[3].c_str());
+		float cell_height = (float)atof(tokens[4].c_str());
+		int width = atoi(tokens[5].c_str());
+		int height = atoi(tokens[6].c_str());
+
+		int sprite_topleft = atoi(tokens[7].c_str());
+		int sprite_topmid = atoi(tokens[8].c_str());
+		int sprite_topright = atoi(tokens[9].c_str());
+
+		int sprite_midleft = atoi(tokens[10].c_str());
+		int sprite_center = atoi(tokens[11].c_str());
+		int sprite_midright = atoi(tokens[12].c_str());
+
+		int sprite_botleft = atoi(tokens[13].c_str());
+		int sprite_botmid = atoi(tokens[14].c_str());
+		int sprite_botright = atoi(tokens[15].c_str());
+
+
+
+
+	}
+	case OBJECT_TYPE_DECOR://	obj = new CDecoration(x, y); break;
 	case OBJECT_TYPE_MYSTERYBOX:
 	{
 		int icontent = (int)atoi(tokens[3].c_str());
