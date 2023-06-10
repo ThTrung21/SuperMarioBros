@@ -17,7 +17,8 @@ CColorBox::CColorBox(float x, float y,
 
 void CColorBox::Render()
 {
-
+	if (this->Width <= 0)	return;
+	if (this->Height <= 0)	return;
 }
 
 void CColorBox::Update()

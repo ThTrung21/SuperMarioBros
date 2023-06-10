@@ -1,0 +1,20 @@
+#Sprite order: 
+#pink	->	blue	->	green	->	white
+#
+#
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+
+
+
+
+
+
+
+
+
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+
