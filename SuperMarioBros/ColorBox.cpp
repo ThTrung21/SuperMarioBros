@@ -35,9 +35,9 @@ CColorBox::CColorBox(float x, float y,
 
 void CColorBox::Render()
 {
-	//if (this->Width <3 )	return;
-	//if (this->Height < 3)	return;
-	if (Width < 3* cellWidth || Height < 3* cellHeight) return;
+	if (this->Width <=2 )	return;
+	if (this->Height <=2)	return;
+	//if (Width < 3* cellWidth || Height < 3* cellHeight) return;
 	int sizeHor = Width / cellWidth; // numbers of cells horizontally
 	int sizeVer = Height / cellHeight;// number of cells vertically
 
@@ -46,48 +46,121 @@ void CColorBox::Render()
 	float yy = y;
 
 	CSprites* s = CSprites::GetInstance();
-	// Draw Top Left
-	s->Get(spriteIDTopLeft)->Draw(x, y); 
-	//Draw Top Mid
+	
+	//
+	// Top
+	// 
+	
+	//Top Left
+	s->Get(this->spriteIDTopLeft)->Draw(xx, yy);
 	xx += this->cellWidth;
-	for (int i = 0; i < sizeHor-2; i++) {
-		s->Get(spriteIDTopMid)->Draw(xx, yy);
+
+	//Top Mid
+	for (int i = 1; i < this->Width - 1; i++)
+	{
+		s->Get(this->spriteIDTopMid)->Draw(xx, yy);
 		xx += this->cellWidth;
 	}
-	//Draw Top Right
-	s->Get(spriteIDTopRight)->Draw(xx, yy);
-	//Draw Mid Right
-	yy += this->cellHeight;
-	for (int i = 0; i < sizeVer - 2; i++) {
-		s->Get(spriteIDMidRight)->Draw(xx, yy);
-		yy += this->cellHeight;
-	}
-	//Draw Bot Right
-	s->Get(spriteIDBotRight)->Draw(xx, yy);
-	//Draw Bot Mid
-	xx -= this->cellWidth;
-	for (int i = 0; i < sizeHor - 2; i++) {
-		s->Get(spriteIDBotMid)->Draw(xx, yy);
-		xx -= this->cellWidth;
-	}
-	//Draw Bot Left
-	s->Get(spriteIDBotLeft)->Draw(xx, yy);
-	//Draw Mid Left
-	yy -= this->cellHeight;
-	for (int i = 0; i < sizeVer - 2; i++) {
-		s->Get(spriteIDMidLeft)->Draw(xx, yy);
-		yy -= this->cellHeight;
-	}
-	//Draw Center
-	int xx_center = x + cellWidth;
-	for (int i = 0; i < sizeHor; i++) {
-		int yy_center = y + cellHeight;
-		for (int j = 0; j < sizeVer; j++) {
-			s->Get(spriteIDCenter)->Draw(xx, yy);
-			yy_center += cellHeight;
+
+	//Top Right
+	s->Get(this->spriteIDTopRight)->Draw(xx, yy);
+	yy += cellHeight;
+	xx = x;
+
+	//
+	//Mid
+	//
+	for (int i = 1; i < this->Height-1; i++)
+	{
+		//Mid Left
+		s->Get(this->spriteIDMidLeft)->Draw(xx, yy);
+		xx += this->cellWidth;
+
+		//Center
+		for (int j = 1; j < this->Width-1; j++)
+		{
+			s->Get(this->spriteIDCenter)->Draw(xx, yy);
+			xx += this->cellWidth;
 		}
-		xx_center += cellWidth;
+		//Mid Right
+		s->Get(this->spriteIDMidRight)->Draw(xx, yy);
+		
+		//if (i!=this->Height-1)
+		{
+			yy += cellWidth;
+		}
+		
+
 	}
+	xx = x;
+	
+	//
+	//Bottom
+	//
+	 
+	//Bot Left
+	s->Get(this->spriteIDBotLeft)->Draw(xx, yy);
+	xx += this->cellWidth;
+
+	//Bot Mid
+	for (int i = 1; i < this->Width - 1; i++)
+	{
+		s->Get(this->spriteIDBotMid)->Draw(xx, yy);
+		xx += this->cellWidth;
+	}
+
+	//Bot Right
+	s->Get(this->spriteIDBotRight)->Draw(xx, yy);
+	
+
+
+
+//
+//old
+//
+
+	//// Draw Top Left
+	//s->Get(spriteIDTopLeft)->Draw(x, y); 
+	////Draw Top Mid
+	//xx += this->cellWidth;
+	//for (int i = 0; i < sizeHor-2; i++) {
+	//	s->Get(spriteIDTopMid)->Draw(xx, yy);
+	//	xx += this->cellWidth;
+	//}
+	////Draw Top Right
+	//s->Get(spriteIDTopRight)->Draw(xx, yy);
+	////Draw Mid Right
+	//yy += this->cellHeight;
+	//for (int i = 0; i < sizeVer - 2; i++) {
+	//	s->Get(spriteIDMidRight)->Draw(xx, yy);
+	//	yy += this->cellHeight;
+	//}
+	////Draw Bot Right
+	//s->Get(spriteIDBotRight)->Draw(xx, yy);
+	////Draw Bot Mid
+	//xx -= this->cellWidth;
+	//for (int i = 0; i < sizeHor - 2; i++) {
+	//	s->Get(spriteIDBotMid)->Draw(xx, yy);
+	//	xx -= this->cellWidth;
+	//}
+	////Draw Bot Left
+	//s->Get(spriteIDBotLeft)->Draw(xx, yy);
+	////Draw Mid Left
+	//yy -= this->cellHeight;
+	//for (int i = 0; i < sizeVer - 2; i++) {
+	//	s->Get(spriteIDMidLeft)->Draw(xx, yy);
+	//	yy -= this->cellHeight;
+	//}
+	////Draw Center
+	//int xx_center = x + cellWidth;
+	//for (int i = 0; i < sizeHor; i++) {
+	//	int yy_center = y + cellHeight;
+	//	for (int j = 0; j < sizeVer; j++) {
+	//		s->Get(spriteIDCenter)->Draw(xx, yy);
+	//		yy_center += cellHeight;
+	//	}
+	//	xx_center += cellWidth;
+	//}
 
 	RenderBoundingBox();
 }
@@ -120,6 +193,6 @@ void CColorBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 	float cellWidth_div_2 = this->cellWidth / 2;
 	l = x - cellWidth_div_2;
 	t = y - this->cellHeight / 2;
-	r = l + /*this->cellWidth **/ this->Width;
-	b = t + this->Height;
+	r = l + this->cellWidth * this->Width;
+	b = t + this->cellHeight * this->Height;
 }
