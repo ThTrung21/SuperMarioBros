@@ -18,9 +18,10 @@ public:
 		int spriteID_MidLeft, int spriteID_Center, int spriteID_MidRight,
 		int spriteID_BotLeft, int spriteID_BotMid, int spriteID_BotRight);
 	void Render();
-	void Update();
+	void Update(DWORD dt){};
 	int IsBlocking() { return 1; }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-	virtual int IsColorBox() { return 1; }
+	void RenderBoundingBox();
+	int IsColorBox() { return 1; }
 };
 

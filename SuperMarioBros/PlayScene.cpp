@@ -12,6 +12,7 @@
 #include "Decoration.h"
 #include "MysteryBox.h"
 #include "RedMushroom.h"
+#include "ColorBox.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -165,9 +166,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_botmid = atoi(tokens[14].c_str());
 		int sprite_botright = atoi(tokens[15].c_str());
 
+		obj = new CColorBox(
+			x, y,
+			cell_width, cell_height, width, height,
+			sprite_topleft, sprite_topmid, sprite_topright,
+			sprite_midleft, sprite_center, sprite_midright,
+			sprite_botleft, sprite_botmid, sprite_botright);
 
-
-
+		break;
 	}
 	case OBJECT_TYPE_DECOR://	obj = new CDecoration(x, y); break;
 	case OBJECT_TYPE_MYSTERYBOX:

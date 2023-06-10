@@ -13,8 +13,8 @@ CColorBox::CColorBox(float x, float y,
 {
 	this->Width = Width;
 	this->Height = Height;
-	this->cellWidth = cellWidth;
-	this->cellHeight = cellHeight;
+	this->cellWidth = cell_width;
+	this->cellHeight = cell_height;
 
 
 	this->spriteIDTopLeft = spriteID_TopLeft;
@@ -35,11 +35,12 @@ CColorBox::CColorBox(float x, float y,
 
 void CColorBox::Render()
 {
-	if (this->Width <3 )	return;
-	if (this->Height < 3)	return;
+	//if (this->Width <3 )	return;
+	//if (this->Height < 3)	return;
 	if (Width < 3* cellWidth || Height < 3* cellHeight) return;
 	int sizeHor = Width / cellWidth; // numbers of cells horizontally
 	int sizeVer = Height / cellHeight;// number of cells vertically
+
 	//Declare reuseable start point
 	float xx = x;
 	float yy = y;
@@ -90,17 +91,35 @@ void CColorBox::Render()
 
 	RenderBoundingBox();
 }
-
-void CColorBox::Update()
+void CColorBox::RenderBoundingBox()
 {
+	D3DXVECTOR3 p(x, y, 0);
+	RECT rect;
 
+	LPTEXTURE bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
+
+	float l, t, r, b;
+
+	GetBoundingBox(l, t, r, b);
+	rect.left = 0;
+	rect.top = 0;
+	rect.right = (int)r - (int)l;
+	rect.bottom = (int)b - (int)t;
+
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+
+	float xx = x - this->cellWidth / 2 + rect.right / 2;
+	float yy = y - this->cellHeight / 2 + rect.bottom / 2;
+	CGame::GetInstance()->Draw(xx - cx, yy - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }
+
 
 void CColorBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	float cellWidth_div_2 = this->cellWidth / 2;
 	l = x - cellWidth_div_2;
 	t = y - this->cellHeight / 2;
-	r = l + this->cellWidth * this->Width;
-	b = t + this->cellHeight;
+	r = l + /*this->cellWidth **/ this->Width;
+	b = t + this->Height;
 }

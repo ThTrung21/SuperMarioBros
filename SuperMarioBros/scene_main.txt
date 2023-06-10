@@ -4,11 +4,13 @@ mario.txt
 coin.txt
 cloud.txt
 brick.txt
+ColorBox.txt
 BasePlatform.txt
 DecorBush.txt
 goomba.txt
 MysteryBox.txt
 RedMushroom.txt
+
 
 #
 [OBJECTS]
@@ -53,7 +55,9 @@ RedMushroom.txt
 5 	628	178	16	16	29	60000	60000	60000
 5	628	194	16	16	29	60000	60000	60000
 
-
+#ColorBox
+#id	x	y	cellW	cellH	width	height tl	tm	tr...
+10	628	100	16	16	48	48	100001	100002	100003	100004	100005	100006	100007	100008	100009
 
 #MysteryBox
 #id	x	y	content
