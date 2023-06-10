@@ -11,7 +11,7 @@ protected:
 		spriteIDMidLeft, spriteIDCenter, spriteIDMidRight,
 		spriteIDBotLeft, spriteIDBotMid, spriteIDBotRight; //bottom
 public:
-	CColorBox(float x, float y,
+	CColorBox(float x, float y,	int Width,	int Weight,
 		float cell_width, float cell_height,
 		int spriteID_TopLeft, int spriteID_TopMid, int spriteID_TopRight,
 		int spriteID_MidLeft, int spriteID_Center, int spriteID_MidRight,

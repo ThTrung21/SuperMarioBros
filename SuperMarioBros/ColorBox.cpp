@@ -4,12 +4,29 @@
 
 #include "Textures.h"
 
-CColorBox::CColorBox(float x, float y,
+CColorBox::CColorBox(float x, float y, int Width, int Weight,
 	float cell_width, float cell_height,
 	int spriteID_TopLeft, int spriteID_TopMid, int spriteID_TopRight,
 	int spriteID_MidLeft, int spriteID_Center, int spriteID_MidRight,
-	int spriteID_BotLeft, int spriteID_BotMid, int spriteID_BotRight)
+	int spriteID_BotLeft, int spriteID_BotMid, int spriteID_BotRight) :CGameObject(x, y)
 {
+	this->Width = Width;
+	this->Height = Height;
+	this->cellWidth = cellWidth;
+	this->cellHeight = cellHeight;
+
+
+	this->spriteIDTopLeft = spriteID_TopLeft;
+	this->spriteIDTopMid = spriteID_TopMid;
+	this->spriteIDTopRight= spriteID_TopRight;
+
+	this->spriteIDMidLeft= spriteID_MidLeft;
+	this->spriteIDCenter= spriteID_Center;
+	this->spriteIDMidRight= spriteID_MidRight;
+
+	this->spriteIDBotLeft= spriteID_BotLeft;
+	this->spriteIDBotMid= spriteID_BotMid;
+	this->spriteIDBotRight = spriteID_BotRight;
 
 
 
@@ -17,8 +34,8 @@ CColorBox::CColorBox(float x, float y,
 
 void CColorBox::Render()
 {
-	if (this->Width <= 0)	return;
-	if (this->Height <= 0)	return;
+	if (this->Width <3 )	return;
+	if (this->Height < 3)	return;
 }
 
 void CColorBox::Update()
