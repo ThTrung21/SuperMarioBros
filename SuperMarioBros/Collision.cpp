@@ -350,15 +350,9 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 
 		objSrc->SetPosition(x, y);
 	}
-	//else if (objSrc->GetIsColorBox())
-	//{
-	//	float x, y, vx, vy, dx, dy;
-	//	objSrc->GetPosition(x, y);
-	//	objSrc->GetSpeed(vx, vy);
-	//	dx = vx * dt;
-	//	dy = vy * dt;	
 
-	//}
+
+	//
 	//
 	// Scan all non-blocking collisions for further collision logic
 	//

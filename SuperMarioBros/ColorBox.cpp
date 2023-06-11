@@ -37,9 +37,7 @@ void CColorBox::Render()
 {
 	if (this->Width <=2 )	return;
 	if (this->Height <=2)	return;
-	//if (Width < 3* cellWidth || Height < 3* cellHeight) return;
-	int sizeHor = Width / cellWidth; // numbers of cells horizontally
-	int sizeVer = Height / cellHeight;// number of cells vertically
+	
 
 	//Declare reuseable start point
 	float xx = x;
@@ -72,6 +70,7 @@ void CColorBox::Render()
 	//
 	for (int i = 1; i < this->Height-1; i++)
 	{
+		xx = x;
 		//Mid Left
 		s->Get(this->spriteIDMidLeft)->Draw(xx, yy);
 		xx += this->cellWidth;
