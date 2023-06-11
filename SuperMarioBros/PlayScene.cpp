@@ -13,6 +13,8 @@
 #include "MysteryBox.h"
 #include "RedMushroom.h"
 #include "ColorBox.h"
+#include "Pipe.h"
+
 
 #include "SampleKeyEventHandler.h"
 
@@ -183,6 +185,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case OBJECT_TYPE_MUSHROOM_RED: obj = new CMushroom(x, y); break;
+	case OBJECT_TYPE_PIPE:
+	{
+		int height = atoi(tokens[3].c_str());
+		int sprite_topleft = atoi(tokens[4].c_str());
+		int sprite_topright = atoi(tokens[5].c_str());
+		int sprite_bodyleft = atoi(tokens[6].c_str());
+		int sprite_bodyright = atoi(tokens[7].c_str());
+		int state = atoi(tokens[8].c_str());
+
+		obj = new CPipe(x, y, height,
+			sprite_topleft, sprite_topright, sprite_bodyleft, sprite_bodyright, state);
+		break;
+	}
+	
+	
+	
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

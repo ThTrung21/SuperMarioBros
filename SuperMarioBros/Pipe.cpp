@@ -42,23 +42,23 @@ void CPipe::Render()
 	//Top Right
 	s->Get(this->spriteIDTopRight)->Draw(xx, yy);
 	yy += cellHeight;
-	xx = x;
+	xx = x+1;
 
 	//
-	//Mid
+	//Body
 	//
 	for (int i = 1; i < this->Height; i++)
 	{
 		
 		//Body Left
 		s->Get(this->spriteIDBodyLeft)->Draw(xx, yy);
-		xx += this->cellWidth;
+		xx += this->cellWidth-1;
 
 		//Body Right
 		s->Get(this->spriteIDBodyRight)->Draw(xx, yy);
 
-		yy += cellWidth;
-		xx = x;
+		yy += cellHeight;
+		xx = x+1;
 
 	}
 
