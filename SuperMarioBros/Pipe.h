@@ -7,7 +7,7 @@ class CPipe : public CGameObject
 protected:
 	int Height;
 
-	float cell_Width = 16, cell_Height = 16;
+	float cellWidth = 16, cellHeight = 16;
 	int spriteIDTopLeft, spriteIDTopRight,
 		spriteIDBodyLeft, spriteIDBodyRight;
 	

@@ -18,7 +18,51 @@ CPipe::CPipe(float x, float y,
 
 }
 
+void CPipe::Render()
+{
+	
+	
+	if (this->Height < 2)	return;
 
+
+	//Declare reuseable start point
+	float xx = x;
+	float yy = y;
+
+	CSprites* s = CSprites::GetInstance();
+
+	//
+	// Top
+	// 
+
+	//Top Left
+	s->Get(this->spriteIDTopLeft)->Draw(xx, yy);
+	xx += this->cellWidth;
+
+	//Top Right
+	s->Get(this->spriteIDTopRight)->Draw(xx, yy);
+	yy += cellHeight;
+	xx = x;
+
+	//
+	//Mid
+	//
+	for (int i = 1; i < this->Height; i++)
+	{
+		
+		//Body Left
+		s->Get(this->spriteIDBodyLeft)->Draw(xx, yy);
+		xx += this->cellWidth;
+
+		//Body Right
+		s->Get(this->spriteIDBodyRight)->Draw(xx, yy);
+
+		yy += cellWidth;
+		xx = x;
+
+	}
+
+}
 
 void CPipe::RenderBoundingBox()
 {
@@ -39,20 +83,20 @@ void CPipe::RenderBoundingBox()
 	CGame::GetInstance()->GetCamPos(cx, cy);
 
 	//cell_width and cell_height == 16
-	float xx = x - 16 / 2 + rect.right / 2;
-	float yy = y - 16 / 2 + rect.bottom / 2;
+	float xx = x - this->cellWidth / 2 + rect.right / 2;
+	float yy = y - this->cellHeight / 2 + rect.bottom / 2;
 	CGame::GetInstance()->Draw(xx - cx, yy - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }
 
 void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	//cell_width and cell_height == 16
-	float cellWidth = 16, cellHeight = 16;
+
 
 	float cellWidth_div_2 = cellWidth / 2;
 	
 	l = x - cellWidth_div_2;
-	t = y - cellHeight / 2;
-	r = l + cellWidth * 2;
-	b = t + cellHeight * this->Height;
+	t = y - this->cellHeight / 2;
+	r = l + this->cellWidth * 2;
+	b = t + this->cellHeight * this->Height;
 }
