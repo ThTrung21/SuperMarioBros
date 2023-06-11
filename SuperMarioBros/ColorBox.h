@@ -18,8 +18,8 @@ public:
 		int spriteID_MidLeft, int spriteID_Center, int spriteID_MidRight,
 		int spriteID_BotLeft, int spriteID_BotMid, int spriteID_BotRight);
 	void Render();
-	//void Update() {};
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void Update() {};
+	
 	int IsBlocking() { return 1; }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void RenderBoundingBox();

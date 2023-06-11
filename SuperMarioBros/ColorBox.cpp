@@ -146,8 +146,3 @@ void CColorBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = l + this->cellWidth * this->Width;
 	b = t + this->cellHeight * this->Height;
 }
-void CColorBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-
-	CCollision::GetInstance()->Process(this, dt, coObjects);
-}

@@ -204,18 +204,15 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		}
 		// special collision event with colorbox objects.
 		// collide with colorbox on X axis only
-		if (filterX == 1 && c->obj->GetIsColorBox() && /*c->obj->IsMario() &&*/ c->t < min_tx && c->nx != 0)
+		if (filterX == 1 && c->obj->GetIsColorBox() &&  c->t < min_tx && c->nx != 0)
 		{
 			continue;
 		}
-		if (filterY == 1 && c->obj->GetIsColorBox() && /*c->obj->IsMario() &&*/ c->t < min_ty && c->ny >0)
+		if (filterY == 1 && c->obj->GetIsColorBox() &&  c->t < min_ty && c->ny >0)
 		{
 			continue;
 		}
-		//if (filterY == 1 && /*c->src_obj->GetIsColorBox() &&*/ /*c->obj->IsMario() &&*/ c->t < min_ty && c->ny <0)
-		//{
-		//	min_tx = c->t; min_ix = i;
-		//}
+		
 
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;
