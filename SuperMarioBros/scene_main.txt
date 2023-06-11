@@ -10,13 +10,14 @@ DecorBush.txt
 goomba.txt
 MysteryBox.txt
 RedMushroom.txt
-
+Pipe.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, 6= Decoration
-#		7 = mystery box , 8 = red mushroom
+#		7 = mystery box , 8 = red mushroom	,9 = green mushroom,	10=colorbox
+#		11 = pipe
 # See Object_id in AssetID.h
 
 #BRICK
@@ -73,5 +74,7 @@ RedMushroom.txt
 7	224	87	1
 7	240	87	2
 
-
+#PIPE
+#id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
+11	360	60	3	110001	110002	110003	110004	0
 

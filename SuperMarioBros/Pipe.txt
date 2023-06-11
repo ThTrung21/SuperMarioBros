@@ -1,0 +1,17 @@
+
+#	topleft	->	topright
+#	bodyleft	->bodyright
+
+
+#id	left	top	right	bottom	texture_id
+[SPRITES]
+110001	69	35	84	50	40
+110002	86	35	101	50	40
+
+110003	70	52	84	67	40
+110004	86	52	100	67	40
+
+
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
