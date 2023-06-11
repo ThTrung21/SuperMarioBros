@@ -9,7 +9,7 @@ protected:
 	float cellWidth, cellHeight;
 	int spriteIDTopLeft, spriteIDTopMid, spriteIDTopRight,
 		spriteIDMidLeft, spriteIDCenter, spriteIDMidRight,
-		spriteIDBotLeft, spriteIDBotMid, spriteIDBotRight; //bottom
+		spriteIDBotLeft, spriteIDBotMid, spriteIDBotRight;
 public:
 	CColorBox(float x, float y,	
 		float cell_width, float cell_height,

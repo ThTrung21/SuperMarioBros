@@ -35,8 +35,8 @@ CColorBox::CColorBox(float x, float y,
 
 void CColorBox::Render()
 {
-	if (this->Width <=2 )	return;
-	if (this->Height <=2)	return;
+	if (this->Width <2 )	return;
+	if (this->Height <2)	return;
 	
 
 	//Declare reuseable start point
