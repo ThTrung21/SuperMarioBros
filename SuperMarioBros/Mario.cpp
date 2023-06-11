@@ -111,7 +111,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	CCoin* c = dynamic_cast<CCoin*>(e->obj);
 	if (!c->IsHidden())
 	{
-		e->obj->Delete();
+		//ea->obj->Delete();
 		coin++;
 	}
 	else if(e->ny>0)

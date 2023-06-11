@@ -29,7 +29,7 @@ CColorBox::CColorBox(float x, float y,
 	this->spriteIDBotMid= spriteID_BotMid;
 	this->spriteIDBotRight = spriteID_BotRight;
 
-
+	isColorBox = 1;
 
 }
 
@@ -111,56 +111,6 @@ void CColorBox::Render()
 
 	//Bot Right
 	s->Get(this->spriteIDBotRight)->Draw(xx, yy);
-	
-
-
-
-//
-//old
-//
-
-	//// Draw Top Left
-	//s->Get(spriteIDTopLeft)->Draw(x, y); 
-	////Draw Top Mid
-	//xx += this->cellWidth;
-	//for (int i = 0; i < sizeHor-2; i++) {
-	//	s->Get(spriteIDTopMid)->Draw(xx, yy);
-	//	xx += this->cellWidth;
-	//}
-	////Draw Top Right
-	//s->Get(spriteIDTopRight)->Draw(xx, yy);
-	////Draw Mid Right
-	//yy += this->cellHeight;
-	//for (int i = 0; i < sizeVer - 2; i++) {
-	//	s->Get(spriteIDMidRight)->Draw(xx, yy);
-	//	yy += this->cellHeight;
-	//}
-	////Draw Bot Right
-	//s->Get(spriteIDBotRight)->Draw(xx, yy);
-	////Draw Bot Mid
-	//xx -= this->cellWidth;
-	//for (int i = 0; i < sizeHor - 2; i++) {
-	//	s->Get(spriteIDBotMid)->Draw(xx, yy);
-	//	xx -= this->cellWidth;
-	//}
-	////Draw Bot Left
-	//s->Get(spriteIDBotLeft)->Draw(xx, yy);
-	////Draw Mid Left
-	//yy -= this->cellHeight;
-	//for (int i = 0; i < sizeVer - 2; i++) {
-	//	s->Get(spriteIDMidLeft)->Draw(xx, yy);
-	//	yy -= this->cellHeight;
-	//}
-	////Draw Center
-	//int xx_center = x + cellWidth;
-	//for (int i = 0; i < sizeHor; i++) {
-	//	int yy_center = y + cellHeight;
-	//	for (int j = 0; j < sizeVer; j++) {
-	//		s->Get(spriteIDCenter)->Draw(xx, yy);
-	//		yy_center += cellHeight;
-	//	}
-	//	xx_center += cellWidth;
-	//}
 
 	RenderBoundingBox();
 }
@@ -170,7 +120,7 @@ void CColorBox::RenderBoundingBox()
 	RECT rect;
 
 	LPTEXTURE bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
-
+	
 	float l, t, r, b;
 
 	GetBoundingBox(l, t, r, b);
@@ -195,4 +145,9 @@ void CColorBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y - this->cellHeight / 2;
 	r = l + this->cellWidth * this->Width;
 	b = t + this->cellHeight * this->Height;
+}
+void CColorBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

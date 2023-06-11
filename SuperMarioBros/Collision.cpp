@@ -161,12 +161,14 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 */
 void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDests, vector<LPCOLLISIONEVENT>& coEvents)
 {
+	
 	for (UINT i = 0; i < objDests->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, objDests->at(i));
-
-		if (e->WasCollided()==1)
+		//add color box checking here
+		if (e->WasCollided() == 1 )
 			coEvents.push_back(e);
+		
 		else
 			delete e;
 	}
@@ -200,6 +202,20 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		{
 			continue;
 		}
+		// special collision event with colorbox objects.
+		// collide with colorbox on X axis only
+		if (filterX == 1 && c->obj->GetIsColorBox() && /*c->obj->IsMario() &&*/ c->t < min_tx && c->nx != 0)
+		{
+			continue;
+		}
+		if (filterY == 1 && c->obj->GetIsColorBox() && /*c->obj->IsMario() &&*/ c->t < min_ty && c->ny >0)
+		{
+			continue;
+		}
+		//if (filterY == 1 && /*c->src_obj->GetIsColorBox() &&*/ /*c->obj->IsMario() &&*/ c->t < min_ty && c->ny <0)
+		//{
+		//	min_tx = c->t; min_ix = i;
+		//}
 
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;
@@ -236,7 +252,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	{
 		objSrc->OnNoCollision(dt);
 	}
-	else
+	else //if(!objSrc->GetIsColorBox())
 	{
 		Filter(objSrc, coEvents, colX, colY);
 
@@ -337,7 +353,15 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 
 		objSrc->SetPosition(x, y);
 	}
+	//else if (objSrc->GetIsColorBox())
+	//{
+	//	float x, y, vx, vy, dx, dy;
+	//	objSrc->GetPosition(x, y);
+	//	objSrc->GetSpeed(vx, vy);
+	//	dx = vx * dt;
+	//	dy = vy * dt;	
 
+	//}
 	//
 	// Scan all non-blocking collisions for further collision logic
 	//

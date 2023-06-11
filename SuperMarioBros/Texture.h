@@ -14,6 +14,7 @@ protected:
 	int _width;
 	int _height;
 public:
+
 	CTexture()
 	{
 		_tex = NULL;
