@@ -1,6 +1,8 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-70000	488	146	582	209	30
+
+#Big Bush
+71000	488	146	582	209	30
 
 
 

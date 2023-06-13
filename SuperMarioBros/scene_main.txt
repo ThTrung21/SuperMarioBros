@@ -21,10 +21,10 @@ Pipe.txt
 # See Object_id in AssetID.h
 
 #BRICK
-#1	240	360
+1	240	360
 
 #Decoration
-#6	200	60
+6	200	60	71000
 
 #ColorBox
 #id	x	y	cellW	cellH	width	height tl	tm	tr...
@@ -74,14 +74,15 @@ Pipe.txt
 
 #Platform
 #
-5 	5	194	16	16	39	61000	62000	63000
-5 	628	178	16	16	29	61000	62000	63000
+5 	5	194	16	15	39	61000	62000	63000
+5 	628	178	16	15	29	61000	62000	63000
 5	628	194	16	16	29	64000	65000	66000
 
 
 #RedMushroom
 8	240	87
-#MysteryBox
+
+###---MysteryBox---###
 #id	x	y	content
 #content: 1-coin	2-mushroom	3-sth
 7	176	135	1

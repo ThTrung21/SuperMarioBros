@@ -9,11 +9,12 @@
 
 
 class CDecoration :public CGameObject {
+protected:
+	int typeID;
 public:
-	CDecoration(){}
-	CDecoration(float x, float y);
+	
+	CDecoration(float x, float y,int type);
 	void Render();
-	void Update(DWORD dt) {}
 	int isBlocking() { return 0; }
-	//void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };

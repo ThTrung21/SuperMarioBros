@@ -177,7 +177,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
-	case OBJECT_TYPE_DECOR://	obj = new CDecoration(x, y); break;
+	case OBJECT_TYPE_DECOR:
+	{	
+		int decor_type = atoi(tokens[3].c_str());
+		obj = new CDecoration(x, y, decor_type);
+		break;
+	}
 	case OBJECT_TYPE_MYSTERYBOX:
 	{
 		int icontent = (int)atoi(tokens[3].c_str());
