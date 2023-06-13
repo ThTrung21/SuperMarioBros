@@ -165,7 +165,7 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	for (UINT i = 0; i < objDests->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, objDests->at(i));
-		//add color box checking here
+		
 		if (e->WasCollided() == 1 )
 			coEvents.push_back(e);
 		

@@ -21,7 +21,7 @@ Pipe.txt
 # See Object_id in AssetID.h
 
 #BRICK
-1	240	360
+#1	240	360
 
 #Decoration
 #6	200	60
@@ -62,8 +62,7 @@ Pipe.txt
 
 
 
-#RedMushroom
-8	240	60
+
 
 #Goomba
 2	300	170
@@ -71,15 +70,17 @@ Pipe.txt
 #Portal
 
 #BRICK
-#1	240	160
+#1	256	160
 
 #Platform
 #
-5 	5	194	16	16	39	60000	60000	60000
-5 	628	178	16	16	29	60000	60000	60000
-5	628	194	16	16	29	60000	60000	60000
+5 	5	194	16	16	39	61000	62000	63000
+5 	628	178	16	16	29	61000	62000	63000
+5	628	194	16	16	29	61000	62000	63000
 
 
+#RedMushroom
+8	240	87
 #MysteryBox
 #id	x	y	content
 #content: 1-coin	2-mushroom	3-sth
@@ -95,4 +96,3 @@ Pipe.txt
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
 11	352	146	3	110001	110002	110003	110004	0
-

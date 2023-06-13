@@ -153,22 +153,18 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
 	CMushroom* m = dynamic_cast<CMushroom*>(e->obj);
-	
-	/*if (state == MUSHROOM_STATE_SHOW)
-	{
-		if (level = MARIO_LEVEL_SMALL)
-		{
+	if (m->GetState() == MUSHROOM_STATE_HIDDEN) {
+		m->SetState(MUSHROOM_STATE_SHOW);
+	}
+	else if (m->GetState() == MUSHROOM_STATE_SHOW || m->GetState() == MUSHROOM_STATE_MOVE) {
+		if (level == MARIO_LEVEL_SMALL) {
+			y -= 15;
 			level = MARIO_LEVEL_BIG;
 			e->obj->Delete();
 		}
 		else
 			e->obj->Delete();
 	}
-	else 
-	{
-		if (e->ny > 0 && m->GetState() == MUSHROOM_STATE_HIDDEN)
-			m->SetState(MUSHROOM_STATE_SHOW);
-	}*/
 }
 
 //

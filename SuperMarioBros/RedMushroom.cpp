@@ -3,10 +3,11 @@
 CMushroom::CMushroom(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
-	this->ay = MUSHROOM_GRAVITY;
+	this->ay = 0;
+	moveDelay = -1;
 	//this->vx = 0;
 	//this->vy = 0;
-	SetState(MUSHROOM_STATE_SHOW);
+	SetState(MUSHROOM_STATE_HIDDEN);
 }
 
 void CMushroom::Render()
@@ -27,8 +28,10 @@ void CMushroom::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {	
 	vy += ay * dt;
-	vx += ax * dt;
-
+	
+	if (state == MUSHROOM_STATE_SHOW && (GetTickCount64() - moveDelay > MUSHROOM_MOVE_WAITTIME)) 
+		SetState(MUSHROOM_STATE_MOVE);
+	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -40,14 +43,19 @@ void CMushroom::SetState(int state)
 	switch (state)
 	{
 		case MUSHROOM_STATE_SHOW:
-			//y -= 64;
-			vx =  -MUSHROOM_SPEED;
-			//this->ay = MUSHROOM_GRAVITY;
+			moveDelay = GetTickCount64();
+			direction = GetTickCount64();
+			vy = -0.03f;
 			break;
-		case MUSHROOM_STATE_HIDDEN:
-			vx = 0;
+		case MUSHROOM_STATE_MOVE:
+			if(direction%2==0)
+				vx = MUSHROOM_SPEED;
+			else
+			{
+				vx = -MUSHROOM_SPEED;
+			}
 			vy = 0;
-			ay = 0;
+			ay = MUSHROOM_GRAVITY;
 			break;
 	}
 }
@@ -60,16 +68,18 @@ void CMushroom::OnNoCollision(DWORD dt)
 
 void CMushroom::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CMushroom*>(e->obj)) return;
-
-	if (e->ny != 0 && e->obj->IsBlocking())
+	
+	
+	if (state == MUSHROOM_STATE_MOVE) 
 	{
-		vy = 0;
-		
-	}
-	else if (e->nx != 0)
-	{
-		vx = -vx;
+		if (!e->obj->IsBlocking()) return;
+		if (e->ny != 0)
+		{
+			vy = 0;
+		}
+		else if (e->nx != 0)
+		{
+			vx = -vx;
+		}
 	}
 }
