@@ -26,7 +26,7 @@ FirePlant.txt
 1	240	360
 
 #Decoration
-6	200	60	71000
+6	48	160	71000
 
 #ColorBox
 #id	x	y	cellW	cellH	width	height tl	tm	tr...
@@ -67,8 +67,8 @@ FirePlant.txt
 
 
 #Goomba
-2	300	170
-2	250	60
+#2	300	170
+#2	250	60
 #Portal
 
 #BRICK
@@ -96,7 +96,7 @@ FirePlant.txt
 
 
 #fire plant
-12	360	122
+12	360	135
 
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)

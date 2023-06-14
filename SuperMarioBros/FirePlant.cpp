@@ -2,16 +2,22 @@
 
 CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 {
-	this->vy = -1;
+	
+	IsMoving = true;
+	this->vy = PLANT_SPEED;
+	this->TopPos = y - 32;
+	this->BotPos = y + 32;
 	state = PLANT_DIR_TOPLEFT;
+	this->default_y = y;
+
 }
 void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	//set the plant direction according to mario position.
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	float mario_x, mario_y;
 	mario->GetPosition(mario_x, mario_y);
+	//set the plant direction according to mario position.
 	if (mario_x <= x && mario_y <= y)
 		SetState(PLANT_DIR_TOPLEFT);
 	else if (mario_x < x && mario_y > y)
@@ -22,6 +28,41 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(PLANT_DIR_BOTTOMRIGHT);
 	else
 		SetState(this->state);
+
+	//set the plant moving logic
+	if (IsMoving)
+		y += vy;
+
+	if (y <= TopPos) 
+	{
+		IsMoving = false;
+		vy = 0;
+	}
+	else if (y >= BotPos)
+	{
+		IsMoving = false;
+		vy = 0;
+	}
+	if (IsMoving && y < default_y && abs(mario_x - x) <= 16)
+		IsMoving = false;
+
+	if (this->IsMoving == false)
+	{
+		MoveDelay = GetTickCount64();
+
+		if (GetTickCount64() - MoveDelay > PLANT_MOVE_TIMEOUT)
+		{
+			IsMoving = false;
+			if (y >= TopPos)
+				vy = -PLANT_SPEED;
+			else if(y<=BotPos)
+				vy = PLANT_SPEED;
+		}
+
+	}
+
+
+	CGameObject::Update(dt, coObjects);
 }
 
 void CFirePlant::Render()

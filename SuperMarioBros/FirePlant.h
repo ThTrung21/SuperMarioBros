@@ -14,7 +14,8 @@
 #define PLANT_DIR_TOPRIGHT 3
 #define PLANT_DIR_BOTTOMRIGHT 4
 
-
+#define PLANT_SPEED	-0.2f
+#define PLANT_MOVE_TIMEOUT 500
 
 #define ID_ANI_FIREPLANT_TOPLEFT 15000
 #define	ID_ANI_FIREPLANT_BOTTOMLEFT 15001
@@ -25,14 +26,11 @@ class CFirePlant :public CGameObject
 {
 protected:
 
-	//ULONGLONG StopTime;
-	//bool IsStop;
-	
-	
-	bool atTop = 0;
-	bool atBottom=1;
-
-
+	ULONGLONG MoveDelay;
+	bool IsMoving;	
+	float TopPos;
+	float BotPos;
+	float default_y;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
