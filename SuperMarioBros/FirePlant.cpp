@@ -5,6 +5,15 @@ CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 	this->vy = -1;
 
 }
+void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+
+}
+
+void CFirePlant::Render()
+{
+
+}
 
 void CFirePlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
