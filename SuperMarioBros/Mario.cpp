@@ -12,6 +12,9 @@
 #include "PlayScene.h"
 #include "RedMushroom.h"
 #include "FirePlant.h"
+
+
+
 #include "Collision.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)

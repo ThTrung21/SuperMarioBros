@@ -1,12 +1,13 @@
 #include "FirePlant.h"
+#include "debug.h"
 
 CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 {
-	
+	stop_start = -1;
 	IsMoving = true;
 	this->vy = PLANT_SPEED;
-	this->TopPos = y - 32;
-	this->BotPos = y + 32;
+	this->TopPos = y - 16;
+	this->BotPos = y + 16;
 	state = PLANT_DIR_TOPLEFT;
 	this->default_y = y;
 
@@ -17,6 +18,8 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	float mario_x, mario_y;
 	mario->GetPosition(mario_x, mario_y);
+	float distance = mario_x -x;
+	DebugOut(L"[INFO] position is %d \n", x);
 	//set the plant direction according to mario position.
 	if (mario_x <= x && mario_y <= y)
 		SetState(PLANT_DIR_TOPLEFT);
@@ -29,38 +32,48 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else
 		SetState(this->state);
 
+	
 	//set the plant moving logic
+	bool movelock = 0;
+	
+	
 	if (IsMoving)
-		y += vy;
+		this->y += vy*dt;
 
-	if (y <= TopPos) 
+	if (y <= TopPos)
 	{
 		IsMoving = false;
 		vy = 0;
+		stop_start = GetTickCount64();
+		
 	}
 	else if (y >= BotPos)
 	{
 		IsMoving = false;
 		vy = 0;
+		stop_start = GetTickCount64();
+		
 	}
-	if (IsMoving && y < default_y && abs(mario_x - x) <= 16)
-		IsMoving = false;
 
-	if (this->IsMoving == false)
+	DebugOut(L"[INFO] time right now is %d\n", GetTickCount64() - stop_start < PLANT_MOVE_TIMEOUT);
+	if (GetTickCount64() - stop_start < PLANT_MOVE_TIMEOUT)
+		//movelock = 1;
+
+	if (!IsMoving && y <= TopPos && !movelock)
 	{
-		MoveDelay = GetTickCount64();
+		IsMoving = true;
+		DebugOut(L"[INFO] can move down\n");
 
-		if (GetTickCount64() - MoveDelay > PLANT_MOVE_TIMEOUT)
-		{
-			IsMoving = false;
-			if (y >= TopPos)
-				vy = -PLANT_SPEED;
-			else if(y<=BotPos)
-				vy = PLANT_SPEED;
-		}
-
+		vy = -PLANT_SPEED;
 	}
-
+	else if (!IsMoving && y >= BotPos && !movelock )
+	{
+		IsMoving = true;
+		vy = PLANT_SPEED;
+		DebugOut(L"[INFO] plant speed is: ", vy,"\n");
+		DebugOut(L"[INFO] can move up\n");
+	}
+	
 
 	CGameObject::Update(dt, coObjects);
 }

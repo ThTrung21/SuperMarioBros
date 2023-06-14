@@ -14,8 +14,8 @@
 #define PLANT_DIR_TOPRIGHT 3
 #define PLANT_DIR_BOTTOMRIGHT 4
 
-#define PLANT_SPEED	-0.2f
-#define PLANT_MOVE_TIMEOUT 500
+#define PLANT_SPEED	-0.03f
+#define PLANT_MOVE_TIMEOUT 50
 
 #define ID_ANI_FIREPLANT_TOPLEFT 15000
 #define	ID_ANI_FIREPLANT_BOTTOMLEFT 15001
@@ -26,7 +26,7 @@ class CFirePlant :public CGameObject
 {
 protected:
 
-	ULONGLONG MoveDelay;
+	ULONGLONG stop_start;
 	bool IsMoving;	
 	float TopPos;
 	float BotPos;

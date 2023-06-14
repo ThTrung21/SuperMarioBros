@@ -5,8 +5,6 @@ CMushroom::CMushroom(float x, float y) :CGameObject(x, y)
 	this->ax = 0;
 	this->ay = 0;
 	moveDelay = -1;
-	//this->vx = 0;
-	//this->vy = 0;
 	SetState(MUSHROOM_STATE_HIDDEN);
 }
 

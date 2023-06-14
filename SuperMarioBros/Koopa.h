@@ -1,0 +1,17 @@
+#pragma once
+#include "GameObject.h"
+
+#define KOOPA_GRAVITY 0.002f
+#define KOOPA_WALKING_SPEED 0.05f
+#define KOOPA_SHELL_SPEED 0.2f
+
+#define KOOPA_SHELL_TIMEOUT 10000
+
+#define KOOPA_STATE_WALKING 100
+#define KOOPA_STATE_SHELL 200
+
+#define ID_ANI_KOOPA_WALKIN 16000
+#define ID_ANI_KOOPA_RETRACT 16001
+#define ID_ANI_KOOPA_EXTEND 16002
+
+class 
