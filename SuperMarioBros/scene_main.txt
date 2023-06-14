@@ -11,6 +11,7 @@ goomba.txt
 MysteryBox.txt
 RedMushroom.txt
 Pipe.txt
+FirePlant.txt
 
 #
 [OBJECTS]

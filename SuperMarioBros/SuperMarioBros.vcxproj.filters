@@ -105,6 +105,9 @@
     <ClInclude Include="FirePlant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WingGoomba.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -183,6 +186,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FirePlant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WingGoomba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
