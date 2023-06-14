@@ -14,6 +14,7 @@
 #include "RedMushroom.h"
 #include "ColorBox.h"
 #include "Pipe.h"
+#include "FirePlant.h"
 
 
 #include "SampleKeyEventHandler.h"
@@ -86,8 +87,10 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
+		
 		int frame_time = atoi(tokens[i+1].c_str());
 		ani->Add(sprite_id, frame_time);
+		DebugOut(L"[INFO] Check load ani \n");
 	}
 
 	CAnimations::GetInstance()->Add(ani_id, ani);
@@ -203,7 +206,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_topleft, sprite_topright, sprite_bodyleft, sprite_bodyright, state);
 		break;
 	}
-	
+	case OBJECT_TYPE_FIREPLANT: obj = new CFirePlant(x, y); break;
+
 	
 	
 	case OBJECT_TYPE_PORTAL:

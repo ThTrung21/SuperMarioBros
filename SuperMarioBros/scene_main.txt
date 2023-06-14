@@ -13,13 +13,14 @@ RedMushroom.txt
 Pipe.txt
 FirePlant.txt
 
-#
+#################################
 [OBJECTS]
 # type	x	y	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, 6= Decoration
 #		7 = mystery box , 8 = red mushroom	,9 = green mushroom,	10=colorbox
-#		11 = pipe
+#		11 = pipe	,	12 = fireplant
 # See Object_id in AssetID.h
+###############################
 
 #BRICK
 1	240	360
@@ -94,6 +95,8 @@ FirePlant.txt
 7	416	98	1
 
 
+#fire plant
+12	360	122
 
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)

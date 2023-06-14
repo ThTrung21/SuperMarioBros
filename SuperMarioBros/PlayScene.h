@@ -8,6 +8,7 @@
 #include "Goomba.h"
 #include "Decoration.h"
 #include "MysteryBox.h"
+#include "FirePlant.h"
 //#include "Koopas.h"
 
 

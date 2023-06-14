@@ -11,7 +11,7 @@
 #include "GameObject.h"
 #include "PlayScene.h"
 #include "RedMushroom.h"
-
+#include "FirePlant.h"
 #include "Collision.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -70,6 +70,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBox(e);
 	else if (dynamic_cast<CMushroom*>(e->obj))
 		OncCollisionWithMushroom(e);
+	else if (dynamic_cast<CFirePlant*>(e->obj))
+		OnCollisionWithFirePlant(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -166,6 +168,21 @@ void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 			e->obj->Delete();
 	}
 }
+
+void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
+{
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		level = MARIO_LEVEL_SMALL;
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
+}
+
 
 //
 // Get animation ID for small Mario
