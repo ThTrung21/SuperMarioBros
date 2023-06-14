@@ -4,8 +4,8 @@
 #define PLANT_HEIGHT 32
 
 #define PLANT_DIR_TOPLEFT	1
-#define PLANT_DIR_TOPRIGHT 2
-#define	PLANT_DIR_BOTTOMLEFT 3
+#define	PLANT_DIR_BOTTOMLEFT 2
+#define PLANT_DIR_TOPRIGHT 3
 #define PLANT_DIR_BOTTOMRIGHT 4
 
 
@@ -20,10 +20,10 @@ class CFirePlant :public CGameObject
 {
 protected:
 
-	ULONGLONG StopTime;
+	/*ULONGLONG StopTime;
 	bool IsStop;
 	float TopMost;
-	float BotMost;
+	float BotMost;*/
 
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

@@ -12,7 +12,21 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CFirePlant::Render()
 {
+	int aniID; 
+	switch (state)
+	{
+	case PLANT_DIR_TOPLEFT:
+		aniID = ID_ANI_FIREPLANT_TOPLEFT;	break;
+	case PLANT_DIR_BOTTOMLEFT:
+		aniID = ID_ANI_FIREPLANT_BOTTOMLEFT;	break;
+	case PLANT_DIR_TOPRIGHT:
+		aniID = ID_ANI_FIREPLANT_TOPRIGHT;	break;
+	case PLANT_DIR_BOTTOMRIGHT:
+		aniID = ID_ANI_FIREPLANT_BOTTOMRIGHT;	break;
+	}
 
+	CAnimations::GetInstance()->Get(aniID)->Render(x, y);
+	RenderBoundingBox();
 }
 
 void CFirePlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
