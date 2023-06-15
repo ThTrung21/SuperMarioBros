@@ -48,9 +48,13 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
 }
+
 void CGoomba::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
-	
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if ((koopa->GetState() == KOOPA_STATE_KICK_LEFT || koopa->GetState() == KOOPA_STATE_KICK_RIGHT)
+		&& (e->nx != 0))
+		SetState(GOOMBA_STATE_DIE);
 }
 
 

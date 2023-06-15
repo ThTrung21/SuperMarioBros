@@ -1,4 +1,6 @@
 #include "WingGoomba.h"
+#include "Koopa.h"
+
 
 CWingGoomba::CWingGoomba(float x, float y) :CGameObject(x, y)
 {
@@ -45,8 +47,17 @@ void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
 
+void CWingGoomba::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if ((koopa->GetState() == KOOPA_STATE_KICK_LEFT || koopa->GetState() == KOOPA_STATE_KICK_RIGHT)
+		&& (e->nx != 0))
+		SetState(WGOOMBA_STATE_DIE);
+}
 void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;

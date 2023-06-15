@@ -1,4 +1,4 @@
-#include "Koopa.h"
+ #include "Koopa.h"
 #include "Goomba.h"
 
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)

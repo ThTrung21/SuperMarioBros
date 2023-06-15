@@ -35,7 +35,7 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 public:
 	CWingGoomba(float x, float y);
 	virtual void SetState(int state);
