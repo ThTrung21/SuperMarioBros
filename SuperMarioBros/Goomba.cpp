@@ -1,5 +1,5 @@
 #include "Goomba.h"
-
+#include "Koopa.h"
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -45,7 +45,14 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
+void CGoomba::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+
+}
+
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {

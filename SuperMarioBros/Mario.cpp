@@ -111,6 +111,8 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+
+	
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
@@ -193,9 +195,9 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-	if (e->ny < 0)
+	if (e->ny < 0 )//&& koopa->GetState() == KOOPA_STATE_WALKING)
 	{
-		if (koopa->GetState() != KOOPA_STATE_SHELL)
+		if (koopa->GetState() == KOOPA_STATE_WALKING)
 		{
 			koopa->SetState(KOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -219,6 +221,24 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				}
 			}
 		}
+	}
+	//kick shell right
+	if (koopa->GetState() == KOOPA_STATE_SHELL && ( e->nx < 0 ) )
+	{
+		koopa->SetState(KOOPA_STATE_KICK_RIGHT);
+	}
+	if (koopa->GetState() == KOOPA_STATE_SHELL && (e->ny < 0) && this->vx>0)
+	{
+		koopa->SetState(KOOPA_STATE_KICK_RIGHT);
+	}
+	//kcik shell left
+	if (koopa->GetState() == KOOPA_STATE_SHELL && e->nx > 0)
+	{
+		koopa->SetState(KOOPA_STATE_KICK_LEFT);
+	}
+	if (koopa->GetState() == KOOPA_STATE_SHELL && (e->ny < 0) && this->vx < 0)
+	{
+		koopa->SetState(KOOPA_STATE_KICK_LEFT);
 	}
 }
 

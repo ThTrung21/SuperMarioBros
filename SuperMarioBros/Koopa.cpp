@@ -57,7 +57,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if ((state == KOOPA_STATE_SHELL) && (GetTickCount64() - shell_start > KOOPA_SHELL_TIMEOUT))
+	if ((state == KOOPA_STATE_SHELL) && (state != KOOPA_STATE_KICK_RIGHT)&& (GetTickCount64() - shell_start > KOOPA_SHELL_TIMEOUT))
 	{
 		SetState(KOOPA_STATE_REVIVE);
 		return;
@@ -81,7 +81,7 @@ void CKoopa::Render()
 			aniId = ID_ANI_KOOPA_WALKING_LEFT;
 	}
 
-	else if (state == KOOPA_STATE_SHELL)
+	else if (state == KOOPA_STATE_SHELL || state== KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		aniId = ID_ANI_KOOPA_SHELL;
 	}
@@ -97,6 +97,7 @@ void CKoopa::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
+	//shell
 	case KOOPA_STATE_SHELL:
 		shell_start = GetTickCount64();
 		default_y = y;
@@ -106,6 +107,8 @@ void CKoopa::SetState(int state)
 		vy = 0;
 		ay = 0;
 		break;
+
+	//walking
 	case KOOPA_STATE_WALKING:
 		y = default_y;
 		if (pre_vx > 0)
@@ -116,10 +119,16 @@ void CKoopa::SetState(int state)
 		vx = -KOOPA_WALKING_SPEED;
 
 		break;
+
+	//revive
 	case KOOPA_STATE_REVIVE:
 		revive_start = GetTickCount64();
 		break;
-	
-
+	case KOOPA_STATE_KICK_RIGHT:
+		vx = KOOPA_SHELL_SPEED;
+		break;
+	case KOOPA_STATE_KICK_LEFT:
+		vx = -KOOPA_SHELL_SPEED;
+		break;
 	}
 }
