@@ -206,5 +206,8 @@
     <ClCompile Include="FireBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Invis_block.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

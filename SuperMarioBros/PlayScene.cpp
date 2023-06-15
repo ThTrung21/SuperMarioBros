@@ -17,7 +17,7 @@
 #include "FirePlant.h"
 #include "Koopa.h"
 #include "FireBall.h"
-
+#include "Invis_block.h"
 
 
 
@@ -134,6 +134,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_INVIS_BLOCK: obj = new CInvis(x, y); break;
 	case OBJECT_TYPE_COIN:
 	{
 		bool isHidden = atoi(tokens[3].c_str());

@@ -14,7 +14,7 @@ Pipe.txt
 FirePlant.txt
 FireBall.txt
 Koopa.txt
-
+Invis_block.txt
 #################################
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -75,7 +75,8 @@ Koopa.txt
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
 11	352	146	3	110001	110002	110003	110004	0
 
-
+#Invisible block as barrier
+15	160	119
 
 
 #Portal
