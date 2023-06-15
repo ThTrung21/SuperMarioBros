@@ -141,7 +141,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
-
+	
 	int IsCollidable()
 	{ 
 		return (state != MARIO_STATE_DIE); 
@@ -151,7 +151,7 @@ public:
 	bool IsMario() { return 1; }
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-
+	int GetX() { return this->x; }
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 

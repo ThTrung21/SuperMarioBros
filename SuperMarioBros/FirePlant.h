@@ -14,8 +14,8 @@
 #define PLANT_DIR_TOPRIGHT 3
 #define PLANT_DIR_BOTTOMRIGHT 4
 
-#define PLANT_STATE_BOT 100
-#define PLANT_STATE_WAKE 200
+#define PLANT_STATE_SLEEP 100
+#define PLANT_STATE_AWAKE 200
 #define PLANT_STATE_STOP 300
 
 #define PLANT_SPEED	0.03f
@@ -41,7 +41,7 @@ protected:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
-	bool MarioDetection(float x, float y);
+	bool MarioDetection(int x, float y);
 	//virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
