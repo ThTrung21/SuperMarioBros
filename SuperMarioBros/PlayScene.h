@@ -9,6 +9,7 @@
 #include "Decoration.h"
 #include "MysteryBox.h"
 #include "FirePlant.h"
+#include "FireBall.h"
 //#include "Koopas.h"
 
 
@@ -17,7 +18,7 @@ class CPlayScene: public CScene
 protected: 
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
-
+	LPGAMEOBJECT fireball;
 	vector<LPGAMEOBJECT> objects;
 
 	void _ParseSection_SPRITES(string line);
@@ -37,7 +38,7 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
-
+	LPGAMEOBJECT GetFireBall() { return fireball; }
 	void Clear();
 	void PurgeDeletedObjects();
 

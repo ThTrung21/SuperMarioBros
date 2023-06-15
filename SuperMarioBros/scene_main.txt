@@ -66,14 +66,14 @@ Koopa.txt
 
 
 ##FIREBALL
-13	418	40
+13	360	100
 
 #fire plant
 12	360	140
 
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
-#11	352	146	3	110001	110002	110003	110004	0
+11	352	146	3	110001	110002	110003	110004	0
 
 
 
@@ -109,4 +109,4 @@ Koopa.txt
 #2	250	60
 
 #KOOPA
-3	250	10
+#3	250	10

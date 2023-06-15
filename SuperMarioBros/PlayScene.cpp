@@ -16,6 +16,10 @@
 #include "Pipe.h"
 #include "FirePlant.h"
 #include "Koopa.h"
+#include "FireBall.h"
+
+
+
 
 #include "SampleKeyEventHandler.h"
 
@@ -25,6 +29,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	player = NULL;
+	fireball = NULL;
 	key_handler = new CSampleKeyHandler(this);
 }
 
@@ -207,8 +212,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_topleft, sprite_topright, sprite_bodyleft, sprite_bodyright, state);
 		break;
 	}
-	case OBJECT_TYPE_FIREPLANT: obj = new CFirePlant(x, y); break;
-	
+	case OBJECT_TYPE_FIREPLANT:
+		obj = new CFirePlant(x, y);
+		break;
+	case OBJECT_TYPE_FIREBALL:
+		obj = new CFireBall(x, y);
+		fireball = (CFireBall*)obj;
+
+		break;
 	
 	
 	case OBJECT_TYPE_PORTAL:

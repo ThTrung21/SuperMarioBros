@@ -8,12 +8,11 @@
 #define FIREBALL_WIDTH 8
 #define FIREBALL_HEIGHT 8
 
-#define ID_ANI_FIREBALL_LEFT 16000
-#define	ID_ANI_FIREBALL_RIGHT 16001
+#define ID_ANI_FIREBALL_LEFT 17000
+#define	ID_ANI_FIREBALL_RIGHT 17001
 
-#define FIREBALL_STATE_LEFT 1
-#define FIREBALL_STATE_RIGHT 2
-#define FIREBALL_STATE_HIDDEN 3
+
+#define FIREBALL_STATE_HIDDEN -1
 
 //direction
 #define FIREBALL_DIR_TOP_LEFT 1
@@ -37,14 +36,16 @@ class CFireBall : public CGameObject
 {
 protected:
 	float X, Y;
-	int dir;
+	
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void ResetPos();
 	virtual int IsBlocking() { return 0; }
+	virtual void OnNoCollision(DWORD dt);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
 	CFireBall(float x, float y);
 	virtual void SetState(int state);
-	void SetDir(int dir);
+	
 };
