@@ -20,7 +20,7 @@ CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 bool CFirePlant::MarioDetection(int mario_x, int mario_y)
 {
 	int xx = mario_x -(int) x;
-	if (abs(xx)>16 && abs(xx)<150)
+	if (abs(xx)>24 && abs(xx)<150)
 		return 1;
 	return 0;
 
@@ -87,12 +87,12 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (abs(mario_y - TopPos) < 32 && mario_y < TopPos)
 			{
 				fireball->SetState(FIREBALL_DIR_UPMID_LEFT);
-				DebugOut(L"[INFO] SHOOT UP MID\n");
+				
 			}
 			else if (abs(mario_y - TopPos) < 32 && mario_y > TopPos)
 			{
 				fireball->SetState(FIREBALL_DIR_LOMID_LEFT);
-				DebugOut(L"[INFO] SHOOT LO MID\n");
+				
 			}
 			else if (abs(mario_y - TopPos) >= 32 && mario_y > TopPos)
 					fireball->SetState(FIREBALL_DIR_BOT_LEFT);
@@ -100,15 +100,15 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			if (abs(mario_y - TopPos) >= 8 && mario_y < TopPos)
+			if (abs(mario_y - TopPos) >= 32 && mario_y < TopPos)
 				fireball->SetState(FIREBALL_DIR_TOP_RIGHT);
 
-			else if (abs(mario_y - TopPos) < 8 && mario_y < TopPos)
+			else if (abs(mario_y - TopPos) < 32 && mario_y < TopPos)
 					fireball->SetState(FIREBALL_DIR_UPMID_RIGHT);
 
-			else if (abs(mario_y - TopPos) < 8 && mario_y > TopPos) 
+			else if (abs(mario_y - TopPos) < 32 && mario_y > TopPos)
 					fireball->SetState(FIREBALL_DIR_LOMID_RIGHT);
-			else if (abs(mario_y - TopPos) >= 8 && mario_y > TopPos) 
+			else if (abs(mario_y - TopPos) >= 32 && mario_y > TopPos)
 					fireball->SetState(FIREBALL_DIR_BOT_RIGHT);
 
 		}
