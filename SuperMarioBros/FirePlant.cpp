@@ -1,5 +1,8 @@
 #include "FirePlant.h"
 #include "debug.h"
+#include "FireBall.h"
+
+
 
 CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 {
@@ -69,8 +72,41 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else if(y>=default_y)
 		SetState(PLANT_STATE_SLEEP);
 
+	//Fireball shooting logic
+	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireball();
 	if (isShooting)
 	{
+		if (mario_x < (int) x)
+		{
+			if (abs(mario_y - TopPos) >= 8 && mario_y < TopPos)
+				fireball->SetState(FIREBALL_DIR_TOP_LEFT);
+	
+			else if (abs(mario_y - TopPos) < 8 && mario_y < TopPos)
+					fireball->SetDir(FIREBALL_DIR_UPMID_LEFT);
+
+			else if (abs(mario_y - TopPos) < 8 && mario_y > TopPos) 
+					fireball->SetState(FIREBALL_DIR_LOMID_LEFT);
+			
+			else if (abs(mario_y - TopPos) >= 8 && mario_y > TopPos)
+					fireball->SetState(FIREBALL_DIR_BOT_LEFT);
+
+		}
+		else
+		{
+			if (abs(mario_y - TopPos) >= 8 && mario_y < TopPos)
+				fireball->SetState(FIREBALL_DIR_TOP_RIGHT);
+
+			else if (abs(mario_y - TopPos) < 8 && mario_y < TopPos)
+					fireball->SetState(FIREBALL_DIR_UPMID_RIGHT);
+
+			else if (abs(mario_y - TopPos) < 8 && mario_y > TopPos) 
+					fireball->SetState(FIREBALL_DIR_LOMID_RIGHT);
+			else if (abs(mario_y - TopPos) >= 8 && mario_y > TopPos) 
+					fireball->SetState(FIREBALL_DIR_BOT_RIGHT);
+
+		}
+
+
 
 	}
 

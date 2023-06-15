@@ -9,7 +9,7 @@
 #define FIREBALL_HEIGHT 8
 
 #define ID_ANI_FIREBALL_LEFT 16000
-//#define	ID_ANI_FIREBALL_RIGHT 16001
+#define	ID_ANI_FIREBALL_RIGHT 16001
 
 #define FIREBALL_STATE_LEFT 1
 #define FIREBALL_STATE_RIGHT 2
@@ -37,7 +37,7 @@ class CFireBall : public CGameObject
 {
 protected:
 	float X, Y;
-
+	int dir;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

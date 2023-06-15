@@ -40,7 +40,14 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CFireBall::Render()
 {
-	CAnimations::GetInstance()->Get(ID_ANI_FIREBALL_LEFT)->Render(x, y);
+	int aniID;
+	if (dir < FIREBALL_DIR_TOP_RIGHT)
+		aniID = ID_ANI_FIREBALL_LEFT;
+	else
+		aniID = ID_ANI_FIREBALL_RIGHT;
+
+
+	CAnimations::GetInstance()->Get(aniID)->Render(x, y);
 }
 
 void CFireBall::ResetPos()
@@ -56,6 +63,7 @@ void CFireBall::SetState(int state)
 
 void CFireBall::SetDir(int dir)
 {
+	this->dir = dir;
 	switch (dir)
 	{
 		//left side
