@@ -141,6 +141,7 @@
     <ClInclude Include="ColorBox.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Decoration.h" />
+    <ClInclude Include="FireBall.h" />
     <ClInclude Include="FirePlant.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="ColorBox.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FirePlant.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />

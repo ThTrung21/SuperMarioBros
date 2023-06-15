@@ -17,6 +17,7 @@ height	240
 0	textures\mario.png
 10	textures\enemies.png
 20	textures\misc.png
+21	textures\misc_flip.png
 30	textures\world.png
 40	textures\world_2.png
 50	textures\enemies_2.png

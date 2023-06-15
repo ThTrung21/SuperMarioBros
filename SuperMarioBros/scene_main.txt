@@ -12,6 +12,7 @@ MysteryBox.txt
 RedMushroom.txt
 Pipe.txt
 FirePlant.txt
+FireBall.txt
 Koopa.txt
 
 #################################

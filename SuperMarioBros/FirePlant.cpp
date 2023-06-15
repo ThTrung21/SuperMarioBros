@@ -16,8 +16,7 @@ CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 }
 bool CFirePlant::MarioDetection(int mario_x, float mario_y)
 {
-	int xx = mario_x - x;
-	int yy = mario_y - TopPos;
+	int xx = (int)mario_x - x;
 	if (abs(xx)>16 && abs(xx)<300)
 		return 1;
 	return 0;
