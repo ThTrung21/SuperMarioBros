@@ -6,7 +6,7 @@ cloud.txt
 brick.txt
 ColorBox.txt
 BasePlatform.txt
-DecorBush.txt
+Decor.txt
 goomba.txt
 MysteryBox.txt
 RedMushroom.txt
@@ -29,6 +29,8 @@ Invis_block.txt
 
 #Decoration
 6	48	160	71000
+6	100	160	71100
+
 
 #ColorBox
 #id	x	y	cellW	cellH	width	height tl	tm	tr...
@@ -69,7 +71,7 @@ Invis_block.txt
 13	360	116
 
 #fire plant
-12	360	140
+#12	360	140
 
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
@@ -110,4 +112,4 @@ Invis_block.txt
 #2	250	60
 
 #KOOPA
-3	250	10
+#3	250	10

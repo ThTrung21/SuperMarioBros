@@ -197,7 +197,8 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 {
-	if (untouchable == 0)
+	CFireBall* f = dynamic_cast<CFireBall*>(e->obj);
+	if (untouchable == 0 && f->GetState()!= FIREBALL_STATE_HIDDEN)
 	{
 		if (level > MARIO_LEVEL_SMALL)
 		{
