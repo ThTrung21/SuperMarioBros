@@ -14,8 +14,12 @@
 #define PLANT_DIR_TOPRIGHT 3
 #define PLANT_DIR_BOTTOMRIGHT 4
 
-#define PLANT_SPEED	-0.03f
-#define PLANT_MOVE_TIMEOUT 50
+#define PLANT_STATE_BOT 100
+#define PLANT_STATE_WAKE 200
+#define PLANT_STATE_STOP 300
+
+#define PLANT_SPEED	0.03f
+#define PLANT_STOP_TIMEOUT 5000
 
 #define ID_ANI_FIREPLANT_TOPLEFT 15000
 #define	ID_ANI_FIREPLANT_BOTTOMLEFT 15001
@@ -31,17 +35,20 @@ protected:
 	float TopPos;
 	float BotPos;
 	float default_y;
+	int direction;
+	bool isShooting;
+	
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
-
-	virtual int IsCollidable() { return 1; };
+	bool MarioDetection(float x, float y);
+	//virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
-
+	
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
 	CFirePlant(float x, float y);
-
+	void SetDir(int dir);
 	virtual void SetState(int state);
 };

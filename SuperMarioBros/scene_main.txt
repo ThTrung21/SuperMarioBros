@@ -68,7 +68,7 @@ Koopa.txt
 
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
-11	352	146	3	110001	110002	110003	110004	0
+#11	352	146	3	110001	110002	110003	110004	0
 
 
 
