@@ -64,6 +64,10 @@ Koopa.txt
 
 4	418	98	1
 
+
+##FIREBALL
+13	418	40
+
 #fire plant
 12	360	140
 

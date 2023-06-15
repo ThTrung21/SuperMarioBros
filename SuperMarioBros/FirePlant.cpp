@@ -14,10 +14,10 @@ CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 	this->isShooting = false;
 
 }
-bool CFirePlant::MarioDetection(int mario_x, float mario_y)
+bool CFirePlant::MarioDetection(int mario_x, int mario_y)
 {
-	int xx = (int)mario_x - x;
-	if (abs(xx)>16 && abs(xx)<300)
+	int xx = mario_x -(int) x;
+	if (abs(xx)>16 && abs(xx)<150)
 		return 1;
 	return 0;
 
@@ -51,10 +51,13 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	//DETECTING MARIO POSITION
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	float mario_x, mario_y;
-	mario->GetPosition(mario_x, mario_y);
-	int x_ = mario->GetX();
-	DebugOut(L"[INFO] mario x coord = %d\n", x_);
+	int mario_x, mario_y;
+	mario_x = mario->GetX();
+	mario_y = mario->GetY();
+
+
+	
+	
 	
 	
 	

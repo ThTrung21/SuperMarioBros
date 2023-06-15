@@ -151,7 +151,8 @@ public:
 	bool IsMario() { return 1; }
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-	int GetX() { return this->x; }
+	int GetX() { return(int) this->x; }
+	int GetY() { return (int)this->y; }
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 

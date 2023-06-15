@@ -1,10 +1,14 @@
 #include"FireBall.h"
-
+#include "Mario.h"
+#include "Game.h"
+#include "PlayScene.h"
 CFireBall::CFireBall(float x, float y):CGameObject(x,y)
 {
 	state = FIREBALL_STATE_HIDDEN;
 	this->X = x;
 	this->Y = y;
+	vx = 0;
+	vy = 0;
 }
 
 
@@ -19,6 +23,18 @@ void CFireBall::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	int mx = mario->GetX();
+	
+	
+	
+		if(mx<this->x)
+			//SetState
+	
+
+
+
+
 	CGameObject::Update(dt, coObjects);
 }
 
