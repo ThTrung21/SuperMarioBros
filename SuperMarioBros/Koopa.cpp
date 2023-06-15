@@ -43,6 +43,12 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopa*>(e->obj)) return;
 	if(dynamic_cast<CGoomba*>(e->obj)) return;
+	if (e->ny != 0 && e->obj->IsBlocking() && state ==KOOPA_STATE_WALKING)
+	{
+		vy = 0;
+		if (e->ny < 0) isOnPlatform = true;
+		platform_y = y;
+	}
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -57,6 +63,11 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	if (state == KOOPA_STATE_WALKING && isOnPlatform == false)
+	{
+		y = platform_y;
+		vx = -vx;
+	}
 	if ((state == KOOPA_STATE_SHELL) && (state != KOOPA_STATE_KICK_RIGHT)&& (GetTickCount64() - shell_start > KOOPA_SHELL_TIMEOUT))
 	{
 		SetState(KOOPA_STATE_REVIVE);
@@ -132,3 +143,4 @@ void CKoopa::SetState(int state)
 		break;
 	}
 }
+

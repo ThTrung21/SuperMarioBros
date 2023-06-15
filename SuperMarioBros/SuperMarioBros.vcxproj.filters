@@ -114,6 +114,9 @@
     <ClInclude Include="FireBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Invis_block.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">

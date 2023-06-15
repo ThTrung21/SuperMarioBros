@@ -31,6 +31,8 @@ protected:
 	float ay;
 	float default_y;
 	float pre_vx;
+	bool isOnPlatform;
+	float platform_y;
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -42,7 +44,7 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
+	
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);
