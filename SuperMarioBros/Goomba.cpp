@@ -50,7 +50,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 }
 void CGoomba::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
-
+	
 }
 
 
