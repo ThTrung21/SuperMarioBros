@@ -41,6 +41,7 @@ public:
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
 
+	
 	void RenderBoundingBox();
 
 	CGameObject();
@@ -67,6 +68,9 @@ public:
 	virtual int IsBlocking() { return 1; }
 
 	virtual bool IsMario() { return 0; }
+
+	virtual bool IsInvisBlock() { return 0; }
+	virtual bool IsKoopa() { return 0; }
 	bool GetIsColorBox() { return isColorBox; }
 
 	~CGameObject();

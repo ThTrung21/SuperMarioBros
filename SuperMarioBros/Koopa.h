@@ -48,4 +48,5 @@ protected:
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);
+	virtual bool IsKoopa() { return 1; }
 };

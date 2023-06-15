@@ -212,7 +212,11 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		{
 			continue;
 		}
-		
+		// invisible barrier for koopas
+		if (filterBlock == 1 && c->obj->IsInvisBlock() && !c->src_obj->IsKoopa())
+		{
+			continue;
+		}
 
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;

@@ -12,9 +12,9 @@
 class CInvis : public CGameObject
 {
 public:
-	CInvis(float x, float y) : CGameObject(x, y) {}
+	CInvis(float x, float y) : CGameObject(x, y) {  }
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-
+	virtual bool IsInvisBlock() { return 1; }
 };
