@@ -12,7 +12,7 @@
 #include "PlayScene.h"
 #include "RedMushroom.h"
 #include "FirePlant.h"
-
+#include "Koopa.h"
 
 
 #include "Collision.h"
@@ -75,6 +75,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OncCollisionWithMushroom(e);
 	else if (dynamic_cast<CFirePlant*>(e->obj))
 		OnCollisionWithFirePlant(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -174,15 +176,49 @@ void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
-	if (level > MARIO_LEVEL_SMALL)
+	if (untouchable == 0)
 	{
-		level = MARIO_LEVEL_SMALL;
-		StartUntouchable();
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+}
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if (e->ny < 0)
+	{
+		if (koopa->GetState() != KOOPA_STATE_SHELL)
+		{
+			koopa->SetState(KOOPA_STATE_SHELL);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
 	}
 	else
 	{
-		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
+		if (untouchable == 0)
+		{
+			if (koopa->GetState() != KOOPA_STATE_SHELL)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
 	}
 }
 

@@ -19,3 +19,9 @@
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+#walk left
+16000	140001	100	140002	100
+#walk right 
+16001	140003	100	140004	100
+#shell
+16002	140010	100

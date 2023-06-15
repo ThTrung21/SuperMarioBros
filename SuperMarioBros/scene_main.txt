@@ -62,13 +62,16 @@ FirePlant.txt
 
 4	418	98	1
 
+#fire plant
+12	360	140
+
+#PIPE
+#id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
+11	352	146	3	110001	110002	110003	110004	0
 
 
 
 
-#Goomba
-#2	300	170
-#2	250	60
 #Portal
 
 #BRICK
@@ -95,9 +98,9 @@ FirePlant.txt
 7	416	98	1
 
 
-#fire plant
-12	360	140
+#Goomba
+#2	300	170
+#2	250	60
 
-#PIPE
-#id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
-11	352	146	3	110001	110002	110003	110004	0
+#KOOPA
+3	250	10

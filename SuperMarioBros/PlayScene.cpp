@@ -15,7 +15,7 @@
 #include "ColorBox.h"
 #include "Pipe.h"
 #include "FirePlant.h"
-
+#include "Koopa.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -127,6 +127,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
+	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN:
 	{
@@ -207,7 +208,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case OBJECT_TYPE_FIREPLANT: obj = new CFirePlant(x, y); break;
-
+	
 	
 	
 	case OBJECT_TYPE_PORTAL:
