@@ -5,15 +5,18 @@
 #define KOOPA_WALKING_SPEED 0.05f
 #define KOOPA_SHELL_SPEED 0.2f
 
-#define KOOPA_SHELL_TIMEOUT 10000
+#define KOOPA_SHELL_TIMEOUT 7000
+#define KOOPA_REVIVE_TIME 5000
 
 #define KOOPA_STATE_WALKING 100
 #define KOOPA_STATE_SHELL 200
+#define KOOPA_STATE_KICK 300
+#define KOOPA_STATE_REVIVE 400
 
 #define ID_ANI_KOOPA_WALKING_LEFT 16000
 #define ID_ANI_KOOPA_WALKING_RIGHT 16001
 #define ID_ANI_KOOPA_SHELL 16002
-#define ID_ANI_KOOPA_EXTEND 16003
+#define ID_ANI_KOOPA_REVIVE 16003
 
 
 #define KOOPA_BBOX_WIDTH 16
@@ -25,7 +28,9 @@ class CKoopa : public CGameObject
 protected:
 	float ax;
 	float ay;
-
+	float default_y;
+	float pre_vx;
+	ULONGLONG revive_start;
 	ULONGLONG shell_start;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

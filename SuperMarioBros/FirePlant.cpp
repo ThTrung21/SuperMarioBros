@@ -19,7 +19,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	float mario_x, mario_y;
 	mario->GetPosition(mario_x, mario_y);
 	float distance = mario_x -x;
-	DebugOut(L"[INFO] position is %d \n", x);
+	
 	//set the plant direction according to mario position.
 	if (mario_x <= x && mario_y <= y)
 		SetState(PLANT_DIR_TOPLEFT);
@@ -55,14 +55,14 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		
 	}
 
-	DebugOut(L"[INFO] time right now is %d\n", GetTickCount64() - stop_start < PLANT_MOVE_TIMEOUT);
+	
 	if (GetTickCount64() - stop_start < PLANT_MOVE_TIMEOUT)
 		//movelock = 1;
 
 	if (!IsMoving && y <= TopPos && !movelock)
 	{
 		IsMoving = true;
-		DebugOut(L"[INFO] can move down\n");
+		
 
 		vy = -PLANT_SPEED;
 	}
@@ -70,8 +70,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		IsMoving = true;
 		vy = PLANT_SPEED;
-		DebugOut(L"[INFO] plant speed is: ", vy,"\n");
-		DebugOut(L"[INFO] can move up\n");
+		
 	}
 	
 
