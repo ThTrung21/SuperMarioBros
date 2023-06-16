@@ -219,7 +219,9 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 			continue;
 		}
 		//tanuki leaf
-		if (filterBlock == 1 && c->src_obj->IsLeaf() && !c->obj->IsMario())
+		if (filterBlock == 1 && c->src_obj->IsLeaf() && (!c->obj->IsMario() ||
+			c->obj->IsKoopa() &&
+			(c->src_obj->GetState() != KOOPA_STATE_KICK_LEFT || c->src_obj->GetState() != KOOPA_STATE_KICK_RIGHT)))
 		{
 			continue;
 		}

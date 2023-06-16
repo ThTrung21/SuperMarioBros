@@ -45,13 +45,7 @@ void CKoopa::OnNoCollision(DWORD dt)
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	//if (dynamic_cast<CKoopa*>(e->obj)) return;
-	//if(dynamic_cast<CGoomba*>(e->obj)) return;
-	//if (e->ny != 0 && e->obj->IsBlocking()) /*&&
-	//	(state ==KOOPA_STATE_WALKING || state==KOOPA_STATE_KICK_LEFT|| state == KOOPA_STATE_KICK_RIGHT))*/
-	//{
-	//	vy = 0;	
-	//}
+	if (dynamic_cast<CGoomba*>(e->obj) && state == KOOPA_STATE_WALKING) return;
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -63,7 +57,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
-	if (dynamic_cast<CBox*>(e->obj))
+	else if (dynamic_cast<CBox*>(e->obj))
 		OnCollisionWithMysteryBox(e);
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
@@ -72,7 +66,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
-	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)  && leaf->GetState() == LEAF_STATE_HIDDEN)
+	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)  && leaf->GetState() == LEAF_STATE_HIDDEN)
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}

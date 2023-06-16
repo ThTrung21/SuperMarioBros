@@ -70,6 +70,7 @@ public:
 	virtual bool IsMario() { return 0; }
 
 	virtual bool IsInvisBlock() { return 0; }
+	virtual bool IsGoomba() { return 0; }
 	virtual bool IsKoopa() { return 0; }
 	virtual bool IsLeaf() { return 0; }
 	bool GetIsColorBox() { return isColorBox; }

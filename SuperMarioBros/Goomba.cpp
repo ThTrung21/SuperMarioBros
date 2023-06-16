@@ -1,12 +1,17 @@
 #include "Goomba.h"
 #include "Koopa.h"
+#include "Mario.h"
+#include "PlayScene.h"
+
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
 	die_start = -1;
-	SetState(GOOMBA_STATE_WALKING);
+	flag = 0;
+	SetState(GOOMBA_STATE_IDLE);
 }
+
 
 void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
@@ -45,17 +50,11 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-	else if (dynamic_cast<CKoopa*>(e->obj))
-		OnCollisionWithKoopa(e);
+	/*else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);*/
 }
 
-void CGoomba::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
-{
-	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-	if ((koopa->GetState() == KOOPA_STATE_KICK_LEFT || koopa->GetState() == KOOPA_STATE_KICK_RIGHT)
-		&& ((e->nx != 0)||e->ny!=0))
-			SetState(GOOMBA_STATE_DIE);
-}
+
 
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -68,6 +67,17 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isDeleted = true;
 		return;
 	}
+
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	int mario_x;
+	mario_x = mario->GetX();
+	if (MarioDetection(mario_x) && flag == 0)
+	{
+		SetState(GOOMBA_STATE_WALKING);
+		flag = 1;
+	}
+
+
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -86,6 +96,14 @@ void CGoomba::Render()
 	RenderBoundingBox();
 }
 
+bool CGoomba::MarioDetection(int mario_x)
+{
+	int xx = mario_x - (int)x;
+	if (abs(xx) < 300)
+		return 1;
+	return 0;
+}
+
 void CGoomba::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -100,6 +118,9 @@ void CGoomba::SetState(int state)
 			break;
 		case GOOMBA_STATE_WALKING: 
 			vx = -GOOMBA_WALKING_SPEED;
+			break;
+		case GOOMBA_STATE_IDLE:
+			vx = 0;
 			break;
 	}
 }

@@ -34,7 +34,7 @@ void CTanukiLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CTanukiLeaf::Render()
 {
 	
-	if(state!=LEAF_STATE_HIDDEN)
+	//if(state!=LEAF_STATE_HIDDEN)
 	{
 		int aniID;
 		if (state == LEAF_STATE_FALL)

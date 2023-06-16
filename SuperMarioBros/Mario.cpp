@@ -220,7 +220,7 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
-	if( leaf->GetState() == LEAF_STATE_HIDDEN && e->ny> 0  )	
+	if( leaf->GetState() == LEAF_STATE_HIDDEN/* && e->ny> 0*/  )	
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
