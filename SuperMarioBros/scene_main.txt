@@ -109,7 +109,7 @@ Tanuki_Leaf.txt
 #8	240	87
 
 #tanuki leaf
-9	240	60	
+9	642	160	
 
 ###---MysteryBox---###
 #id	x	y	content

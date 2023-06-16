@@ -72,7 +72,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
-	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && e->nx != 0 && leaf->GetState() == LEAF_STATE_HIDDEN)
+	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)  && leaf->GetState() == LEAF_STATE_HIDDEN)
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
@@ -106,7 +106,6 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
-		
 		goomba->SetState(GOOMBA_STATE_DIE);
 }
 
@@ -188,13 +187,13 @@ void CKoopa::SetState(int state)
 		revive_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_KICK_RIGHT:
-		y += 8;
+		y -= 3;
 		vx = KOOPA_SHELL_SPEED;
 		ay = KOOPA_GRAVITY;
 		die_timeout = GetTickCount64();
 		break;
 	case KOOPA_STATE_KICK_LEFT:
-		y += 8;
+		y -= 3;
 		die_timeout = GetTickCount64();
 		vx = -KOOPA_SHELL_SPEED;
 		ay = KOOPA_GRAVITY;
