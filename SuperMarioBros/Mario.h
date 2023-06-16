@@ -35,7 +35,7 @@
 
 
 #pragma region ANIMATION_ID
-
+//BIG MARIO
 #define ID_ANI_MARIO_IDLE_RIGHT 400
 #define ID_ANI_MARIO_IDLE_LEFT 401
 
@@ -78,6 +78,27 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
 
+//tanuki MARIO
+#define ID_ANI_MARIO_TANUKI_IDLE_RIGHT 1700
+#define ID_ANI_MARIO_TANUKI_IDLE_LEFT 1702
+
+#define ID_ANI_MARIO_TANUKI_WALKING_RIGHT 1800
+#define ID_ANI_MARIO_TANUKI_WALKING_LEFT 1801
+
+#define ID_ANI_MARIO_TANUKI_RUNNING_RIGHT 1900
+#define ID_ANI_MARIO_TANUKI_RUNNING_LEFT 1901
+
+#define ID_ANI_MARIO_TANUKI_BRACE_RIGHT 2000
+#define ID_ANI_MARIO_TANUKI_BRACE_LEFT 2001
+
+#define ID_ANI_MARIO_TANUKI_JUMP_WALK_RIGHT 2100
+#define ID_ANI_MARIO_TANUKI_JUMP_WALK_LEFT 2101
+
+#define ID_ANI_MARIO_TANUKI_JUMP_RUN_RIGHT 2200
+#define ID_ANI_MARIO_TANUKI_JUMP_RUN_LEFT 2201
+
+#define ID_ANI_MARIO_TANUKI_SIT_RIGHT 2300
+#define ID_ANI_MARIO_TANUKI_SIT_LEFT 2301
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -126,7 +147,7 @@ class CMario : public CGameObject
 	void OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
-
+	int GetAniIdTanuki();
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -135,7 +156,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_BIG;
+		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
