@@ -89,9 +89,10 @@ Tanuki_Leaf.txt
 
 
 #Invisible block as barrier
-15	160	119
 
 
+15	496	146
+15	608	146
 #Portal
 
 #BRICK
@@ -122,8 +123,8 @@ Tanuki_Leaf.txt
 
 
 #Goomba
-#2	300	170
-#2	250	60
+2	300	170
+2	464	170
 
 #KOOPA
-#3	250	10
+3	550	140

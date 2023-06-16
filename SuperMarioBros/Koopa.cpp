@@ -63,7 +63,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
 	if (dynamic_cast<CBox*>(e->obj))
-		OnCollisionithMysteryBox(e);
+		OnCollisionWithMysteryBox(e);
 }
 
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
@@ -77,7 +77,7 @@ void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 
 void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 {
-	
+
 	CBox* box = dynamic_cast<CBox*>(e->obj);
 	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT))
 	{
@@ -85,7 +85,7 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 		/*if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
 		{
 
-			
+
 			box->SetState(BOX_STATE_USED);
 
 		}*/
@@ -95,6 +95,7 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 			box->SetState(BOX_STATE_USED);
 
 		}
+	}
 }
 
 
