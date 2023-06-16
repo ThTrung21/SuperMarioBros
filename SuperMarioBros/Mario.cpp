@@ -82,6 +82,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireBall(e);
 	else if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
+	else if (dynamic_cast<CWingGoomba*>(e->obj))
+		OnCollisionWithWingGoomba(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -282,9 +284,44 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 }
 
-void CMario::OnCollisionithWingGoomba(LPCOLLISIONEVENT e)
+void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 {
+	CWingGoomba* wgoomba = dynamic_cast<CWingGoomba*>(e->obj);
 
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+
+		if (wgoomba->GetState() == GOOMBA_STATE_WALKING)
+		{
+			wgoomba->SetState(GOOMBA_STATE_DIE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else if (wgoomba->GetState() != GOOMBA_STATE_WALKING)
+		{
+			wgoomba->SetState(GOOMBA_STATE_WALKING);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0)
+		{
+			if (wgoomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
 }
 
 //

@@ -145,7 +145,7 @@ class CMario : public CGameObject
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
 	void OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e);
-	void OnCollisionithWingGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanuki();
