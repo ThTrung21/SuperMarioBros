@@ -1,26 +1,27 @@
 #pragma once
 #include "GameObject.h"
 
-#define MUSHROOM_GRAVITY 0.002f
-#define MUSHROOM_SPEED 0.07f
+#define LEAF_GRAVITY 0.007f
+#define LEAF_SPEED 0.02f
 
-#define MUSHROOM_BBOX_WIDTH 16
-#define MUSHROOM_BBOX_HEIGHT 16
+#define LEAF_BBOX_WIDTH 16
+#define LEAF_BBOX_HEIGHT 16
 
-#define ID_ANI_MUSHROOM_RED 14000
+#define ID_ANI_LEAF_POPUP 19000
+#define ID_ANI_LEAF_FALL 19001
+
+#define LEAF_STATE_HIDDEN 100
+#define LEAF_STATE_SHOW 200
+#define LEAF_STATE_FALL 300
 
 
-#define MUSHROOM_STATE_HIDDEN 100
-#define MUSHROOM_STATE_SHOW 200
-#define MUSHROOM_STATE_MOVE 300
-
-#define MUSHROOM_MOVE_WAITTIME 500
-class CMushroom : public CGameObject
+class CTanukiLeaf : public CGameObject
 {
 protected:
 	float ay, ax;
+	float Y; //default y
 	ULONGLONG moveDelay;
-	ULONGLONG direction;
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -31,6 +32,6 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CMushroom(float x, float y);
+	CTanukiLeaf(float x, float y);
 	virtual void SetState(int state);
 };

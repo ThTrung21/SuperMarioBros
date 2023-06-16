@@ -14,6 +14,7 @@
 #include "FirePlant.h"
 #include "Koopa.h"
 #include "FireBall.h"
+#include "Tanuki_Leaf.h"
 
 #include "Collision.h"
 
@@ -79,6 +80,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CFireBall*>(e->obj))
 		OnCollisionWithFireBall(e);
+	else if (dynamic_cast<CTanukiLeaf*>(e->obj))
+		OnCollisionithTanukiLeaf(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -122,7 +125,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	CCoin* c = dynamic_cast<CCoin*>(e->obj);
 	if (!c->IsHidden())
 	{
-		//ea->obj->Delete();
+		e->obj->Delete();
 		coin++;
 	}
 	else if(e->ny>0)
@@ -164,7 +167,8 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
 	CMushroom* m = dynamic_cast<CMushroom*>(e->obj);
-	if (m->GetState() == MUSHROOM_STATE_HIDDEN) {
+	if (m->GetState() == MUSHROOM_STATE_HIDDEN && e->nx==0) 
+	{
 		m->SetState(MUSHROOM_STATE_SHOW);
 	}
 	else if (m->GetState() == MUSHROOM_STATE_SHOW || m->GetState() == MUSHROOM_STATE_MOVE) {
@@ -210,6 +214,21 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 			DebugOut(L">>> Mario DIE >>> \n");
 			SetState(MARIO_STATE_DIE);
 		}
+	}
+}
+
+void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
+{
+	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
+	if (leaf->GetState() == LEAF_STATE_HIDDEN && e->nx==0 )
+	{
+		leaf->SetState(LEAF_STATE_SHOW);
+	}
+	else if(leaf->GetState()== LEAF_STATE_SHOW || leaf->GetState()==LEAF_STATE_FALL)
+	if (level == MARIO_LEVEL_BIG)
+	{
+		level = MARIO_LEVEL_TANUKI;
+		e->obj->Delete();
 	}
 }
 

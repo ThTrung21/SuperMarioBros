@@ -16,8 +16,12 @@ height	240
 -100	textures\bbox.png
 0	textures\mario.png
 10	textures\enemies.png
+
 20	textures\misc.png
 21	textures\misc_flip.png
+22	textures\tanuki_leaf.png
+23	textures\tanuki_leaf_flip.png
+
 30	textures\world.png
 40	textures\world_2.png
 50	textures\enemies_2.png

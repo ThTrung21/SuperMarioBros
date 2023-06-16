@@ -18,7 +18,7 @@
 #include "Koopa.h"
 #include "FireBall.h"
 #include "Invis_block.h"
-
+#include "Tanuki_Leaf.h"
 
 
 #include "SampleKeyEventHandler.h"
