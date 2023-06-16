@@ -292,14 +292,15 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 	if (e->ny < 0)
 	{
 
-		if (wgoomba->GetState() == GOOMBA_STATE_WALKING)
+		if (wgoomba->GetState() != WGOOMBA_STATE_DIE && wgoomba->GetState() != WGOOMBA_STATE_JUMPING &&
+			wgoomba->GetState() != WGOOMBA_STATE_JUMPING_TIMEOUT)
 		{
-			wgoomba->SetState(GOOMBA_STATE_DIE);
+			wgoomba->SetState(WGOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
-		else if (wgoomba->GetState() != GOOMBA_STATE_WALKING)
+		else if (wgoomba->GetState() == WGOOMBA_STATE_JUMPING || wgoomba->GetState() != WGOOMBA_STATE_JUMPING_TIMEOUT)
 		{
-			wgoomba->SetState(GOOMBA_STATE_WALKING);
+			wgoomba->SetState(WGOOMBA_STATE_WALKING);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
@@ -307,7 +308,7 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 	{
 		if (untouchable == 0)
 		{
-			if (wgoomba->GetState() != GOOMBA_STATE_DIE)
+			if (wgoomba->GetState() != WGOOMBA_STATE_DIE)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
