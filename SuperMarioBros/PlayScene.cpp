@@ -221,7 +221,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		fireball = (CFireBall*)obj;
 
 		break;
-	
+	case OBJECT_TYPE_TANUKI_LEAF:
+		obj = new CTanukiLeaf(x, y);
+		break;
 	
 	case OBJECT_TYPE_PORTAL:
 	{

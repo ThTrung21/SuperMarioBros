@@ -59,8 +59,8 @@ Tanuki_Leaf.txt
 
 
 
-#COIN
-
+##########COIN############################
+#
 4	120	80	0
 4	140	80	0
 4	160	80	0
@@ -72,9 +72,11 @@ Tanuki_Leaf.txt
 4	224	87	1
 
 4	418	98	1
+#
+##########################################
 
 
-##FIREBALL
+##FIREBALL######################################
 13	360	116
 
 #fire plant
@@ -83,6 +85,8 @@ Tanuki_Leaf.txt
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
 11	352	146	3	110001	110002	110003	110004	0
+################################################
+
 
 #Invisible block as barrier
 15	160	119
@@ -101,7 +105,10 @@ Tanuki_Leaf.txt
 
 
 #RedMushroom
-8	240	87
+#8	240	87
+
+#tanuki leaf
+9	240	60	
 
 ###---MysteryBox---###
 #id	x	y	content

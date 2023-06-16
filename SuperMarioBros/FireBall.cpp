@@ -42,10 +42,7 @@ void CFireBall::Render()
 	if (state != FIREBALL_STATE_HIDDEN)
 	{
 		int aniID = ID_ANI_FIREBALL_LEFT;
-		/*if (state < FIREBALL_DIR_TOP_RIGHT)
-			aniID = ID_ANI_FIREBALL_LEFT;
-		else
-			aniID = ID_ANI_FIREBALL_RIGHT;*/
+		
 
 
 		CAnimations::GetInstance()->Get(aniID)->Render(x, y);

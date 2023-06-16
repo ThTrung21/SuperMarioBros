@@ -14,7 +14,7 @@
 #define LEAF_STATE_SHOW 200
 #define LEAF_STATE_FALL 300
 
-
+#define LEAF_FALL_CHANGE_SIDE_TIMEOUT 800
 class CTanukiLeaf : public CGameObject
 {
 protected:
