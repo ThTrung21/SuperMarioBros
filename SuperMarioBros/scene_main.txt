@@ -113,14 +113,14 @@ Tanuki_Leaf.txt
 
 ###---MysteryBox---###
 #id	x	y	content
-#content: 1-coin	2-mushroom	3-sth
+#content: 1-coin	2-powerup	3-sth
 7	176	135	1
 7	192	135	1
 7	224	87	1
 7	240	87	2
 
 7	416	98	1
-
+7	644	162	2
 
 #Goomba
 2	300	170

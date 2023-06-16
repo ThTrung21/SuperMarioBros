@@ -3,7 +3,7 @@
 
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
-#define KOOPA_SHELL_SPEED 0.2f
+#define KOOPA_SHELL_SPEED 0.3f
 
 #define KOOPA_SHELL_TIMEOUT 7000
 #define KOOPA_REVIVE_TIME 5000
@@ -31,10 +31,11 @@ protected:
 	float ay;
 	float default_y;
 	float pre_vx;
-	bool isOnPlatform;
-	float platform_y;
+
+	
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
+	ULONGLONG die_timeout;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -47,6 +48,7 @@ protected:
 
 	void OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e);
 	void OnCollisionWithMysteryBox(LPCOLLISIONEVENT e);
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);

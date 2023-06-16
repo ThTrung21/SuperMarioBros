@@ -3,6 +3,7 @@
 #include "Tanuki_Leaf.h"
 #include "MysteryBox.h"
 #include "Mario.h"
+
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -11,13 +12,14 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	shell_start = -1;
 	revive_start = -1;
 	pre_vx = 0;
+	die_timeout = -1;
 	SetState(KOOPA_STATE_WALKING);
 	
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == KOOPA_STATE_SHELL)
+	if (state != KOOPA_STATE_WALKING )
 	{
 		left = x - KOOPA_BBOX_WIDTH / 2;
 		top = y - SHELL_BBOX_HEIGHT / 2;
@@ -43,14 +45,13 @@ void CKoopa::OnNoCollision(DWORD dt)
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CKoopa*>(e->obj)) return;
-	if(dynamic_cast<CGoomba*>(e->obj)) return;
-	if (e->ny != 0 && e->obj->IsBlocking() && state ==KOOPA_STATE_WALKING)
-	{
-		vy = 0;
-		if (e->ny < 0) isOnPlatform = true;
-		platform_y = y;
-	}
+	//if (dynamic_cast<CKoopa*>(e->obj)) return;
+	//if(dynamic_cast<CGoomba*>(e->obj)) return;
+	//if (e->ny != 0 && e->obj->IsBlocking()) /*&&
+	//	(state ==KOOPA_STATE_WALKING || state==KOOPA_STATE_KICK_LEFT|| state == KOOPA_STATE_KICK_RIGHT))*/
+	//{
+	//	vy = 0;	
+	//}
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -64,6 +65,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionithTanukiLeaf(e);
 	if (dynamic_cast<CBox*>(e->obj))
 		OnCollisionWithMysteryBox(e);
+	if (dynamic_cast<CGoomba*>(e->obj))
+		OnCollisionWithGoomba(e);
 }
 
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
@@ -98,18 +101,26 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 	}
 }
 
+//need fixing
+void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+		
+		goomba->SetState(GOOMBA_STATE_DIE);
+}
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if (state == KOOPA_STATE_WALKING && isOnPlatform == false)
+	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > KOOPA_SHELL_TIMEOUT)
 	{
-		y = platform_y;
-		vx = -vx;
+		isDeleted = true;
+		return;
 	}
-	if ((state == KOOPA_STATE_SHELL) && (state != KOOPA_STATE_KICK_RIGHT)&& (GetTickCount64() - shell_start > KOOPA_SHELL_TIMEOUT))
+	if ((state == KOOPA_STATE_SHELL) &&  (GetTickCount64() - shell_start > KOOPA_SHELL_TIMEOUT))
 	{
 		SetState(KOOPA_STATE_REVIVE);
 		return;
@@ -152,17 +163,17 @@ void CKoopa::SetState(int state)
 	//shell
 	case KOOPA_STATE_SHELL:
 		shell_start = GetTickCount64();
-		default_y = y;
+		
 		y += (KOOPA_BBOX_HEIGHT - SHELL_BBOX_HEIGHT) / 2;
 		pre_vx = vx;
 		vx = 0;
-		vy = 0;
+		//vy = 0;
 		ay = 0;
 		break;
 
 	//walking
 	case KOOPA_STATE_WALKING:
-		y = default_y;
+		
 		if (pre_vx > 0)
 			vx = -KOOPA_WALKING_SPEED;
 		else if (pre_vx < 0)
@@ -177,10 +188,16 @@ void CKoopa::SetState(int state)
 		revive_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_KICK_RIGHT:
+		y += 8;
 		vx = KOOPA_SHELL_SPEED;
+		ay = KOOPA_GRAVITY;
+		die_timeout = GetTickCount64();
 		break;
 	case KOOPA_STATE_KICK_LEFT:
+		y += 8;
+		die_timeout = GetTickCount64();
 		vx = -KOOPA_SHELL_SPEED;
+		ay = KOOPA_GRAVITY;
 		break;
 	}
 }
