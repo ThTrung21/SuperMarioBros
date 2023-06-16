@@ -123,6 +123,7 @@ void CWingGoomba::Render()
 void CWingGoomba::SetState(int state)
 {
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	int mario_x = mario->GetX();
 	CGameObject::SetState(state);
 	switch (state)
 	{
@@ -137,7 +138,7 @@ void CWingGoomba::SetState(int state)
 		ay = 0;
 		break;
 	case WGOOMBA_STATE_WALKING:
-		int mario_x = mario->GetX();
+		
 		fly_timeout = GetTickCount64();
 
 		if (mario_x > x)

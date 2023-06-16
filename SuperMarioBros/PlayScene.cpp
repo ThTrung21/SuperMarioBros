@@ -19,7 +19,7 @@
 #include "FireBall.h"
 #include "Invis_block.h"
 #include "Tanuki_Leaf.h"
-
+#include "WingGoomba.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -224,7 +224,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TANUKI_LEAF:
 		obj = new CTanukiLeaf(x, y);
 		break;
-	
+	case OBJECT_TYPE_WINGGOOMBA:
+		obj = new CWingGoomba(x, y);
+
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

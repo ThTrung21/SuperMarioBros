@@ -16,6 +16,8 @@ FireBall.txt
 Koopa.txt
 Invis_block.txt
 Tanuki_Leaf.txt
+WingGoomba.txt
+
 
 #################################
 [OBJECTS]
@@ -144,6 +146,9 @@ Tanuki_Leaf.txt
 
 7	646	162	2
 7	694	130	1
+
+#Wing Goomba
+14	848	162
 
 
 #Goomba
