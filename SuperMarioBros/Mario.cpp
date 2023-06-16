@@ -220,12 +220,12 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
-	if (leaf->GetState() == LEAF_STATE_HIDDEN && e->ny!= 0)
+	if( leaf->GetState() == LEAF_STATE_HIDDEN && e->ny> 0  )	
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
 	else if(leaf->GetState()== LEAF_STATE_SHOW || leaf->GetState()==LEAF_STATE_FALL)
-	if (level != MARIO_LEVEL_TANUKI)
+	if (level == MARIO_LEVEL_BIG)
 	{
 		level = MARIO_LEVEL_BIG;
 		e->obj->Delete();

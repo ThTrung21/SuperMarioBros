@@ -42,9 +42,11 @@ protected:
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
-
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+
+	void OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e);
+	void OnCollisionWithMysteryBox(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);

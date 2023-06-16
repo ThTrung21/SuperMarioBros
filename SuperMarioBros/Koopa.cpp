@@ -1,6 +1,8 @@
  #include "Koopa.h"
 #include "Goomba.h"
-
+#include "Tanuki_Leaf.h"
+#include "MysteryBox.h"
+#include "Mario.h"
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -57,7 +59,45 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+
+	if (dynamic_cast<CTanukiLeaf*>(e->obj))
+		OnCollisionithTanukiLeaf(e);
+	if (dynamic_cast<CBox*>(e->obj))
+		OnCollisionithMysteryBox(e);
 }
+
+void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
+{
+	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
+	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && e->nx != 0 && leaf->GetState() == LEAF_STATE_HIDDEN)
+	{
+		leaf->SetState(LEAF_STATE_SHOW);
+	}
+}
+
+void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
+{
+	
+	CBox* box = dynamic_cast<CBox*>(e->obj);
+	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT))
+	{
+		//coin mystery box
+		/*if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
+		{
+
+			
+			box->SetState(BOX_STATE_USED);
+
+		}*/
+
+		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_MUSHROOM)
+		{
+			box->SetState(BOX_STATE_USED);
+
+		}
+}
+
+
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
