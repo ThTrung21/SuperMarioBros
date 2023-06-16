@@ -288,7 +288,7 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 {
 	CWingGoomba* wgoomba = dynamic_cast<CWingGoomba*>(e->obj);
 
-	// jump on top >> kill Goomba and deflect a bit 
+	// jump on top >> kill WingGoomba and deflect a bit 
 	if (e->ny < 0)
 	{
 

@@ -148,7 +148,7 @@ WingGoomba.txt
 7	694	130	1
 
 #Wing Goomba
-14	848	162
+14	848	130
 
 
 #Goomba

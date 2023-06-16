@@ -94,7 +94,7 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		flag = 1;
 	}
 	
-	if(state == WGOOMBA_STATE_WALKING)
+	
 		if (state == WGOOMBA_STATE_JUMPING && (GetTickCount64() - fly_time > WGOOMBA_JUMP_TIME)) {
 			SetState(WGOOMBA_STATE_JUMPING_TIMEOUT);
 		}
@@ -108,13 +108,13 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CWingGoomba::Render()
 {
-	int aniId = ID_ANI_WGOOMBA_WALKING;
+	int aniId = ID_ANI_WGOOMBA_JUMPING;
 	if (state == WGOOMBA_STATE_DIE)
 	{
 		aniId = ID_ANI_WGOOMBA_DIE;
 	}
-	else if (state == WGOOMBA_STATE_JUMPING)
-		aniId == ID_ANI_WGOOMBA_JUMPING;
+	else if (state == WGOOMBA_STATE_WALKING)
+		aniId == ID_ANI_WGOOMBA_WALKING;
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -143,20 +143,27 @@ void CWingGoomba::SetState(int state)
 
 		if (mario_x > x)
 			vx = WGOOMBA_WALKING_SPEED;
-		else if (mario_x < y)
+		else if (mario_x < x)
 			vx = -WGOOMBA_WALKING_SPEED;
 
 		ay = WGOOMBA_GRAVITY;
 		break;
 	case WGOOMBA_STATE_JUMPING:
-		vy = -WGOOMBA_JUMP_SPEED;
+		ay = -WGOOMBA_JUMP_SPEED;
 		fly_time = GetTickCount64();
-		break;
-	case WGOOMBA_STATE_JUMPING_TIMEOUT:
-		if (vy < 0) vy += WGOOMBA_JUMP_SPEED / 2;
 		if (mario_x > x)
 			vx = WGOOMBA_WALKING_SPEED;
-		else if (mario_x < y)
+		else if (mario_x < x)
+			vx = -WGOOMBA_WALKING_SPEED;
+		break;
+	case WGOOMBA_STATE_JUMPING_TIMEOUT:
+		if (vy < 0)
+			ay = WGOOMBA_JUMP_SPEED;
+		else
+			ay = WGOOMBA_GRAVITY;
+		if (mario_x > x)
+			vx = WGOOMBA_WALKING_SPEED;
+		else if (mario_x < x)
 			vx = -WGOOMBA_WALKING_SPEED;
 		fly_timeout = GetTickCount64();
 		break;
