@@ -46,7 +46,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		
 		if (GetTickCount64() - stop_start > PLANT_STOP_TIMEOUT) 
 		{
-			DebugOut(L"[INFO] STOP TIMEOUT OVER!\n");
+			
 			SetState(PLANT_STATE_AWAKE);
 		}
 		
@@ -192,7 +192,7 @@ void CFirePlant::SetState(int state)
 	{
 	case PLANT_STATE_STOP: 
 	{
-		DebugOut(L"STATE STOP\n");
+		
 		if (y <= TopPos)
 			isShooting = true;
 
@@ -203,7 +203,7 @@ void CFirePlant::SetState(int state)
 	}
 	case PLANT_STATE_AWAKE:
 	{
-		DebugOut(L"STATE WAKE now\n");
+		
 		isShooting = false;
 
 		//if (prev_vy != 0)
@@ -222,7 +222,7 @@ void CFirePlant::SetState(int state)
 		break;
 	}
 	case PLANT_STATE_SLEEP:
-		DebugOut(L"STATE SLEEPzzzzzzzzzzzz\n");
+		
 		isShooting = false;
 		vy = 0;
 		y = BotPos;
