@@ -4,28 +4,35 @@
 
 #define WGOOMBA_GRAVITY 0.002f
 #define WGOOMBA_WALKING_SPEED 0.05f
-
+#define WGOOMBA_JUMP_SPEED 0.08f
 
 #define WGOOMBA_BBOX_WIDTH 16
 #define WGOOMBA_BBOX_HEIGHT 14
 #define WGOOMBA_BBOX_HEIGHT_DIE 7
 
 #define WGOOMBA_DIE_TIMEOUT 500
+#define WGOOMBA_JUMP_WAIT	1000
+#define WGOOMBA_JUMP_TIME	300
+#define WGOOMBA_STATE_IDLE	10
 
 #define WGOOMBA_STATE_WALKING 100
 #define WGOOMBA_STATE_DIE 200
+#define WGOOMBA_STATE_JUMPING 300
+#define WGOOMBA_STATE_JUMPING_TIMEOUT 400
 
 #define ID_ANI_WGOOMBA_WALKING 5000
 #define ID_ANI_WGOOMBA_DIE 5001
-
+#define ID_ANI_WGOOMBA_JUMPING 5002
 class CWingGoomba : public CGameObject
 {
 protected:
 	float ax;
 	float ay;
-
+		
+	int flag;
 	ULONGLONG die_start;
-
+	ULONGLONG fly_time;
+	ULONGLONG fly_timeout;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -33,7 +40,7 @@ protected:
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
-
+	bool MarioDetection(int x);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 public:

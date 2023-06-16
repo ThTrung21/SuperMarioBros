@@ -15,7 +15,7 @@
 #include "Koopa.h"
 #include "FireBall.h"
 #include "Tanuki_Leaf.h"
-
+#include "WingGoomba.h"
 #include "Collision.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -282,6 +282,10 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionithWingGoomba(LPCOLLISIONEVENT e)
+{
+
+}
 
 //
 // Get animation ID for small Mario

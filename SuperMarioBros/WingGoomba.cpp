@@ -1,13 +1,24 @@
 #include "WingGoomba.h"
 #include "Koopa.h"
-
-
+#include "Mario.h"
+#include "PlayScene.h"
 CWingGoomba::CWingGoomba(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = WGOOMBA_GRAVITY;
 	die_start = -1;
-	SetState(WGOOMBA_STATE_WALKING);
+	flag = 0;
+	fly_time = -1;
+	fly_timeout = -1;
+	SetState(WGOOMBA_STATE_IDLE);
+}
+
+bool CWingGoomba::MarioDetection(int mario_x)
+{
+	int xx = mario_x - (int)x;
+	if (abs(xx) < 300)
+		return 1;
+	return 0;
 }
 
 void CWingGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -58,17 +69,38 @@ void CWingGoomba::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		&& (e->nx != 0))
 		SetState(WGOOMBA_STATE_DIE);
 }
+
 void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+
+	
 
 	if ((state == WGOOMBA_STATE_DIE) && (GetTickCount64() - die_start > WGOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
 	}
+	
 
+
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	int mario_x;
+	mario_x = mario->GetX();
+	if (MarioDetection(mario_x) && flag == 0)
+	{
+		SetState(WGOOMBA_STATE_JUMPING_TIMEOUT);
+		flag = 1;
+	}
+	
+	if(state == WGOOMBA_STATE_WALKING)
+		if (state == WGOOMBA_STATE_JUMPING && (GetTickCount64() - fly_time > WGOOMBA_JUMP_TIME)) {
+			SetState(WGOOMBA_STATE_JUMPING_TIMEOUT);
+		}
+		else if (state == WGOOMBA_STATE_JUMPING_TIMEOUT && (GetTickCount64() - fly_timeout > WGOOMBA_JUMP_WAIT)) {
+			SetState(WGOOMBA_STATE_JUMPING);
+		}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -81,6 +113,8 @@ void CWingGoomba::Render()
 	{
 		aniId = ID_ANI_WGOOMBA_DIE;
 	}
+	else if (state == WGOOMBA_STATE_JUMPING)
+		aniId == ID_ANI_WGOOMBA_JUMPING;
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -88,9 +122,13 @@ void CWingGoomba::Render()
 
 void CWingGoomba::SetState(int state)
 {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CGameObject::SetState(state);
 	switch (state)
 	{
+	case WGOOMBA_STATE_IDLE:
+		vx = 0;
+		break;
 	case WGOOMBA_STATE_DIE:
 		die_start = GetTickCount64();
 		y += (WGOOMBA_BBOX_HEIGHT - WGOOMBA_BBOX_HEIGHT_DIE) / 2;
@@ -99,7 +137,27 @@ void CWingGoomba::SetState(int state)
 		ay = 0;
 		break;
 	case WGOOMBA_STATE_WALKING:
-		vx = -WGOOMBA_WALKING_SPEED;
+		int mario_x = mario->GetX();
+		fly_timeout = GetTickCount64();
+
+		if (mario_x > x)
+			vx = WGOOMBA_WALKING_SPEED;
+		else if (mario_x < y)
+			vx = -WGOOMBA_WALKING_SPEED;
+
+		ay = WGOOMBA_GRAVITY;
+		break;
+	case WGOOMBA_STATE_JUMPING:
+		vy = -WGOOMBA_JUMP_SPEED;
+		fly_time = GetTickCount64();
+		break;
+	case WGOOMBA_STATE_JUMPING_TIMEOUT:
+		if (vy < 0) vy += WGOOMBA_JUMP_SPEED / 2;
+		if (mario_x > x)
+			vx = WGOOMBA_WALKING_SPEED;
+		else if (mario_x < y)
+			vx = -WGOOMBA_WALKING_SPEED;
+		fly_timeout = GetTickCount64();
 		break;
 	}
 }
