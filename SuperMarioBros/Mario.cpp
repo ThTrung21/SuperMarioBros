@@ -169,7 +169,7 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
 	CMushroom* m = dynamic_cast<CMushroom*>(e->obj);
-	if (m->GetState() == MUSHROOM_STATE_HIDDEN && e->nx==0) 
+	if (m->GetState() == MUSHROOM_STATE_HIDDEN && e->ny>0) 
 	{
 		m->SetState(MUSHROOM_STATE_SHOW);
 	}
@@ -298,7 +298,7 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 			wgoomba->SetState(WGOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
-		else if (wgoomba->GetState() == WGOOMBA_STATE_JUMPING || wgoomba->GetState() != WGOOMBA_STATE_JUMPING_TIMEOUT)
+		else
 		{
 			wgoomba->SetState(WGOOMBA_STATE_WALKING);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;

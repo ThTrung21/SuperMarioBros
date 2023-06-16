@@ -2,6 +2,8 @@
 #include "Koopa.h"
 #include "Mario.h"
 #include "PlayScene.h"
+
+#include"debug.h"
 CWingGoomba::CWingGoomba(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -108,13 +110,18 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CWingGoomba::Render()
 {
-	int aniId = ID_ANI_WGOOMBA_JUMPING;
+	int aniId = ID_ANI_WGOOMBA_JUMPING;;
+
 	if (state == WGOOMBA_STATE_DIE)
 	{
 		aniId = ID_ANI_WGOOMBA_DIE;
 	}
 	else if (state == WGOOMBA_STATE_WALKING)
+	{
+		DebugOut(L"[INFO] GOT IT!!!\n");
 		aniId == ID_ANI_WGOOMBA_WALKING;
+	}
+	
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -137,9 +144,10 @@ void CWingGoomba::SetState(int state)
 		vy = 0;
 		ay = 0;
 		break;
+
 	case WGOOMBA_STATE_WALKING:
 		
-		fly_timeout = GetTickCount64();
+		y -= 4;
 
 		if (mario_x > x)
 			vx = WGOOMBA_WALKING_SPEED;
@@ -148,6 +156,7 @@ void CWingGoomba::SetState(int state)
 
 		ay = WGOOMBA_GRAVITY;
 		break;
+		
 	case WGOOMBA_STATE_JUMPING:
 		ay = -WGOOMBA_JUMP_SPEED;
 		fly_time = GetTickCount64();
@@ -156,6 +165,7 @@ void CWingGoomba::SetState(int state)
 		else if (mario_x < x)
 			vx = -WGOOMBA_WALKING_SPEED;
 		break;
+
 	case WGOOMBA_STATE_JUMPING_TIMEOUT:
 		if (vy < 0)
 			ay = WGOOMBA_JUMP_SPEED;
