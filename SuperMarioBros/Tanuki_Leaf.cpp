@@ -1,5 +1,5 @@
 #include "Tanuki_Leaf.h"
-
+#include "debug.h"
 void CTanukiLeaf::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x - LEAF_BBOX_WIDTH / 2;
@@ -11,16 +11,17 @@ void CTanukiLeaf::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CTanukiLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
-	
+	//vx += ax * dt;
 
-	if (y > Y - 48)
+	if (GetTickCount64() - stateDelay > LEAF_STATE_DELAY && state == LEAF_STATE_SHOW)
 		SetState(LEAF_STATE_FALL);
+
 	if (y > 300)
 	{
 		isDeleted = true;
 		return;
 	}
-	if (GetTickCount64() - moveDelay > LEAF_FALL_CHANGE_SIDE_TIMEOUT)
+	if (GetTickCount64() - moveDelay > LEAF_FALL_CHANGE_SIDE_TIMEOUT && state == LEAF_STATE_FALL)
 	{
 		vx = -vx;
 		moveDelay = GetTickCount64();
@@ -54,7 +55,7 @@ void CTanukiLeaf::OnNoCollision(DWORD dt)
 
 void CTanukiLeaf::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-
+	
 }
 
 CTanukiLeaf::CTanukiLeaf(float x, float y): CGameObject(x,y)
@@ -63,6 +64,7 @@ CTanukiLeaf::CTanukiLeaf(float x, float y): CGameObject(x,y)
 	this->ay = 0;
 	this->Y = y;
 	this->moveDelay = -1;
+	this->stateDelay = -1;
 	SetState(LEAF_STATE_HIDDEN);
 }
 
@@ -71,17 +73,31 @@ void CTanukiLeaf::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
+	case LEAF_STATE_HIDDEN:
+	{vy = 0;
+	ay = 0;
+	vx = 0;
+
+	break;
+	}
+
 	case LEAF_STATE_SHOW:
+	{
 		vy = -LEAF_SPEED;
+		vx = 0;
+		stateDelay = GetTickCount64();
+		DebugOut(L"[info] state show\n");
 		break;
+	}
 	case LEAF_STATE_FALL:
+	{
 		vy = 0;
 		ay = LEAF_GRAVITY;
-		vx = LEAF_SPEED;
+		ax = LEAF_SPEED;
+		DebugOut(L"[info] state fall\n");
 		moveDelay = GetTickCount64();
 		break;
-		
-	default:
-		break;
+	}
+
 	}
 }

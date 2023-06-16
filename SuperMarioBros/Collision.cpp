@@ -217,6 +217,11 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		{
 			continue;
 		}
+		//tanuki leaf
+		if (filterBlock == 1 && c->src_obj->IsLeaf() && !c->obj->IsMario())
+		{
+			continue;
+		}
 
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;

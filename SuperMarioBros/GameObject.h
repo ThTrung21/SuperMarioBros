@@ -71,6 +71,7 @@ public:
 
 	virtual bool IsInvisBlock() { return 0; }
 	virtual bool IsKoopa() { return 0; }
+	virtual bool IsLeaf() { return 0; }
 	bool GetIsColorBox() { return isColorBox; }
 
 	~CGameObject();
