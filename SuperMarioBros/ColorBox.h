@@ -23,6 +23,6 @@ public:
 	int IsBlocking() { return 1; }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void RenderBoundingBox();
-	
+	bool IsColorBox() { return 1; }
 };
 

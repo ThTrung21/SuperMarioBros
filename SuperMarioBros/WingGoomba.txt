@@ -18,8 +18,10 @@
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
-#no wing
+
+#walking
 20003	130005	100	130006	100
+
 #with wing
 20002	130001	100	130004	100	130002	100	130003	100
 

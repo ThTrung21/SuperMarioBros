@@ -28,7 +28,7 @@ protected:
 
 	int state;
 	
-	bool isColorBox = 0;
+	
 	bool isDeleted; 
 
 public: 
@@ -68,12 +68,12 @@ public:
 	virtual int IsBlocking() { return 1; }
 
 	virtual bool IsMario() { return 0; }
-
+	virtual bool IsColorBox() { return 0; }
 	virtual bool IsInvisBlock() { return 0; }
 	virtual bool IsGoomba() { return 0; }
 	virtual bool IsKoopa() { return 0; }
 	virtual bool IsLeaf() { return 0; }
-	bool GetIsColorBox() { return isColorBox; }
+	
 
 	~CGameObject();
 

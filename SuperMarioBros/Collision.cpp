@@ -205,38 +205,38 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		}
 		// special collision event with colorbox objects.
 		// collide with colorbox on X axis only
-		if (filterX == 1 && c->obj->GetIsColorBox() &&  c->t < min_tx && c->nx != 0)
+		if (filterX == 1 && c->obj->IsColorBox() &&  c->t < min_tx && c->nx != 0)
 		{
 			continue;
 		}
-		if (filterY == 1 && c->obj->GetIsColorBox() &&  c->t < min_ty && c->ny >0)
+		if (filterY == 1 && c->obj->IsColorBox() &&  c->t < min_ty && c->ny >0)
 		{
 			continue;
 		}
 		// invisible barrier for koopas and goomba
-		if (filterBlock == 1 && c->obj->IsInvisBlock() && !c->src_obj->IsKoopa() && !c->src_obj->IsGoomba())
-			continue;
+		/*if (filterBlock == 1 && c->obj->IsInvisBlock() && !c->src_obj->IsKoopa() && !c->src_obj->IsGoomba())
+			continue;*/
 
 		//bypass barrier for koopa kick state
-		if (filterBlock == 1 && c->obj->IsInvisBlock() &&  c->src_obj->IsKoopa() &&
+		/*if (filterBlock == 1 && c->obj->IsInvisBlock() &&  c->src_obj->IsKoopa() &&
 			(c->src_obj->GetState() == KOOPA_STATE_KICK_LEFT|| c->src_obj->GetState() == KOOPA_STATE_KICK_RIGHT)  )
 		{
 			continue;
-		}
+		}*/
 
 		// [OLD] invisible barrier for goomba
 		/*if (filterBlock == 1 && c->obj->IsInvisBlock() && !c->src_obj->IsGoomba())
 			continue;*/
 
 		//tanuki leaf
-		if (filterBlock == 1 && c->obj->IsLeaf() && c->obj->GetState()== LEAF_STATE_FALL  && !c->src_obj->IsMario() && !c->src_obj->IsKoopa())
-			continue;
+		//if (filterBlock == 1 && c->obj->IsLeaf() && c->obj->GetState()== LEAF_STATE_FALL  && !c->src_obj->IsMario() && !c->src_obj->IsKoopa())
+		//	continue;
 
-		if (filterBlock ==1 && c->obj->IsLeaf() && c->src_obj->IsKoopa() && c->obj->GetState() == KOOPA_STATE_WALKING)
-			/*c->src_obj->GetState() != KOOPA_STATE_KICK_LEFT && c->src_obj->GetState() != KOOPA_STATE_KICK_RIGHT)*/
-		{
-			continue;
-		}
+		//if (filterBlock ==1 && c->obj->IsLeaf() && c->src_obj->IsKoopa() && c->obj->GetState() == KOOPA_STATE_WALKING)
+		//	/*c->src_obj->GetState() != KOOPA_STATE_KICK_LEFT && c->src_obj->GetState() != KOOPA_STATE_KICK_RIGHT)*/
+		//{
+		//	continue;
+		//}
 
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;

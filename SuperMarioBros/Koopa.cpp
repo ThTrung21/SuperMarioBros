@@ -3,6 +3,7 @@
 #include "Tanuki_Leaf.h"
 #include "MysteryBox.h"
 #include "Mario.h"
+#include "debug.h"
 
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -45,7 +46,9 @@ void CKoopa::OnNoCollision(DWORD dt)
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CGoomba*>(e->obj) && state == KOOPA_STATE_WALKING) return;
+	if (e->obj->IsInvisBlock() && state !=KOOPA_STATE_WALKING /*(state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)*/)
+		return;
+	//if (dynamic_cast<CGoomba*>(e->obj) && state == KOOPA_STATE_WALKING) return;
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -100,7 +103,10 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	{
 		goomba->SetState(GOOMBA_STATE_DIE);
+		DebugOut(L"Shell HIT GOOMBA");
+	}
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

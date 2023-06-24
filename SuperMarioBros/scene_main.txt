@@ -98,10 +98,10 @@ WingGoomba.txt
 
 
 ##FIREBALL######################################
-13	360	116
+#13	360	116
 
 #fire plant
-12	360	140
+#12	360	140
 
 #PIPE
 #id	x	y	height	TL	TR	BL	BR	accessibility (1 yes, 2 no)
@@ -110,7 +110,6 @@ WingGoomba.txt
 
 
 #Invisible block as barrier
-
 
 15	496	146
 15	608	146

@@ -17,6 +17,8 @@
 #include "Tanuki_Leaf.h"
 #include "WingGoomba.h"
 #include "Collision.h"
+#include "ColorBox.h"
+#include "debug.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -53,15 +55,45 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0 && e->obj->IsBlocking()  )
+	//color box
+	if (e->obj->IsColorBox())
 	{
-		vy = 0;
-		if (e->ny < 0) isOnPlatform = true;
+		if (e->nx != 0 && e->obj->IsColorBox())
+		{
+			
+			DebugOut(L"Hit colorbox wall\n");
+			
+			
+
+		}
+		else
+			if (e->ny > 0 && e->obj->IsColorBox())
+			{
+
+				
+			}
+			else
+				if (e->ny < 0 && e->obj->IsBlocking() && e->obj->IsColorBox())
+				{
+					vy = 0;
+					/*if (e->ny < 0)*/ isOnPlatform = true;
+
+				}
 	}
-	else 
-	if (e->nx != 0 && e->obj->IsBlocking()  )
+	else
 	{
-		vx = 0;
+		if (e->ny != 0 && e->obj->IsBlocking())
+		{
+			vy = 0;
+			if (e->ny < 0) isOnPlatform = true;
+		}
+
+		else
+			if (e->nx != 0 && e->obj->IsBlocking())
+			{
+				DebugOut(L"You shall not pass\n");
+				vx = 0;
+			}
 	}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
@@ -84,7 +116,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionithTanukiLeaf(e);
 	else if (dynamic_cast<CWingGoomba*>(e->obj))
 		OnCollisionWithWingGoomba(e);
+	/*else if (dynamic_cast<CColorBox*>(e->obj))
+		OnCollisionWithColorBox(e);*/
 }
+
+
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
@@ -298,7 +334,8 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 			wgoomba->SetState(WGOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
-		else
+		else if(wgoomba->GetState() == WGOOMBA_STATE_JUMPING ||
+			wgoomba->GetState() == WGOOMBA_STATE_JUMPING_TIMEOUT)
 		{
 			wgoomba->SetState(WGOOMBA_STATE_WALKING);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -323,6 +360,12 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+}
+
+void CMario::OnCollisionWithColorBox(LPCOLLISIONEVENT e)
+{
+	
+	
 }
 
 //

@@ -32,6 +32,13 @@ void CWingGoomba::GetBoundingBox(float& left, float& top, float& right, float& b
 		right = left + WGOOMBA_BBOX_WIDTH;
 		bottom = top + WGOOMBA_BBOX_HEIGHT_DIE;
 	}
+	else if (state == WGOOMBA_STATE_WALKING)
+	{
+		left= x - WGOOMBA_BBOX_WIDTH / 2;
+		top = (y - WGOOMBA_BBOX_HEIGHT_WALKING / 2)+2;
+		right = left + WGOOMBA_BBOX_WIDTH;
+		bottom = top + WGOOMBA_BBOX_HEIGHT_WALKING;
+	}
 	else
 	{
 		left = x - WGOOMBA_BBOX_WIDTH / 2;
@@ -114,12 +121,13 @@ void CWingGoomba::Render()
 
 	if (state == WGOOMBA_STATE_DIE)
 	{
+		
 		aniId = ID_ANI_WGOOMBA_DIE;
 	}
 	else if (state == WGOOMBA_STATE_WALKING)
 	{
-		DebugOut(L"[INFO] GOT IT!!!\n");
-		aniId == ID_ANI_WGOOMBA_WALKING;
+		DebugOut(L"[INFO] WGoomba \n");
+		aniId = ID_ANI_WGOOMBA_WALKING;
 	}
 	
 
@@ -139,7 +147,7 @@ void CWingGoomba::SetState(int state)
 		break;
 	case WGOOMBA_STATE_DIE:
 		die_start = GetTickCount64();
-		y += (WGOOMBA_BBOX_HEIGHT - WGOOMBA_BBOX_HEIGHT_DIE) / 2;
+		y += (WGOOMBA_BBOX_HEIGHT_WALKING - WGOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
@@ -147,8 +155,8 @@ void CWingGoomba::SetState(int state)
 
 	case WGOOMBA_STATE_WALKING:
 		
-		y -= 4;
-
+		//y += (WGOOMBA_BBOX_HEIGHT - WGOOMBA_BBOX_HEIGHT_WALKING) ;
+		y += 2;
 		if (mario_x > x)
 			vx = WGOOMBA_WALKING_SPEED;
 		else if (mario_x < x)

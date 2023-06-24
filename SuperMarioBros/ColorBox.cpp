@@ -29,7 +29,7 @@ CColorBox::CColorBox(float x, float y,
 	this->spriteIDBotMid= spriteID_BotMid;
 	this->spriteIDBotRight = spriteID_BotRight;
 
-	isColorBox = 1;
+	
 
 }
 
