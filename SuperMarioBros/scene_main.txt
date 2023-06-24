@@ -85,6 +85,14 @@ WingGoomba.txt
 4	1156	34	0
 #4	180	2	0
 
+#tanuki leaf
+#9	644	160	
+9	240	87
+
+
+
+
+
 #coin inside mystery box
 4	177	135	1
 4	193	135	1
@@ -120,6 +128,8 @@ WingGoomba.txt
 #BRICK
 #1	256	160
 
+
+
 #Platform#########################
 #
 5 	5	194	16	15	39	61000	62000	63000
@@ -133,10 +143,9 @@ WingGoomba.txt
 
 
 #RedMushroom
-8	240	87
+#8	240	87
 
-#tanuki leaf
-#9	644	160	
+
 
 ###---MysteryBox---###
 #id	x	y	content
@@ -144,7 +153,7 @@ WingGoomba.txt
 7	176	135	1
 7	192	135	1
 7	224	87	1
-7	240	87	2
+#7	240	87	2
 
 7	416	98	1
 

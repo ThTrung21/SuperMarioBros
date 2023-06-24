@@ -264,7 +264,7 @@ void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
 	else if(leaf->GetState()== LEAF_STATE_SHOW || leaf->GetState()==LEAF_STATE_FALL)
-	if (level == MARIO_LEVEL_BIG)
+	if (level != MARIO_LEVEL_BIG)
 	{
 		level = MARIO_LEVEL_BIG;
 		e->obj->Delete();

@@ -26,11 +26,12 @@
 #define FIREBALL_DIR_BOT_RIGHT 8
 
 //different vy,vx for different direction
-#define FIREBALL_SPEED_X_FAST 0.05f
-#define FIREBALL_SPEED_X_SLOW 0.03f
+#define FIREBALL_SPEED_X_FAST 0.07f
+#define FIREBALL_SPEED_X_SLOW 0.05f
+ 
 
 #define FIREBALL_SPEED_Y_FAST 0.05f
-#define FIREBALL_SPEED_Y_SLOW 0.03f
+#define FIREBALL_SPEED_Y_SLOW 0.02f
 
 class CFireBall : public CGameObject
 {
