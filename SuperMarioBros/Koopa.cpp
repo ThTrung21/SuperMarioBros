@@ -45,15 +45,17 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (e->obj->IsInvisBlock() && state !=KOOPA_STATE_WALKING /*(state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)*/)
-		return;
+	if (!e->obj->IsBlocking() &&! e->obj->IsGoomba()) return;
+	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
+	
+	//if (e->obj->IsInvisBlock())// && state !=KOOPA_STATE_WALKING /*(state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)*/)
+		//return;
 	//if (dynamic_cast<CGoomba*>(e->obj) && state == KOOPA_STATE_WALKING) return;
 	if (e->ny != 0)
 	{
 		vy = 0;
 	}
-	else if (e->nx != 0)
+	else if (e->nx != 0 && !e->obj->IsGoomba())
 	{
 		vx = -vx;
 	}
@@ -62,7 +64,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionithTanukiLeaf(e);
 	else if (dynamic_cast<CBox*>(e->obj))
 		OnCollisionWithMysteryBox(e);
-	if (dynamic_cast<CGoomba*>(e->obj))
+	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 }
 
@@ -101,7 +103,10 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 //need fixing
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
+	
+	DebugOut(L"Shell HIT GOOMBA\n");
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (goomba->GetState() == GOOMBA_STATE_DIE) return;
 	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		goomba->SetState(GOOMBA_STATE_DIE);

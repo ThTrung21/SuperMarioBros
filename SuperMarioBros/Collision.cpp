@@ -218,11 +218,11 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 			continue;*/
 
 		//bypass barrier for koopa kick state
-		/*if (filterBlock == 1 && c->obj->IsInvisBlock() &&  c->src_obj->IsKoopa() &&
+		if (filterBlock == 1 && c->obj->IsInvisBlock() &&  c->src_obj->IsKoopa() &&
 			(c->src_obj->GetState() == KOOPA_STATE_KICK_LEFT|| c->src_obj->GetState() == KOOPA_STATE_KICK_RIGHT)  )
 		{
 			continue;
-		}*/
+		}
 
 		// [OLD] invisible barrier for goomba
 		/*if (filterBlock == 1 && c->obj->IsInvisBlock() && !c->src_obj->IsGoomba())
