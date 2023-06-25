@@ -137,6 +137,7 @@ void CWingGoomba::Render()
 
 void CWingGoomba::SetState(int state)
 {
+	//if (state == WGOOMBA_STATE_DIE) return;
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	int mario_x = mario->GetX();
 	CGameObject::SetState(state);

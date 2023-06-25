@@ -17,7 +17,7 @@ Koopa.txt
 Invis_block.txt
 Tanuki_Leaf.txt
 WingGoomba.txt
-
+CloudBlock.txt
 
 #################################
 [OBJECTS]
@@ -89,7 +89,8 @@ WingGoomba.txt
 #9	644	160	
 9	240	87
 
-
+#Cloud BLOCK
+16	200	100
 
 
 
