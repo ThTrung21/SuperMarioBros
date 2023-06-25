@@ -21,7 +21,7 @@
 #include "Tanuki_Leaf.h"
 #include "WingGoomba.h"
 #include "CloudBlock.h"
-
+#include "Shadow.h"
 
 
 #include "SampleKeyEventHandler.h"
@@ -189,6 +189,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_midleft, sprite_center, sprite_midright,
 			sprite_botleft, sprite_botmid, sprite_botright);
 
+		break;
+	}
+	case OBJECT_TYPE_SHADOW:
+	{
+		int height = atoi(tokens[3].c_str());
+		int sprite_top = atoi(tokens[4].c_str());
+		int sprite_body = atoi(tokens[5].c_str());
+		obj = new CShadow(x, y, height, sprite_top, sprite_body);
 		break;
 	}
 	case OBJECT_TYPE_DECOR:

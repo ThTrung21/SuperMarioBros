@@ -111,7 +111,7 @@ void CColorBox::Render()
 	//Bot Right
 	s->Get(this->spriteIDBotRight)->Draw(xx, yy);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 void CColorBox::RenderBoundingBox()
 {

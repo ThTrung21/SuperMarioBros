@@ -159,6 +159,7 @@
     <ClInclude Include="RedMushroom.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Shadow.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Tanuki_Leaf.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="RedMushroom.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Tanuki_Leaf.cpp" />
