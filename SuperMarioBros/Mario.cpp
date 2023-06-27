@@ -194,16 +194,14 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 		{
 			
 			coin++;
-			box->SetState(BOX_STATE_USED);
+			box->SetState(BOX_STATE_BOUNCE);
 			
 		}
 		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_MUSHROOM)
 		{
-			box->SetState(BOX_STATE_USED);
+			box->SetState(BOX_STATE_BOUNCE);
 			
 		}
-
-
 
 	}
 }
@@ -656,12 +654,12 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_IDLE:
-		DebugOut(L"[INFO] idle TIME\n");
+		//DebugOut(L"[INFO] idle TIME\n");
 		ax = 0.0f;
 		vx = 0.0f;
 		break;
 	case MARIO_STATE_SLAP:
-		DebugOut(L"[INFO] SLAP TIME\n");
+		//DebugOut(L"[INFO] SLAP TIME\n");
 		slap_time = GetTickCount64();
 		break;
 	case MARIO_STATE_DIE:

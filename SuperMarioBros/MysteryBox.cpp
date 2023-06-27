@@ -1,5 +1,5 @@
 #include "MysteryBox.h"
-
+#include"debug.h"
 void CBox::Render()
 {
 	int aniID = ID_ANI_BOX;
@@ -15,6 +15,24 @@ CBox::CBox(float x, float y,int content):CGameObject(x, y)
 {
 	state = ID_ANI_BOX;
 	icontent = content;
+	this->max_y = y - 12;
+	this->Y = y;
+	vy = 0;
+}
+void CBox::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case BOX_STATE_BOUNCE:
+		vy = -BOX_BOUNCE_SPEED;
+		DebugOut(L"\nbounce begin\n");
+		break;
+	case BOX_STATE_USED:
+		DebugOut(L"\nbounce end\n");
+
+		break;
+	}
 }
 void CBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -28,10 +46,25 @@ int CBox::GetContent()
 {
 	return icontent	;
 }
-//void CBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-//{
-//		//CGameObject::Update(dt, coObjects);
-//		//CCollision::GetInstance()->Process(this, dt, coObjects);	
-//}
+void CBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	y += vy * dt;
+
+	if (y <= max_y)
+	{
+		vy = BOX_BOUNCE_SPEED;
+		
+	}
+	if (y >= Y && state==BOX_STATE_BOUNCE)
+	{
+		vy = 0;
+		y = Y;
+		SetState(BOX_STATE_USED);
+	}
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+
+;
 
 
