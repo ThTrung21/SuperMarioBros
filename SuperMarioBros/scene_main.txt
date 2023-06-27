@@ -127,8 +127,8 @@ Shadow.txt
 
 #Invisible block as barrier
 
-#15	496	146
-#15	608	146
+15	496	146
+15	608	146
 
 15	1092	162
 #Portal
@@ -173,13 +173,14 @@ Shadow.txt
 
 
 #Goomba
-2	300	170
+2	330	170
 2	464	170
 
 2	800	162
 2	768	162
 
 #KOOPA
-#	x	y	type	maxLeft	maxRight
+#	x	y	type
 #type: 1-red	2-green
-3	550	140	1	510	594
+3	550	140	1
+3	120	120	2

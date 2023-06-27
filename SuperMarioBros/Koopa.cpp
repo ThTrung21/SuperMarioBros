@@ -5,7 +5,7 @@
 #include "Mario.h"
 #include "debug.h"
 
-CKoopa::CKoopa(float x, float y,int type, float maxLeft, float maxRight) :CGameObject(x, y)
+CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
 	default_y = y;
@@ -14,9 +14,8 @@ CKoopa::CKoopa(float x, float y,int type, float maxLeft, float maxRight) :CGameO
 	revive_start = -1;
 	pre_vx = 0;
 	die_timeout = -1;
-	this->type = type;
-	this->maxLeft = maxLeft;
-	this->maxRight = maxRight;
+	this->Ktype = type;
+	
 	SetState(KOOPA_STATE_WALKING);
 	
 }
@@ -121,11 +120,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-	if (type == KOOPA_RED && state == KOOPA_STATE_WALKING)
-	{
-		if (x <= maxLeft || x >= maxRight)
-			vx = -vx;
-	}
+	
 
 	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > KOOPA_SHELL_TIMEOUT)
 	{
@@ -147,22 +142,46 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CKoopa::Render()
 {
-	int aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	if (state == KOOPA_STATE_WALKING)
+	int aniId;
+	if (Ktype == KOOPA_RED)
 	{
-		if (vx > 0)
-			aniId = ID_ANI_KOOPA_WALKING_RIGHT;
-		if (vx < 0)
-			aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	}
+		aniId = ID_ANI_KOOPA_WALKING_LEFT;
+		if (state == KOOPA_STATE_WALKING)
+		{
+			if (vx > 0)
+				aniId = ID_ANI_KOOPA_WALKING_RIGHT;
+			if (vx < 0)
+				aniId = ID_ANI_KOOPA_WALKING_LEFT;
+		}
 
-	else if (state == KOOPA_STATE_SHELL || state== KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
-	{
-		aniId = ID_ANI_KOOPA_SHELL;
+		else if (state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+		{
+			aniId = ID_ANI_KOOPA_SHELL;
+		}
+		else if (state == KOOPA_STATE_REVIVE)
+		{
+			aniId = ID_ANI_KOOPA_REVIVE;
+		}
 	}
-	else if (state == KOOPA_STATE_REVIVE)
+	else
 	{
-		aniId = ID_ANI_KOOPA_REVIVE;
+		aniId = ID_ANI_KOOPA_GREEN_WALKING_LEFT;
+		if (state == KOOPA_STATE_WALKING)
+		{
+			if (vx > 0)
+				aniId = ID_ANI_KOOPA_GREEN_WALKING_RIGHT;
+			if (vx < 0)
+				aniId = ID_ANI_KOOPA_GREEN_WALKING_LEFT;
+		}
+
+		else if (state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+		{
+			aniId = ID_ANI_KOOPA_GREEN_SHELL;
+		}
+		else if (state == KOOPA_STATE_REVIVE)
+		{
+			aniId = ID_ANI_KOOPA_GREEN_REVIVE;
+		}
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();

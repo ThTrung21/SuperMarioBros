@@ -18,7 +18,7 @@ CWingGoomba::CWingGoomba(float x, float y) :CGameObject(x, y)
 bool CWingGoomba::MarioDetection(int mario_x)
 {
 	int xx = mario_x - (int)x;
-	if (abs(xx) < 300)
+	if (abs(xx) < 200)
 		return 1;
 	return 0;
 }
