@@ -26,10 +26,10 @@ void CBox::SetState(int state)
 	{
 	case BOX_STATE_BOUNCE:
 		vy = -BOX_BOUNCE_SPEED;
-		DebugOut(L"\nbounce begin\n");
+		
 		break;
 	case BOX_STATE_USED:
-		DebugOut(L"\nbounce end\n");
+		
 
 		break;
 	}

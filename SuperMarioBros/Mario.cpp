@@ -19,6 +19,7 @@
 #include "Collision.h"
 #include "ColorBox.h"
 #include "debug.h"
+#include "GoldBrick.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -41,10 +42,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	if (GetTickCount64() - slap_time > TANUKI_SLAP_TIME && state==MARIO_STATE_SLAP)
+	/*if (GetTickCount64() - slap_time > TANUKI_SLAP_TIME && state==MARIO_STATE_SLAP)
 	{
 		SetState(MARIO_STATE_IDLE);
-	}
+	}*/
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -121,6 +122,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithWingGoomba(e);
 	/*else if (dynamic_cast<CColorBox*>(e->obj))
 		OnCollisionWithColorBox(e);*/
+	else if (dynamic_cast<CGoldBrick*>(e->obj))
+		OnCollisionWithGoldBrick(e);
 }
 
 
@@ -205,6 +208,29 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 
 	}
 }
+
+void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
+{
+	CGoldBrick* gb = dynamic_cast<CGoldBrick*>(e->obj);
+
+	if (level == MARIO_LEVEL_SMALL && gb->GetState() == GBRICK_STATE_NEW)
+	{
+		if(e->ny>0)
+		{
+			gb->SetState(GBRICK_STATE_BOUNCE,MARIO_LEVEL_SMALL);
+		}
+	}
+	else
+	if (gb->GetState() == GBRICK_STATE_NEW && level != MARIO_LEVEL_SMALL)
+	{
+		if (e->ny > 0)
+		{
+			gb->SetState(GBRICK_STATE_BOUNCE,level);
+		}
+
+	}
+}
+
 
 void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
