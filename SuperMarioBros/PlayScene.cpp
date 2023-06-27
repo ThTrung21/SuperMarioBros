@@ -22,7 +22,7 @@
 #include "WingGoomba.h"
 #include "CloudBlock.h"
 #include "Shadow.h"
-
+#include "GoldBrick.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -144,6 +144,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_GOLD_BRICK:
+	{
+		int content = atoi(tokens[3].c_str());
+		obj = new CGoldBrick(x, y,content);
+		break;
+	}
 	case OBJECT_TYPE_CLOUD_BLOCK: obj = new CCloudBlock(x, y); break;
 	case OBJECT_TYPE_INVIS_BLOCK: obj = new CInvis(x, y); break;
 	case OBJECT_TYPE_COIN:

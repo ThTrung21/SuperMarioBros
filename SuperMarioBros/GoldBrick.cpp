@@ -1,10 +1,18 @@
 #include "GoldBrick.h"
+#include "Mario.h"
+
+CGoldBrick::CGoldBrick(float x, float y, int brick_type):CGameObject(x,y)
+{
+	this->interact = brick_type;
+}
 
 void CGoldBrick::Render()
 {
+	int aniID = ID_ANI_GOLD_BRICK;
+
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_GOLD_BRICK)->Render(x, y);
-	//RenderBoundingBox();
+	animations->Get(aniID)->Render(x, y);
+	
 }
 
 void CGoldBrick::GetBoundingBox(float& l, float& t, float& r, float& b)

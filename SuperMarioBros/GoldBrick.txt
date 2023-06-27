@@ -1,0 +1,16 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+20201	1038	1	1053	16	40
+20202	1055	1	1070	16	40
+20203	1072	1	1087	16	40
+20204	1089	1	1104	16	40
+
+#used
+20205	1208	1	1223	16	40
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+22000	20201	100	20202	100	20203	100	20204	100
+
+#used
+22001	20205	100

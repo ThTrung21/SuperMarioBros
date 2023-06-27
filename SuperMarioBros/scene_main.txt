@@ -19,7 +19,7 @@ Tanuki_Leaf.txt
 WingGoomba.txt
 CloudBlock.txt
 Shadow.txt
-
+GoldBrick.txt
 
 
 
@@ -136,7 +136,8 @@ Shadow.txt
 #BRICK
 #1	256	160
 
-
+#GOLDBRICK
+18	80	100	0
 
 #Platform#########################
 #
