@@ -146,6 +146,7 @@
     <ClInclude Include="FirePlant.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GoldBrick.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Invis_block.h" />
     <ClInclude Include="KeyEventHandler.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="FirePlant.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GoldBrick.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Invis_block.cpp" />
     <ClCompile Include="Koopa.cpp" />
