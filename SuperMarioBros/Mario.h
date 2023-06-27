@@ -33,6 +33,8 @@
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
 
+#define MARIO_STATE_SLAP		700
+#define Mario_STATE_SLAP_RIGHT		701
 
 #pragma region ANIMATION_ID
 //BIG MARIO
@@ -99,11 +101,14 @@
 
 #define ID_ANI_MARIO_TANUKI_SIT_RIGHT 2300
 #define ID_ANI_MARIO_TANUKI_SIT_LEFT 2301
+
+#define ID_ANI_MARIO_TANUKI_SLAP_RIGHT 2400
+#define ID_ANI_MARIO_TANUKI_SLAP_LEFT	2401
 #pragma endregion
 
 #define GROUND_Y 160.0f
 
-
+#define TANUKI_SLAP_TIME 1000
 
 
 #define	MARIO_LEVEL_SMALL	1
@@ -133,6 +138,7 @@ class CMario : public CGameObject
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
+	ULONGLONG slap_time;
 	BOOLEAN isOnPlatform;
 	int coin; 
 
@@ -157,7 +163,7 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
-
+		slap_time = -1;
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
@@ -179,6 +185,7 @@ public:
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	int GetX() { return(int) this->x; }
 	int GetY() { return (int)this->y; }
+	int GetLevel() { return level; }
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 

@@ -127,8 +127,8 @@ Shadow.txt
 
 #Invisible block as barrier
 
-15	496	146
-15	608	146
+#15	496	146
+#15	608	146
 
 15	1092	162
 #Portal
@@ -178,5 +178,8 @@ Shadow.txt
 
 2	800	162
 2	768	162
+
 #KOOPA
-3	550	140
+#	x	y	type	maxLeft	maxRight
+#type: 1-red	2-green
+3	550	140	1	510	594

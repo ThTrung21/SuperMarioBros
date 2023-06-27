@@ -19,6 +19,8 @@
 #define ID_ANI_KOOPA_SHELL 16002
 #define ID_ANI_KOOPA_REVIVE 16003
 
+#define KOOPA_RED 1
+#define KOOPA_GREEN 2
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 25
@@ -31,8 +33,11 @@ protected:
 	float ay;
 	float default_y;
 	float pre_vx;
-
 	
+	//type: 1-red 2-green
+	int type;
+	float maxLeft, maxRight;
+
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
 	ULONGLONG die_timeout;
@@ -50,7 +55,7 @@ protected:
 	void OnCollisionWithMysteryBox(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
-	CKoopa(float x, float y);
+	CKoopa(float x, float y,int type,float maxLeft,float maxRight);
 	virtual void SetState(int state);
 	virtual bool IsKoopa() { return 1; }
 };

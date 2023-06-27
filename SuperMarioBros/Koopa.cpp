@@ -5,7 +5,7 @@
 #include "Mario.h"
 #include "debug.h"
 
-CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
+CKoopa::CKoopa(float x, float y,int type, float maxLeft, float maxRight) :CGameObject(x, y)
 {
 	this->ax = 0;
 	default_y = y;
@@ -14,6 +14,9 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	revive_start = -1;
 	pre_vx = 0;
 	die_timeout = -1;
+	this->type = type;
+	this->maxLeft = maxLeft;
+	this->maxRight = maxRight;
 	SetState(KOOPA_STATE_WALKING);
 	
 }
@@ -59,7 +62,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-
+	
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
 	else if (dynamic_cast<CBox*>(e->obj))
@@ -118,6 +121,11 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+	if (type == KOOPA_RED && state == KOOPA_STATE_WALKING)
+	{
+		if (x <= maxLeft || x >= maxRight)
+			vx = -vx;
+	}
 
 	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > KOOPA_SHELL_TIMEOUT)
 	{

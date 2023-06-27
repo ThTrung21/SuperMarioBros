@@ -41,7 +41,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
+	if (GetTickCount64() - slap_time > TANUKI_SLAP_TIME && state==MARIO_STATE_SLAP)
+	{
+		SetState(MARIO_STATE_IDLE);
+	}
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -56,31 +59,31 @@ void CMario::OnNoCollision(DWORD dt)
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	//color box
-	if (e->obj->IsColorBox())
-	{
-		if (e->nx != 0 && e->obj->IsColorBox())
-		{
-			
-			DebugOut(L"Hit colorbox wall\n");
-			
-			
+	//if (e->obj->IsColorBox())
+	//{
+	//	if (e->nx != 0 && e->obj->IsColorBox())
+	//	{
+	//		
+	//		DebugOut(L"Hit colorbox wall\n");
+	//		
+	//		
 
-		}
-		else
-			if (e->ny > 0 && e->obj->IsColorBox())
-			{
+	//	}
+	//	else
+	//		if (e->ny > 0 && e->obj->IsColorBox())
+	//		{
 
-				
-			}
-			else
-				if (e->ny < 0 && e->obj->IsBlocking() && e->obj->IsColorBox())
-				{
-					vy = 0;
-					/*if (e->ny < 0)*/ isOnPlatform = true;
+	//			
+	//		}
+	//		else
+	//			if (e->ny < 0 && e->obj->IsBlocking() && e->obj->IsColorBox())
+	//			{
+	//				vy = 0;
+	//				/*if (e->ny < 0)*/ isOnPlatform = true;
 
-				}
-	}
-	else
+	//			}
+	//}
+	//else
 	{
 		if (e->ny != 0 && e->obj->IsBlocking())
 		{
@@ -142,7 +145,9 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_TANUKI)
+					level = MARIO_LEVEL_BIG;
+				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
@@ -522,10 +527,24 @@ int CMario::GetAniIdTanuki()
 				aniId = ID_ANI_MARIO_TANUKI_SIT_LEFT;
 		}
 		else
+			if (state == MARIO_STATE_SLAP)
+			{
+				DebugOut(L"[INFO] BOOOOOOOOOOOOOO\n");
+				if (nx > 0) aniId = ID_ANI_MARIO_TANUKI_SLAP_RIGHT;
+				else aniId = ID_ANI_MARIO_TANUKI_SLAP_LEFT;
+			}
+			else
 			if (vx == 0)
 			{
-				if (nx > 0) aniId = ID_ANI_MARIO_TANUKI_IDLE_RIGHT;
-				else aniId = ID_ANI_MARIO_TANUKI_IDLE_LEFT;
+				/*if (state == MARIO_STATE_SLAP)
+				{
+					
+				}*/
+				 if (nx > 0) aniId = ID_ANI_MARIO_TANUKI_IDLE_RIGHT;
+					else aniId = ID_ANI_MARIO_TANUKI_IDLE_LEFT;
+				
+				
+					
 			}
 			else if (vx > 0)
 			{
@@ -637,10 +656,14 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_IDLE:
+		DebugOut(L"[INFO] idle TIME\n");
 		ax = 0.0f;
 		vx = 0.0f;
 		break;
-
+	case MARIO_STATE_SLAP:
+		DebugOut(L"[INFO] SLAP TIME\n");
+		slap_time = GetTickCount64();
+		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
@@ -661,6 +684,14 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
+		}
+		else if (state == MARIO_STATE_SLAP)
+		{
+			left = (x - MARIO_BIG_BBOX_WIDTH / 2)-2;
+			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
+			
+			right = left + MARIO_BIG_BBOX_WIDTH+2;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
 		else 
 		{
