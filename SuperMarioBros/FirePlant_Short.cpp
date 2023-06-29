@@ -4,20 +4,20 @@
 
 
 
-CFirePlant::CFirePlant(float x, float y) :CGameObject(x, y)
+CFirePlant_Short::CFirePlant_Short(float x, float y) :CGameObject(x, y)
 {
 	stop_start = -1;
 	IsMoving = true;
 	this->vy = SHORT_PLANT_SPEED;
 	this->TopPos = y - 8;
-	this->BotPos = y + 8;
+	this->BotPos = y + 16;
 	SetDir(SHORT_PLANT_DIR_TOPLEFT);
 	SetState(SHORT_PLANT_STATE_AWAKE);
 	this->default_y = y;
 	this->isShooting = false;
 
 }
-bool CFirePlant::MarioDetection(int mario_x, int mario_y)
+bool CFirePlant_Short::MarioDetection(int mario_x, int mario_y)
 {
 	int xx = mario_x - (int)x;
 	if (abs(xx) > 24 && abs(xx) < 150)
@@ -25,7 +25,7 @@ bool CFirePlant::MarioDetection(int mario_x, int mario_y)
 	return 0;
 
 }
-void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 
@@ -75,7 +75,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//Fireball shooting logic
 	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireBall();
 
-	if (isShooting)
+	/*if (isShooting)
 	{
 
 		if (mario_x < x)
@@ -115,7 +115,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 
-	}
+	}*/
 
 
 	//set the plant direction according to mario position.
@@ -137,7 +137,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 }
 
-void CFirePlant::Render()
+void CFirePlant_Short::Render()
 {
 	int aniID = ID_ANI_SHORT_FIREPLANT_TOPLEFT;
 	switch (direction)
@@ -162,7 +162,7 @@ void CFirePlant::Render()
 	RenderBoundingBox();
 }
 
-void CFirePlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CFirePlant_Short::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x - SHORT_PLANT_WIDTH / 6;
 	top = y - SHORT_PLANT_HEIGHT / 6;
@@ -170,19 +170,19 @@ void CFirePlant::GetBoundingBox(float& left, float& top, float& right, float& bo
 	bottom = y + SHORT_PLANT_HEIGHT - 6;
 }
 
-void CFirePlant::OnNoCollision(DWORD dt)
+void CFirePlant_Short::OnNoCollision(DWORD dt)
 {
 
 
 }
 
-void CFirePlant::OnCollisionWith(LPCOLLISIONEVENT e)
+void CFirePlant_Short::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (e->obj->IsBlocking())return;
 }
 
 
-void CFirePlant::SetState(int state)
+void CFirePlant_Short::SetState(int state)
 {
 	float prev_vy = 0;
 
@@ -225,7 +225,7 @@ void CFirePlant::SetState(int state)
 	}
 }
 
-void CFirePlant::SetDir(int direction)
+void CFirePlant_Short::SetDir(int direction)
 {
 	this->direction = direction;
 }

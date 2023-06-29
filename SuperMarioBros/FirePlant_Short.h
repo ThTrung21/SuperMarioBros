@@ -7,7 +7,7 @@
 #include "Animations.h"
 
 #define SHORT_PLANT_WIDTH 16
-#define SHORT_PLANT_HEIGHT 32
+#define SHORT_PLANT_HEIGHT 23
 
 #define SHORT_PLANT_DIR_TOPLEFT	1
 #define	SHORT_PLANT_DIR_BOTTOMLEFT 2
@@ -19,14 +19,14 @@
 #define SHORT_PLANT_STATE_STOP 300
 
 #define SHORT_PLANT_SPEED	0.03f
-#define SHORT_PLANT_STOP_TIMEOUT 1000
+#define SHORT_PLANT_STOP_TIMEOUT 1200
 
 #define ID_ANI_SHORT_FIREPLANT_TOPLEFT 15100
 #define	ID_ANI_SHORT_FIREPLANT_BOTTOMLEFT 15101
 #define ID_ANI_SHORT_FIREPLANT_TOPRIGHT 15102
 #define ID_ANI_SHORT_FIREPLANT_BOTTOMRIGHT 15103
 
-class CFirePlant :public CGameObject
+class CFirePlant_Short :public CGameObject
 {
 protected:
 
@@ -48,7 +48,7 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
-	CFirePlant(float x, float y);
+	CFirePlant_Short(float x, float y);
 	void SetDir(int dir);
 	virtual void SetState(int state);
 };
