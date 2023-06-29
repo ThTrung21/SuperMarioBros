@@ -47,7 +47,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(MARIO_STATE_IDLE);
 	}*/
 	isOnPlatform = false;
-
+	
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -85,6 +85,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	//			}
 	//}
 	//else
+	if(!e->obj->IsInvisBlock())
 	{
 		if (e->ny != 0 && e->obj->IsBlocking())
 		{
@@ -146,7 +147,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	{
 		if (untouchable == 0)
 		{
-			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_HIDDEN)
 			{
 				if (level == MARIO_LEVEL_TANUKI)
 					level = MARIO_LEVEL_BIG;

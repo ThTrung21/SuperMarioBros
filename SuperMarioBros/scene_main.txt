@@ -20,7 +20,7 @@ WingGoomba.txt
 CloudBlock.txt
 Shadow.txt
 GoldBrick.txt
-
+Wood.txt
 
 
 #################################
@@ -154,7 +154,8 @@ GoldBrick.txt
 #RedMushroom
 8	240	87
 
-
+#WOOD
+19	120	60	
 
 ###---MysteryBox---###
 #id	x	y	content

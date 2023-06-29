@@ -2,14 +2,18 @@
 #include "Koopa.h"
 #include "Mario.h"
 #include "PlayScene.h"
-
+#include "debug.h"
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
 	die_start = -1;
 	flag = 0;
+	this->X = x;
+	this->Y = y;
 	SetState(GOOMBA_STATE_IDLE);
+	this->X = x;
+	this->Y = y;
 }
 
 
@@ -65,6 +69,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if ( (state==GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT) )
 	{
+		SetState(GOOMBA_STATE_HIDDEN);
 		isDeleted = true;
 		return;
 	}
@@ -77,7 +82,12 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(GOOMBA_STATE_WALKING);
 		flag = 1;
 	}
-
+	/*if (state == GOOMBA_STATE_HIDDEN && RespawnDetector(mario_x) == 1)
+	{
+		flag = 0;
+		y -= (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
+		SetState(GOOMBA_STATE_IDLE);
+	}*/
 
 
 	CGameObject::Update(dt, coObjects);
@@ -87,13 +97,16 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CGoomba::Render()
 {
-	int aniId = ID_ANI_GOOMBA_WALKING;
-	if (state == GOOMBA_STATE_DIE) 
+	if (state != GOOMBA_STATE_HIDDEN)
 	{
-		aniId = ID_ANI_GOOMBA_DIE;
+		int aniId = ID_ANI_GOOMBA_WALKING;
+		if (state == GOOMBA_STATE_DIE)
+		{
+			aniId = ID_ANI_GOOMBA_DIE;
+		}
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
 	
-	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
 	RenderBoundingBox();
 }
 
@@ -104,7 +117,13 @@ bool CGoomba::MarioDetection(int mario_x)
 		return 1;
 	return 0;
 }
-
+bool CGoomba::RespawnDetector(int mario_x)
+{
+	int xx = mario_x - (int)X;
+	if (abs(xx) > 200)
+		return 1;
+	return 0;
+}
 void CGoomba::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -121,6 +140,7 @@ void CGoomba::SetState(int state)
 			vx = -GOOMBA_WALKING_SPEED;
 			break;
 		case GOOMBA_STATE_IDLE:
+
 			vx = 0;
 			break;
 	}

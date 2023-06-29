@@ -14,6 +14,7 @@
 #define GOOMBA_STATE_IDLE 10
 #define GOOMBA_STATE_WALKING 100
 #define GOOMBA_STATE_DIE 200
+#define GOOMBA_STATE_HIDDEN 300
 
 #define ID_ANI_GOOMBA_WALKING 5000
 #define ID_ANI_GOOMBA_DIE 5001
@@ -23,6 +24,7 @@ class CGoomba : public CGameObject
 protected:
 	float ax;				
 	float ay; 
+	float X, Y;
 	int flag;
 	ULONGLONG die_start;
 
@@ -30,6 +32,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 	bool MarioDetection(int x);
+	bool RespawnDetector(int x);
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);

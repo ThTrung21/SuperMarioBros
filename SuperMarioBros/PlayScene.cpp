@@ -23,6 +23,7 @@
 #include "CloudBlock.h"
 #include "Shadow.h"
 #include "GoldBrick.h"
+#include "Wood.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -212,6 +213,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CShadow(x, y, height, sprite_top, sprite_body);
 		break;
 	}
+	case OBJECT_TYPE_WOOD: obj = new CWood(x, y); break;
 	case OBJECT_TYPE_DECOR:
 	{	
 		int decor_type = atoi(tokens[3].c_str());

@@ -10,7 +10,7 @@
 #include "MysteryBox.h"
 #include "FirePlant.h"
 #include "FireBall.h"
-//#include "Koopas.h"
+
 
 
 class CPlayScene: public CScene
