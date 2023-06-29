@@ -206,18 +206,14 @@ void CFirePlant::SetState(int state)
 		
 		isShooting = false;
 
-		//if (prev_vy != 0)
+		
 			if(y<=TopPos)
 				vy = PLANT_SPEED;
 			else if(y>=BotPos)
 				vy = -PLANT_SPEED;
 		
 
-		//else if (prev_vy == 0)
-		//	vy = -PLANT_SPEED;
-		////stopped because mario too close
-		//else
-		//	vy = prev_vy;
+		
 		
 		break;
 	}

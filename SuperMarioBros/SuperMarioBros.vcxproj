@@ -144,6 +144,7 @@
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="FirePlant.h" />
+    <ClInclude Include="FirePlant_Short.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GoldBrick.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FirePlant.cpp" />
+    <ClCompile Include="FirePlant_Short.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GoldBrick.cpp" />
