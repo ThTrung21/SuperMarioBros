@@ -14,9 +14,10 @@
 #define CHOMPER_STATE_SLEEP 100
 #define CHOMPER_STATE_AWAKE 200
 #define CHOMPER_STATE_STOP 300
+#define CHOMPER_STATE_DIE 400
 
 #define CHOMPER_SPEED	0.03f
-#define CHOMPER_STOP_TIMEOUT 1200
+#define CHOMPER_STOP_TIMEOUT 900
 
 #define ID_ANI_CHOMPER 24000
 
@@ -35,7 +36,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	bool MarioDetection(int x, int y);
-	//virtual int IsCollidable() { return 1; };
+	
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 

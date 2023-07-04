@@ -25,7 +25,7 @@
 #include "GoldBrick.h"
 #include "Wood.h"
 #include "FirePlant_Short.h"
-
+#include "Chomper.h"
 
 
 #include "SampleKeyEventHandler.h"
@@ -246,6 +246,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FIREPLANT:
 		obj = new CFirePlant(x, y);
 		break;
+	case OBJECT_TYPE_CHOMPER: obj = new CChomper(x, y);	break;
 	case OBJECT_TYPE_FIREPLANT_SHORT:
 		obj = new CFirePlant_Short(x, y);
 		break;

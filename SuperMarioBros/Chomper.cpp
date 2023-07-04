@@ -45,7 +45,7 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount64() - stop_start > CHOMPER_STOP_TIMEOUT)
 		{
 
-			SetState(SHORT_PLANT_STATE_AWAKE);
+			SetState(CHOMPER_STATE_AWAKE);
 		}
 
 	}
@@ -85,10 +85,10 @@ void CChomper::Render()
 
 void CChomper::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - SHORT_PLANT_WIDTH / 6;
-	top = y - SHORT_PLANT_HEIGHT / 6;
-	right = x + SHORT_PLANT_WIDTH - 3;
-	bottom = y + SHORT_PLANT_HEIGHT - 6;
+	left = x - CHOMPER_WIDTH / 6;
+	top = y - CHOMPER_HEIGHT / 6;
+	right = x + CHOMPER_WIDTH - 3;
+	bottom = y + CHOMPER_HEIGHT - 6;
 }
 
 void CChomper::OnNoCollision(DWORD dt)

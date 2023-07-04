@@ -20,6 +20,7 @@
 #include "ColorBox.h"
 #include "debug.h"
 #include "GoldBrick.h"
+#include "Chomper.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -123,6 +124,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithWingGoomba(e);
 	/*else if (dynamic_cast<CColorBox*>(e->obj))
 		OnCollisionWithColorBox(e);*/
+	else if (dynamic_cast<CGoldBrick*>(e->obj))
+		OnCollisionWithGoldBrick(e);
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
 		OnCollisionWithGoldBrick(e);
 }
@@ -268,6 +271,28 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
+{
+
+	if (untouchable == 0)
+	{
+		//if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_HIDDEN)
+		{
+			if (level == MARIO_LEVEL_TANUKI)
+				level = MARIO_LEVEL_BIG;
+			else if (level == MARIO_LEVEL_BIG)
+			{
+				level = MARIO_LEVEL_SMALL;
+				StartUntouchable();
+			}
+			else
+			{
+				DebugOut(L">>> Mario DIE >>> \n");
+				SetState(MARIO_STATE_DIE);
+			}
+		}
+	}
+}
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 {
 	CFireBall* f = dynamic_cast<CFireBall*>(e->obj);
