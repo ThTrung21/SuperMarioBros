@@ -136,7 +136,8 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 
-	if (goomba->GetState() == GOOMBA_STATE_DIE) return;
+	if (goomba->GetState() == GOOMBA_STATE_DIE || goomba->GetState() == GOOMBA_STATE_HIDDEN) return;
+
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
@@ -293,6 +294,7 @@ void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 		}
 	}
 }
+
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 {
 	CFireBall* f = dynamic_cast<CFireBall*>(e->obj);
