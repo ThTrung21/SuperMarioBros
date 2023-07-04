@@ -11,8 +11,10 @@ CChomper::CChomper(float x, float y) :CGameObject(x, y)
 	this->vy = CHOMPER_SPEED;
 	this->TopPos = y - 8;
 	this->BotPos = y + 16;
-	SetState(CHOMPER_STATE_AWAKE);
 	this->default_y = y;
+	this->default_x = x;
+	SetState(CHOMPER_STATE_AWAKE);
+	
 
 }
 bool CChomper::MarioDetection(int mario_x, int mario_y)
@@ -77,10 +79,13 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CChomper::Render()
 {
-	int aniID = ID_ANI_CHOMPER;
+	if (state != CHOMPER_STATE_DIE)
+	{
+		int aniID = ID_ANI_CHOMPER;
 
-	CAnimations::GetInstance()->Get(aniID)->Render(x, y);
-	RenderBoundingBox();
+		CAnimations::GetInstance()->Get(aniID)->Render(x, y);
+		RenderBoundingBox();
+	}
 }
 
 void CChomper::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -124,7 +129,7 @@ void CChomper::SetState(int state)
 	case CHOMPER_STATE_AWAKE:
 	{
 
-		
+
 
 		//if (prev_vy != 0)
 		if (y <= TopPos)
@@ -140,6 +145,12 @@ void CChomper::SetState(int state)
 	case CHOMPER_STATE_SLEEP:
 		vy = 0;
 		y = BotPos;
+		break;
+
+	case CHOMPER_STATE_DIE:
+		x = default_x;
+		y = default_y;
+		vy = 0;
 		break;
 	}
 }

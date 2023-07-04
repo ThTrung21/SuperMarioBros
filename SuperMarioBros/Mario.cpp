@@ -273,10 +273,10 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 {
-
+	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
 	if (untouchable == 0)
 	{
-		//if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_HIDDEN)
+		if (chomper->GetState() != CHOMPER_STATE_DIE)
 		{
 			if (level == MARIO_LEVEL_TANUKI)
 				level = MARIO_LEVEL_BIG;

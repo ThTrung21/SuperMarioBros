@@ -30,7 +30,7 @@ protected:
 	bool IsMoving;
 	float TopPos;
 	float BotPos;
-	float default_y;
+	float default_x, default_y;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
