@@ -62,7 +62,11 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 
-
+	//respawn detector
+	if (state == CHOMPER_STATE_DIE && RespawnDetector(mario_x) == 1)
+	{
+		SetState(CHOMPER_STATE_AWAKE);
+	}
 
 	if (MarioDetection(mario_x, mario_y) == true)
 	{
@@ -154,4 +158,10 @@ void CChomper::SetState(int state)
 		break;
 	}
 }
-
+bool CChomper::RespawnDetector(int mario_x)
+{
+	int xx = mario_x - (int)x;
+	if (abs(xx) > 250)
+		return 1;
+	return 0;
+}

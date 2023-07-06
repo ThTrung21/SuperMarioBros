@@ -36,7 +36,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	bool MarioDetection(int x, int y);
-	
+	bool RespawnDetector(int x);
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
