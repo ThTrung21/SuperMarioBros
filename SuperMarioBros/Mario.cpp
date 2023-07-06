@@ -341,9 +341,9 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	else
 	{
-		if (untouchable == 0)
+		if (untouchable == 0 )
 		{
-			if (koopa->GetState() != KOOPA_STATE_SHELL)
+			if (koopa->GetState() != KOOPA_STATE_SHELL && koopa->GetState() != KOOPA_STATE_HIDDEN)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{

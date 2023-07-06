@@ -4,18 +4,20 @@
 #include "MysteryBox.h"
 #include "Mario.h"
 #include "debug.h"
+#include "PlayScene.h"
 
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
 	default_y = y;
+	default_x = x;
 	this->ay = KOOPA_GRAVITY;
 	shell_start = -1;
 	revive_start = -1;
 	pre_vx = 0;
 	die_timeout = -1;
 	this->Ktype = type;
-	
+	flag = 0;
 	SetState(KOOPA_STATE_WALKING);
 	
 }
@@ -37,6 +39,21 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = top + KOOPA_BBOX_HEIGHT;
 	}
 
+}
+bool CKoopa::MarioDetection(int mario_x)
+{
+	int xx = mario_x - (int)x;
+	if (abs(xx) < 300)
+		return 1;
+	return 0;
+}
+
+bool CKoopa::RespawnDetector(int mario_x)
+{
+	int xx = mario_x - (int)default_x;
+	if (abs(xx) > 50)
+		return 1;
+	return 0;
 }
 
 void CKoopa::OnNoCollision(DWORD dt)
@@ -73,7 +90,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
-	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)  && leaf->GetState() == LEAF_STATE_HIDDEN)
+	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) /* && leaf->GetState() == LEAF_STATE_HIDDEN*/)
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
@@ -102,13 +119,14 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 	}
 }
 
-//need fixing
+
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	
 	DebugOut(L"Shell HIT GOOMBA\n");
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	if (goomba->GetState() == GOOMBA_STATE_DIE) return;
+	if (goomba->GetState() == GOOMBA_STATE_HIDDEN) return;
 	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		goomba->SetState(GOOMBA_STATE_DIE);
@@ -124,7 +142,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > KOOPA_SHELL_TIMEOUT)
 	{
-		isDeleted = true;
+		SetState(KOOPA_STATE_HIDDEN);
 		return;
 	}
 	if ((state == KOOPA_STATE_SHELL) &&  (GetTickCount64() - shell_start > KOOPA_SHELL_TIMEOUT))
@@ -137,11 +155,31 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(KOOPA_STATE_WALKING);
 		return;
 	}
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	int mario_x;
+	mario_x = mario->GetX();
+
+	//detect mario to start koopa movement
+	if (MarioDetection(mario_x) && flag == 0)
+	{
+		SetState(KOOPA_STATE_WALKING);
+		flag = 1;
+	}
+
+	//respawn mechanic
+	if (state == KOOPA_STATE_HIDDEN && RespawnDetector(mario_x) == 1)
+	{
+		flag = 0;
+		//y -= (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
+		SetState(KOOPA_STATE_IDLE);
+	}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 void CKoopa::Render()
 {
+	if(state != KOOPA_STATE_HIDDEN)
+	{
 	int aniId;
 	if (Ktype == KOOPA_RED)
 	{
@@ -184,6 +222,8 @@ void CKoopa::Render()
 		}
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	
+}
 	RenderBoundingBox();
 }
 void CKoopa::SetState(int state)
@@ -191,10 +231,10 @@ void CKoopa::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	//shell
+		//shell
 	case KOOPA_STATE_SHELL:
 		shell_start = GetTickCount64();
-		
+
 		y += (KOOPA_BBOX_HEIGHT - SHELL_BBOX_HEIGHT) / 2;
 		pre_vx = vx;
 		vx = 0;
@@ -202,22 +242,32 @@ void CKoopa::SetState(int state)
 		ay = 0;
 		break;
 
-	//walking
+		//idle
+	case KOOPA_STATE_IDLE:
+
+		vx = 0;
+		ay = GOOMBA_GRAVITY;
+		break;
+		x = default_x;
+		y = default_y-3;
+		//walking
 	case KOOPA_STATE_WALKING:
-		
+		y = default_y - 3;
 		if (pre_vx > 0)
 			vx = -KOOPA_WALKING_SPEED;
 		else if (pre_vx < 0)
 			vx = KOOPA_WALKING_SPEED;
 		else
-		vx = -KOOPA_WALKING_SPEED;
+			vx = -KOOPA_WALKING_SPEED;
 
 		break;
 
-	//revive
+		//revive
 	case KOOPA_STATE_REVIVE:
 		revive_start = GetTickCount64();
 		break;
+
+		//kick
 	case KOOPA_STATE_KICK_RIGHT:
 		y -= 3;
 		vx = KOOPA_SHELL_SPEED;
@@ -228,6 +278,14 @@ void CKoopa::SetState(int state)
 		y -= 3;
 		die_timeout = GetTickCount64();
 		vx = -KOOPA_SHELL_SPEED;
+		ay = KOOPA_GRAVITY;
+		break;
+
+
+	case KOOPA_STATE_HIDDEN:
+		x = default_x;
+		y = default_y-3;
+		vx = 0;
 		ay = KOOPA_GRAVITY;
 		break;
 	}

@@ -11,7 +11,7 @@ CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 	die_start = -1;
 	flag = 0;
 	this->X = x;
-	this->Y = (int)y;
+	this->Y = y;
 	DebugOut(L"the y level is: %d \n", Y);
 	SetState(GOOMBA_STATE_IDLE);
 	
@@ -56,8 +56,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-	/*else if (dynamic_cast<CKoopa*>(e->obj))
-		OnCollisionWithKoopa(e);*/
+	
 }
 
 

@@ -8,11 +8,13 @@
 #define KOOPA_SHELL_TIMEOUT 7000
 #define KOOPA_REVIVE_TIME 5000
 
+#define KOOPA_STATE_IDLE 0
 #define KOOPA_STATE_WALKING 100
 #define KOOPA_STATE_SHELL 200
-#define KOOPA_STATE_KICK_LEFT -300
-#define KOOPA_STATE_KICK_RIGHT -400
+#define KOOPA_STATE_KICK_LEFT 300
+#define KOOPA_STATE_KICK_RIGHT 400
 #define KOOPA_STATE_REVIVE 500
+#define KOOPA_STATE_HIDDEN 600
 
 #define ID_ANI_KOOPA_WALKING_LEFT 16000
 #define ID_ANI_KOOPA_WALKING_RIGHT 16001
@@ -37,9 +39,9 @@ class CKoopa : public CGameObject
 protected:
 	float ax;
 	float ay;
-	float default_y;
+	float default_y, default_x;
 	float pre_vx;
-	
+	int flag;
 	//type: 1-red 2-green
 	int Ktype;
 	
@@ -54,7 +56,9 @@ protected:
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
-	
+
+	bool MarioDetection(int x);
+	bool RespawnDetector(int x);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	void OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e);
