@@ -17,6 +17,7 @@
 #define SHORT_PLANT_STATE_SLEEP 100
 #define SHORT_PLANT_STATE_AWAKE 200
 #define SHORT_PLANT_STATE_STOP 300
+#define SHORT_PLANT_STATE_DIE 400
 
 #define SHORT_PLANT_SPEED	0.03f
 #define SHORT_PLANT_STOP_TIMEOUT 1200
@@ -45,7 +46,7 @@ protected:
 	//virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
-
+	bool RespawnDetector(int x);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
 	CFirePlant_Short(float x, float y);

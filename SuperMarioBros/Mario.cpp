@@ -12,6 +12,7 @@
 #include "PlayScene.h"
 #include "RedMushroom.h"
 #include "FirePlant.h"
+#include "FirePlant_Short.h"
 #include "Koopa.h"
 #include "FireBall.h"
 #include "Tanuki_Leaf.h"
@@ -128,6 +129,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoldBrick(e);
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
 		OnCollisionWithGoldBrick(e);
+	else if(dynamic_cast<CFirePlant_Short*>(e->obj))
+		OnCollisionWithFirePlantShort(e);
 }
 
 
@@ -257,7 +260,8 @@ void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
-	if (untouchable == 0)
+	CFirePlant* f = dynamic_cast<CFirePlant*>(e->obj);
+	if (untouchable == 0 && f->GetState()!=PLANT_STATE_DIE)
 	{
 		if (level > MARIO_LEVEL_SMALL)
 		{
@@ -271,7 +275,23 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 		}
 	}
 }
-
+void CMario::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
+{
+	CFirePlant_Short* f = dynamic_cast<CFirePlant_Short*>(e->obj);
+	if (untouchable == 0 && f->GetState() != SHORT_PLANT_STATE_DIE)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+}
 void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 {
 	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);

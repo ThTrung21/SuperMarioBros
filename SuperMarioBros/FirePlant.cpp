@@ -58,12 +58,13 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	mario_x = mario->GetX();
 	mario_y = mario->GetY();
 
-
+	//respawn detector
+	if (state == PLANT_STATE_DIE && RespawnDetector(mario_x) == 1)
+	{
+		SetState(PLANT_STATE_AWAKE);
+	}
 	
-	
-	
-	
-	
+	//detect mario
 	if (MarioDetection(mario_x, mario_y) == true)
 	{
 		if (state == PLANT_STATE_SLEEP)
@@ -71,6 +72,8 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if(y>=default_y)
 		SetState(PLANT_STATE_SLEEP);
+
+
 
 	//Fireball shooting logic
 	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireBall();
@@ -139,26 +142,29 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CFirePlant::Render()
 {
-	int aniID = ID_ANI_FIREPLANT_TOPLEFT;
-	switch (direction)
+	if(state!=PLANT_STATE_DIE)
 	{
-	case PLANT_DIR_TOPLEFT:
-		aniID =  ID_ANI_FIREPLANT_TOPLEFT;	
-		break;
-	case PLANT_DIR_BOTTOMLEFT:
-		aniID = ID_ANI_FIREPLANT_BOTTOMLEFT;	
-		break;
-	case PLANT_DIR_TOPRIGHT:
-		aniID = ID_ANI_FIREPLANT_TOPRIGHT;	
-		break;
-	case PLANT_DIR_BOTTOMRIGHT:
-		aniID = ID_ANI_FIREPLANT_BOTTOMRIGHT;	
-		break;
-	default:
-		aniID = ID_ANI_FIREPLANT_TOPLEFT;
+		int aniID = ID_ANI_FIREPLANT_TOPLEFT;
+		switch (direction)
+		{
+		case PLANT_DIR_TOPLEFT:
+			aniID = ID_ANI_FIREPLANT_TOPLEFT;
+			break;
+		case PLANT_DIR_BOTTOMLEFT:
+			aniID = ID_ANI_FIREPLANT_BOTTOMLEFT;
+			break;
+		case PLANT_DIR_TOPRIGHT:
+			aniID = ID_ANI_FIREPLANT_TOPRIGHT;
+			break;
+		case PLANT_DIR_BOTTOMRIGHT:
+			aniID = ID_ANI_FIREPLANT_BOTTOMRIGHT;
+			break;
+		default:
+			aniID = ID_ANI_FIREPLANT_TOPLEFT;
+		}
+
+		CAnimations::GetInstance()->Get(aniID)->Render(x, y);
 	}
-	
-	CAnimations::GetInstance()->Get(aniID)->Render(x, y);
 	RenderBoundingBox();
 }
 
@@ -181,6 +187,13 @@ void CFirePlant::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->obj->IsBlocking())return;
 }
 
+bool CFirePlant::RespawnDetector(int mario_x)
+{
+	int xx = mario_x - (int)x;
+	if (abs(xx) > 250)
+		return 1;
+	return 0;
+}
 
 void CFirePlant::SetState(int state)
 {	
@@ -211,10 +224,14 @@ void CFirePlant::SetState(int state)
 				vy = PLANT_SPEED;
 			else if(y>=BotPos)
 				vy = -PLANT_SPEED;
-		
-
-		
-		
+	
+		break;
+	}
+	case PLANT_STATE_DIE:
+	{
+		vy = 0;
+		y = default_y;
+		isShooting = false;
 		break;
 	}
 	case PLANT_STATE_SLEEP:

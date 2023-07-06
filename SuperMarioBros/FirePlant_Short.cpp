@@ -59,10 +59,11 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	mario_y = mario->GetY();
 
 
-
-
-
-
+	//respawn detector
+	if (state == SHORT_PLANT_STATE_DIE && RespawnDetector(mario_x) == 1)
+	{
+		SetState(SHORT_PLANT_STATE_AWAKE);
+	}
 
 	if (MarioDetection(mario_x, mario_y) == true)
 	{
@@ -139,26 +140,29 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CFirePlant_Short::Render()
 {
-	int aniID = ID_ANI_SHORT_FIREPLANT_TOPLEFT;
-	switch (direction)
+	if (state != SHORT_PLANT_STATE_DIE)
 	{
-	case SHORT_PLANT_DIR_TOPLEFT:
-		aniID = ID_ANI_SHORT_FIREPLANT_TOPLEFT;
-		break;
-	case SHORT_PLANT_DIR_BOTTOMLEFT:
-		aniID = ID_ANI_SHORT_FIREPLANT_BOTTOMLEFT;
-		break;
-	case SHORT_PLANT_DIR_TOPRIGHT:
-		aniID = ID_ANI_SHORT_FIREPLANT_TOPRIGHT;
-		break;
-	case SHORT_PLANT_DIR_BOTTOMRIGHT:
-		aniID = ID_ANI_SHORT_FIREPLANT_BOTTOMRIGHT;
-		break;
-	default:
-		aniID = ID_ANI_SHORT_FIREPLANT_TOPLEFT;
-	}
+		int aniID = ID_ANI_SHORT_FIREPLANT_TOPLEFT;
+		switch (direction)
+		{
+		case SHORT_PLANT_DIR_TOPLEFT:
+			aniID = ID_ANI_SHORT_FIREPLANT_TOPLEFT;
+			break;
+		case SHORT_PLANT_DIR_BOTTOMLEFT:
+			aniID = ID_ANI_SHORT_FIREPLANT_BOTTOMLEFT;
+			break;
+		case SHORT_PLANT_DIR_TOPRIGHT:
+			aniID = ID_ANI_SHORT_FIREPLANT_TOPRIGHT;
+			break;
+		case SHORT_PLANT_DIR_BOTTOMRIGHT:
+			aniID = ID_ANI_SHORT_FIREPLANT_BOTTOMRIGHT;
+			break;
+		default:
+			aniID = ID_ANI_SHORT_FIREPLANT_TOPLEFT;
+		}
 
-	CAnimations::GetInstance()->Get(aniID)->Render(x, y);
+		CAnimations::GetInstance()->Get(aniID)->Render(x, y);
+	}
 	RenderBoundingBox();
 }
 
@@ -181,6 +185,13 @@ void CFirePlant_Short::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->obj->IsBlocking())return;
 }
 
+bool CFirePlant_Short::RespawnDetector(int mario_x)
+{
+	int xx = mario_x - (int)x;
+	if (abs(xx) > 250)
+		return 1;
+	return 0;
+}
 
 void CFirePlant_Short::SetState(int state)
 {
@@ -213,7 +224,7 @@ void CFirePlant_Short::SetState(int state)
 			vy = -SHORT_PLANT_SPEED;
 
 
-		
+
 
 		break;
 	}
@@ -222,6 +233,14 @@ void CFirePlant_Short::SetState(int state)
 		isShooting = false;
 		vy = 0;
 		y = BotPos;
+
+	case SHORT_PLANT_STATE_DIE:
+	
+		vy = 0;
+		y = default_y;
+		isShooting = false;
+		break;
+	
 	}
 }
 

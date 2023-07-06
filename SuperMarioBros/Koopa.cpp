@@ -51,7 +51,7 @@ bool CKoopa::MarioDetection(int mario_x)
 bool CKoopa::RespawnDetector(int mario_x)
 {
 	int xx = mario_x - (int)default_x;
-	if (abs(xx) > 50)
+	if (abs(xx) > 250)
 		return 1;
 	return 0;
 }
