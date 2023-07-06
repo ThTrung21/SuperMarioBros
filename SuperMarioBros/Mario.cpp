@@ -421,7 +421,7 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by Goomba
 	{
-		if (untouchable == 0)
+		if (untouchable == 0 && wgoomba->GetState()!= WGOOMBA_STATE_HIDDEN)
 		{
 			if (wgoomba->GetState() != WGOOMBA_STATE_DIE)
 			{

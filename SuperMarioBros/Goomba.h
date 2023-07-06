@@ -33,6 +33,7 @@ protected:
 	virtual void Render();
 	bool MarioDetection(int x);
 	bool RespawnDetector(int x);
+	
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);

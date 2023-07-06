@@ -12,6 +12,8 @@ CWingGoomba::CWingGoomba(float x, float y) :CGameObject(x, y)
 	flag = 0;
 	fly_time = -1;
 	fly_timeout = -1;
+	X = x;
+	Y = y;
 	SetState(WGOOMBA_STATE_IDLE);
 }
 
@@ -88,7 +90,7 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if ((state == WGOOMBA_STATE_DIE) && (GetTickCount64() - die_start > WGOOMBA_DIE_TIMEOUT))
 	{
-		isDeleted = true;
+		SetState(WGOOMBA_STATE_HIDDEN);
 		return;
 	}
 	
@@ -102,8 +104,13 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(WGOOMBA_STATE_JUMPING_TIMEOUT);
 		flag = 1;
 	}
+	if (state == WGOOMBA_STATE_HIDDEN && RespawnDetector(mario_x) == 1)
+	{
+		flag = 0;	
+		SetState(WGOOMBA_STATE_IDLE);
+	}
 	
-	
+	//jump mechanic
 		if (state == WGOOMBA_STATE_JUMPING && (GetTickCount64() - fly_time > WGOOMBA_JUMP_TIME)) {
 			SetState(WGOOMBA_STATE_JUMPING_TIMEOUT);
 		}
@@ -117,21 +124,24 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CWingGoomba::Render()
 {
-	int aniId = ID_ANI_WGOOMBA_JUMPING;;
-
-	if (state == WGOOMBA_STATE_DIE)
+	if (state != WGOOMBA_STATE_HIDDEN)
 	{
-		
-		aniId = ID_ANI_WGOOMBA_DIE;
-	}
-	else if (state == WGOOMBA_STATE_WALKING)
-	{
-		DebugOut(L"[INFO] WGoomba \n");
-		aniId = ID_ANI_WGOOMBA_WALKING;
-	}
-	
+		int aniId = ID_ANI_WGOOMBA_JUMPING;
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+		if (state == WGOOMBA_STATE_DIE)
+		{
+
+			aniId = ID_ANI_WGOOMBA_DIE;
+		}
+		else if (state == WGOOMBA_STATE_WALKING)
+		{
+			DebugOut(L"[INFO] WGoomba \n");
+			aniId = ID_ANI_WGOOMBA_WALKING;
+		}
+
+
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	}
 	RenderBoundingBox();
 }
 
@@ -186,5 +196,17 @@ void CWingGoomba::SetState(int state)
 			vx = -WGOOMBA_WALKING_SPEED;
 		fly_timeout = GetTickCount64();
 		break;
+	case WGOOMBA_STATE_HIDDEN:
+		x = X;
+		y = Y;
+		ay = WGOOMBA_GRAVITY;
+		break;
 	}
+}
+bool CWingGoomba::RespawnDetector(int mario_x)
+{
+	int xx = mario_x - (int)X;
+	if (abs(xx) > 250)
+		return 1;
+	return 0;
 }
