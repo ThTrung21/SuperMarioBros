@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "GameObject.h"
 
 #define WGOOMBA_GRAVITY 0.002f

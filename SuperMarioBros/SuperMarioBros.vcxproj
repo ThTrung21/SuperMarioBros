@@ -170,6 +170,7 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WingGoomba.h" />
+    <ClInclude Include="WingKoopa.h" />
     <ClInclude Include="Wood.h" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +210,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WingGoomba.cpp" />
+    <ClCompile Include="WingKoopa.cpp" />
     <ClCompile Include="Wood.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
