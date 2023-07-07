@@ -23,7 +23,7 @@ GoldBrick.txt
 Wood.txt
 FirePlant_Short.txt
 Chomper.txt
-
+WingKoopa.txt
 
 
 #################################

@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "GoldBrick.h"
 #include "Chomper.h"
+#include "WingKoopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -131,6 +132,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoldBrick(e);
 	else if(dynamic_cast<CFirePlant_Short*>(e->obj))
 		OnCollisionWithFirePlantShort(e);
+	else if(dynamic_cast<CWingKoopa*>(e->obj))
+
 }
 
 
@@ -424,6 +427,49 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 		if (untouchable == 0 && wgoomba->GetState()!= WGOOMBA_STATE_HIDDEN)
 		{
 			if (wgoomba->GetState() != WGOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
+
+void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
+{
+	CWingKoopa* wkoopa = dynamic_cast<CWingKoopa*>(e->obj);
+
+	// jump on top 
+	if (e->ny < 0)
+	{
+
+		if (wkoopa->GetState() != WKOOPA_STATE_SHELL && wkoopa->GetState() != WKOOPA_STATE_JUMPING &&
+			wkoopa->GetState() != WKOOPA_STATE_JUMPING_TIMEOUT)
+		{
+			wkoopa->SetState(WKOOPA_STATE_SHELL);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else if (wkoopa->GetState() == WKOOPA_STATE_JUMPING ||
+			wkoopa->GetState() == WKOOPA_STATE_JUMPING_TIMEOUT)
+		{
+			wkoopa->SetState(WKOOPA_STATE_WALKING);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+	else
+	{
+		//mario get hit
+		if (untouchable == 0)
+		{
+			if (wkoopa->GetState() != WKOOPA_STATE_SHELL && wkoopa->GetState() != WKOOPA_STATE_HIDDEN)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{

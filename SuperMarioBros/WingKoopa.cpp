@@ -80,16 +80,21 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	//shell kicked timeout
 	if ((state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > WKOOPA_SHELL_TIMEOUT)
 	{
 		SetState(WKOOPA_STATE_HIDDEN);
 		return;
 	}
+
+	//revive after turn into shell
 	if ((state == WKOOPA_STATE_SHELL) && (GetTickCount64() - shell_start > WKOOPA_SHELL_TIMEOUT))
 	{
 		SetState(WKOOPA_STATE_REVIVE);
 		return;
 	}
+	
+	//stop revive ani and turn into walking state
 	if ((state == WKOOPA_STATE_REVIVE) && (GetTickCount64() - revive_start > WKOOPA_REVIVE_TIME))
 	{
 		SetState(WKOOPA_STATE_WALKING);
@@ -102,7 +107,7 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//detect mario to start koopa movement
 	if (MarioDetection(mario_x) && flag == 0)
 	{
-		SetState(WKOOPA_STATE_WALKING);
+		SetState(WKOOPA_STATE_JUMPING_TIMEOUT);
 		flag = 1;
 	}
 
@@ -113,6 +118,16 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//y -= (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
 		SetState(WKOOPA_STATE_IDLE);
 	}
+
+	//jump mechanic
+	if (state == WKOOPA_STATE_JUMPING && (GetTickCount64() - fly_time > WKOOPA_JUMP_TIME)) {
+		SetState(WKOOPA_STATE_JUMPING_TIMEOUT);
+	}
+	else if (state == WKOOPA_STATE_JUMPING_TIMEOUT && (GetTickCount64() - fly_timeout > WKOOPA_JUMP_WAIT)) {
+		SetState(WKOOPA_STATE_JUMPING);
+	}
+
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -121,8 +136,12 @@ void CWingKoopa::Render()
 {
 	if (state != WKOOPA_STATE_HIDDEN)
 	{
-		int aniId = ID_ANI_WKOOPA_WALKING_LEFT;
-		if (state == WKOOPA_STATE_WALKING)
+		int aniId = ID_ANI_WKOOPA_JUMPING_LEFT;
+		if ((state == WKOOPA_STATE_JUMPING || state == WKOOPA_STATE_JUMPING_TIMEOUT)
+			&& vx > 0)
+			aniId = ID_ANI_WKOOPA_JUMPING_RIGHT;
+	
+		else if (state == WKOOPA_STATE_WALKING)
 		{
 			if (vx > 0)
 				aniId = ID_ANI_WKOOPA_WALKING_RIGHT;
@@ -197,7 +216,20 @@ void CWingKoopa::SetState(int state)
 		ay = WKOOPA_GRAVITY;
 		break;
 
+	case WKOOPA_STATE_JUMPING:
+		ay = -WKOOPA_JUMP_SPEED;
+		fly_time = GetTickCount64();
 
+		break;
+
+	case WKOOPA_STATE_JUMPING_TIMEOUT:
+		if (vy < 0)
+			ay = WKOOPA_JUMP_SPEED;
+		else
+			ay = WKOOPA_GRAVITY;
+
+		fly_timeout = GetTickCount64();
+		break;
 	case WKOOPA_STATE_HIDDEN:
 		x = default_x;
 		y = default_y - 3;
