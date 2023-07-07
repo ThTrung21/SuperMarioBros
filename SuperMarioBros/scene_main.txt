@@ -184,9 +184,11 @@ WingKoopa.txt
 #Wing Goomba
 14	848	130
 
+#wing koopa
+22	330	170
 
 #Goomba
-2	330	170
+#2	330	170
 2	464	170
 
 2	800	162

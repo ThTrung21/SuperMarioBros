@@ -7,6 +7,7 @@
 
 CWingKoopa::CWingKoopa(float x, float y)
 {
+	die_flag = 0;
 	this->ax = 0;
 	this->ay = WKOOPA_GRAVITY;
 	revive_start = -1;
@@ -59,7 +60,8 @@ bool CWingKoopa::MarioDetection(int mario_x)
 
 void CWingKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state != WKOOPA_STATE_WALKING)
+	if (state != WKOOPA_STATE_WALKING &&
+		state != WKOOPA_STATE_JUMPING && state!= WKOOPA_STATE_JUMPING_TIMEOUT)
 	{
 		left = x - WKOOPA_BBOX_WIDTH / 2;
 		top = y - WSHELL_BBOX_HEIGHT / 2;
@@ -114,9 +116,11 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//respawn mechanic
 	if (state == WKOOPA_STATE_HIDDEN && RespawnDetector(mario_x) == 1)
 	{
+		
 		flag = 0;
-		//y -= (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
+		
 		SetState(WKOOPA_STATE_IDLE);
+		die_flag = 0;
 	}
 
 	//jump mechanic
@@ -157,8 +161,9 @@ void CWingKoopa::Render()
 		{
 			aniId = ID_ANI_WKOOPA_REVIVE;
 		}
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
-		
+	RenderBoundingBox();
 }
 
 void CWingKoopa::SetState(int state)
@@ -184,10 +189,13 @@ void CWingKoopa::SetState(int state)
 		ay = WKOOPA_GRAVITY;
 		break;
 		x = default_x;
-		y = default_y - 3;
+		if(die_flag = 0)
+			y = default_y - 5;
 		//walking
 	case WKOOPA_STATE_WALKING:
+		//if(die_flag==1)
 		y = default_y - 3;
+		ay = WKOOPA_GRAVITY;
 		if (pre_vx > 0)
 			vx = -WKOOPA_WALKING_SPEED;
 		else if (pre_vx < 0)
@@ -223,6 +231,7 @@ void CWingKoopa::SetState(int state)
 		break;
 
 	case WKOOPA_STATE_JUMPING_TIMEOUT:
+		vx = -WKOOPA_WALKING_SPEED;
 		if (vy < 0)
 			ay = WKOOPA_JUMP_SPEED;
 		else
@@ -230,7 +239,9 @@ void CWingKoopa::SetState(int state)
 
 		fly_timeout = GetTickCount64();
 		break;
+
 	case WKOOPA_STATE_HIDDEN:
+		die_flag = 1;
 		x = default_x;
 		y = default_y - 3;
 		vx = 0;

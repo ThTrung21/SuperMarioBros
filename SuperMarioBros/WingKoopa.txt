@@ -1,6 +1,6 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-#10 and 70
+
 ##########WING
 #####LEFT
 #wing down
@@ -41,16 +41,18 @@
 [ANIMATIONS]
 
 ###walking
+
 #left
 25003	200009	100	200010	100
 #right
 25004	200011	100	200012	100
 
 #with wing
+
 #left
 25001	200001	100	200002	100	200003	100
 #right
-25002	200005	100	200006	100	200007	100	
+25002	200005	100	200006	100	200007	100
 
 #Shell
 25005	200013	100

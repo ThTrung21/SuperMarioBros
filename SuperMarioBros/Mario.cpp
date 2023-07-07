@@ -124,15 +124,15 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionithTanukiLeaf(e);
 	else if (dynamic_cast<CWingGoomba*>(e->obj))
 		OnCollisionWithWingGoomba(e);
-	/*else if (dynamic_cast<CColorBox*>(e->obj))
-		OnCollisionWithColorBox(e);*/
+	
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
 		OnCollisionWithGoldBrick(e);
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
 		OnCollisionWithGoldBrick(e);
-	else if(dynamic_cast<CFirePlant_Short*>(e->obj))
+	else if (dynamic_cast<CFirePlant_Short*>(e->obj))
 		OnCollisionWithFirePlantShort(e);
-	else if(dynamic_cast<CWingKoopa*>(e->obj))
+	else if (dynamic_cast<CWingKoopa*>(e->obj))
+		OnCollisionWithWingKoopa(e);
 
 }
 
@@ -300,8 +300,7 @@ void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
 	if (untouchable == 0)
 	{
-		if (chomper->GetState() != CHOMPER_STATE_DIE)
-		{
+		
 			if (level == MARIO_LEVEL_TANUKI)
 				level = MARIO_LEVEL_BIG;
 			else if (level == MARIO_LEVEL_BIG)
@@ -314,7 +313,7 @@ void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 				DebugOut(L">>> Mario DIE >>> \n");
 				SetState(MARIO_STATE_DIE);
 			}
-		}
+		
 	}
 }
 
@@ -452,7 +451,7 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 	{
 
 		if (wkoopa->GetState() != WKOOPA_STATE_SHELL && wkoopa->GetState() != WKOOPA_STATE_JUMPING &&
-			wkoopa->GetState() != WKOOPA_STATE_JUMPING_TIMEOUT)
+			wkoopa->GetState() != WKOOPA_STATE_JUMPING_TIMEOUT )
 		{
 			wkoopa->SetState(WKOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -483,6 +482,24 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 				}
 			}
 		}
+	}
+	//kick shell right
+	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && (e->nx < 0))
+	{
+		wkoopa->SetState(WKOOPA_STATE_KICK_RIGHT);
+	}
+	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && (e->ny < 0) && this->vx > 0)
+	{
+		wkoopa->SetState(WKOOPA_STATE_KICK_RIGHT);
+	}
+	//kcik shell left
+	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && e->nx > 0)
+	{
+		wkoopa->SetState(WKOOPA_STATE_KICK_LEFT);
+	}
+	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && (e->ny < 0) && this->vx < 0)
+	{
+		wkoopa->SetState(WKOOPA_STATE_KICK_LEFT);
 	}
 }
 

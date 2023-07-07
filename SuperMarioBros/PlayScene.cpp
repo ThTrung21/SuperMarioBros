@@ -26,7 +26,7 @@
 #include "Wood.h"
 #include "FirePlant_Short.h"
 #include "Chomper.h"
-
+#include "WingKoopa.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -260,7 +260,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_WINGGOOMBA:
 		obj = new CWingGoomba(x, y);
-
+		break;
+	case OBJECT_TYPE_WINGKOOPA:
+		obj = new CWingKoopa(x, y);
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{

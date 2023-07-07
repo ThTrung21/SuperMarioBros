@@ -11,7 +11,7 @@
 
 #define WKOOPA_SHELL_TIMEOUT 5000
 #define WKOOPA_REVIVE_TIME 5000
-#define WKOOPA_JUMP_WAIT	1000
+#define WKOOPA_JUMP_WAIT	600
 #define WKOOPA_JUMP_TIME	200
 
 #define WKOOPA_STATE_IDLE 0
@@ -38,7 +38,7 @@
 
 
 #define WKOOPA_BBOX_WIDTH 16
-#define WKOOPA_BBOX_HEIGHT 35
+#define WKOOPA_BBOX_HEIGHT 26
 #define WKOOPA_BBOX_WALKING_HEIGHT 25
 #define WSHELL_BBOX_HEIGHT 16
 
@@ -50,7 +50,7 @@ protected:
 	float default_y, default_x;
 	float pre_vx;
 	int flag;
-
+	int die_flag;
 	ULONGLONG fly_time;
 	ULONGLONG fly_timeout;
 
