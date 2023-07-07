@@ -87,7 +87,10 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 
 	
-
+	if (y > 220)
+	{
+		SetState(WGOOMBA_STATE_HIDDEN);
+	}
 	if ((state == WGOOMBA_STATE_DIE) && (GetTickCount64() - die_start > WGOOMBA_DIE_TIMEOUT))
 	{
 		SetState(WGOOMBA_STATE_HIDDEN);

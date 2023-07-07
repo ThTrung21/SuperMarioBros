@@ -124,7 +124,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionithTanukiLeaf(e);
 	else if (dynamic_cast<CWingGoomba*>(e->obj))
 		OnCollisionWithWingGoomba(e);
-	
+	else if (dynamic_cast<CChomper*>(e->obj))
+		OnCollisionWithChomper(e);
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
 		OnCollisionWithGoldBrick(e);
 	else if (dynamic_cast<CGoldBrick*>(e->obj))

@@ -95,7 +95,7 @@ void CChomper::Render()
 void CChomper::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x - CHOMPER_WIDTH / 6;
-	top = y - CHOMPER_HEIGHT / 6;
+	top = y - 8 - CHOMPER_HEIGHT / 6;
 	right = x + CHOMPER_WIDTH - 3;
 	bottom = y + CHOMPER_HEIGHT - 6;
 }

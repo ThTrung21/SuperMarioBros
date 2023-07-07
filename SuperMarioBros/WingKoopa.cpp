@@ -81,7 +81,10 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-
+	if (y > 220)
+	{
+		SetState(WKOOPA_STATE_HIDDEN);
+	}
 	//shell kicked timeout
 	if ((state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > WKOOPA_SHELL_TIMEOUT)
 	{

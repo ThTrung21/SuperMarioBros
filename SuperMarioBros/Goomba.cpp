@@ -66,7 +66,10 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-
+	if (y > 220)
+	{
+		SetState(GOOMBA_STATE_HIDDEN);
+	}
 	if ( (state==GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT) )
 	{
 		SetState(GOOMBA_STATE_HIDDEN);

@@ -4,6 +4,7 @@
 #pragma once
 #include "GameObject.h"
 
+
 #define WKOOPA_GRAVITY 0.002f
 #define WKOOPA_WALKING_SPEED 0.05f
 #define WKOOPA_SHELL_SPEED 0.3f

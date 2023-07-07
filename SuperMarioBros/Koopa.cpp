@@ -5,7 +5,8 @@
 #include "Mario.h"
 #include "debug.h"
 #include "PlayScene.h"
-
+#include "WingKoopa.h"
+#include "WingGoomba.h"
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -66,11 +67,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking() &&! e->obj->IsGoomba()) return;
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
+	if (e->obj->IsKoopa() && e->obj->GetState() == KOOPA_STATE_HIDDEN) return;
 	
-	//if (e->obj->IsInvisBlock())// && state !=KOOPA_STATE_WALKING /*(state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)*/)
-		//return;
-	//if (dynamic_cast<CGoomba*>(e->obj) && state == KOOPA_STATE_WALKING) return;
-	if (e->ny != 0)
+	if (e->ny != 0 && state!=KOOPA_STATE_HIT)
 	{
 		vy = 0;
 	}
@@ -85,6 +84,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithMysteryBox(e);
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
 
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
@@ -123,14 +124,38 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	
-	DebugOut(L"Shell HIT GOOMBA\n");
+	
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	if (goomba->GetState() == GOOMBA_STATE_DIE) return;
 	if (goomba->GetState() == GOOMBA_STATE_HIDDEN) return;
 	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		goomba->SetState(GOOMBA_STATE_DIE);
-		DebugOut(L"Shell HIT GOOMBA");
+		
+	}
+}
+void CKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
+{
+	CWingGoomba* wgoomba = dynamic_cast<CWingGoomba*>(e->obj);
+	if (wgoomba->GetState() == GOOMBA_STATE_DIE) return;
+	if (wgoomba->GetState() == GOOMBA_STATE_HIDDEN) return;
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	{
+		wgoomba->SetState(GOOMBA_STATE_DIE);
+
+	}
+}
+void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* k = dynamic_cast<CKoopa*>(e->obj);
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	{
+		if (k->GetState() == KOOPA_STATE_KICK_LEFT || k->GetState() == KOOPA_STATE_KICK_RIGHT)
+		{
+			vx = -vx;
+		}
+		else
+			k->SetState(KOOPA_STATE_HIT);
 	}
 }
 
@@ -139,7 +164,10 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 	
-
+	if (y > 220)
+	{
+		SetState(KOOPA_STATE_HIDDEN);
+	}
 	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > KOOPA_SHELL_TIMEOUT)
 	{
 		SetState(KOOPA_STATE_HIDDEN);
@@ -155,6 +183,12 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(KOOPA_STATE_WALKING);
 		return;
 	}
+
+	if (state == KOOPA_STATE_HIT && y < (default_y - 48))
+	{
+		ay = KOOPA_GRAVITY;
+	}
+
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	int mario_x;
 	mario_x = mario->GetX();
@@ -191,7 +225,8 @@ void CKoopa::Render()
 			if (vx < 0)
 				aniId = ID_ANI_KOOPA_WALKING_LEFT;
 		}
-
+		else if (state == KOOPA_STATE_HIT)
+			aniId = ID_ANI_KOOPA_HIT;
 		else if (state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 		{
 			aniId = ID_ANI_KOOPA_SHELL;
@@ -211,7 +246,8 @@ void CKoopa::Render()
 			if (vx < 0)
 				aniId = ID_ANI_KOOPA_GREEN_WALKING_LEFT;
 		}
-
+		else if (state == KOOPA_STATE_HIT)
+			aniId = ID_ANI_KOOPA_GREEN_HIT;
 		else if (state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 		{
 			aniId = ID_ANI_KOOPA_GREEN_SHELL;
@@ -280,8 +316,10 @@ void CKoopa::SetState(int state)
 		vx = -KOOPA_SHELL_SPEED;
 		ay = KOOPA_GRAVITY;
 		break;
-
-
+	case KOOPA_STATE_HIT:
+		ay = -KOOPA_POP_SPEED;
+		vx = 0;
+		break;
 	case KOOPA_STATE_HIDDEN:
 		x = default_x;
 		y = default_y-3;
