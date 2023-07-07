@@ -25,10 +25,10 @@
 
 #define ID_ANI_WKOOPA_JUMPING_LEFT	25001
 #define ID_ANI_WKOOPA_JUMPING_RIGHT	25002
-#define ID_ANI_WKOOPA_WALKING_LEFT 16000
-#define ID_ANI_WKOOPA_WALKING_RIGHT 16001
-#define ID_ANI_WKOOPA_SHELL 16002
-#define ID_ANI_WKOOPA_REVIVE 16003
+#define ID_ANI_WKOOPA_WALKING_LEFT 25003
+#define ID_ANI_WKOOPA_WALKING_RIGHT 25004
+#define ID_ANI_WKOOPA_SHELL 25005
+#define ID_ANI_WKOOPA_REVIVE 25006
 
 
 
@@ -48,6 +48,8 @@ protected:
 	float pre_vx;
 	int flag;
 
+	ULONGLONG fly_time;
+	ULONGLONG fly_timeout;
 
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
@@ -68,7 +70,7 @@ protected:
 	//void OnCollisionWithMysteryBox(LPCOLLISIONEVENT e);
 	//void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
-	CWingKoopa(float x, float y, int type);
+	CWingKoopa(float x, float y);
 	virtual void SetState(int state);
 	virtual bool IsKoopa() { return 1; }
 };

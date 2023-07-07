@@ -223,7 +223,7 @@ void CKoopa::Render()
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	
-}
+	}
 	RenderBoundingBox();
 }
 void CKoopa::SetState(int state)
@@ -246,7 +246,7 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_IDLE:
 
 		vx = 0;
-		ay = GOOMBA_GRAVITY;
+		ay = KOOPA_GRAVITY;
 		break;
 		x = default_x;
 		y = default_y-3;
