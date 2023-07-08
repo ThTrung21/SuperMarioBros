@@ -26,7 +26,7 @@ CWingKoopa::CWingKoopa(float x, float y)
 bool CWingKoopa::RespawnDetector(int mario_x)
 {
 	int xx = mario_x - (int)default_x;
-	if (abs(xx) > 250)
+	if (abs(xx) > 300)
 		return 1;
 	return 0;
 }

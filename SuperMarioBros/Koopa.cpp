@@ -7,6 +7,8 @@
 #include "PlayScene.h"
 #include "WingKoopa.h"
 #include "WingGoomba.h"
+#include "Invis_block.h"
+
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -52,7 +54,7 @@ bool CKoopa::MarioDetection(int mario_x)
 bool CKoopa::RespawnDetector(int mario_x)
 {
 	int xx = mario_x - (int)default_x;
-	if (abs(xx) > 250)
+	if (abs(xx) > 300)
 		return 1;
 	return 0;
 }
@@ -81,20 +83,28 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking() &&! e->obj->IsGoomba()) return;
+
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
 	if (e->obj->IsKoopa() && e->obj->GetState() == KOOPA_STATE_HIDDEN) return;
 	
-	if (e->ny != 0 && state!=KOOPA_STATE_HIT)
+	if (dynamic_cast<CTanukiLeaf*>(e->obj))
+		OnCollisionithTanukiLeaf(e);
+	//invisible barrier for red koopa
+	else if (state == KOOPA_STATE_WALKING && Ktype==1 && dynamic_cast<CInvis*>(e->obj))
+	{
+		DebugOut(L"WALKING\n");
+		vx = -vx;
+	}
+	else if (e->ny != 0 && state!=KOOPA_STATE_HIT)
 	{
 		vy = 0;
 	}
-	else if (e->nx != 0 && !e->obj->IsGoomba())
+	else if (e->nx != 0 && !e->obj->IsGoomba() && !dynamic_cast<CInvis*>(e->obj))
 	{
 		vx = -vx;
 	}
 	
-	if (dynamic_cast<CTanukiLeaf*>(e->obj))
+	else if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
 	else if (dynamic_cast<CBox*>(e->obj))
 		OnCollisionWithMysteryBox(e);
@@ -107,7 +117,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
-	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) /* && leaf->GetState() == LEAF_STATE_HIDDEN*/)
+	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)  && leaf->GetState() == LEAF_STATE_HIDDEN)
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
@@ -168,6 +178,7 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	{
 		if (k->GetState() == KOOPA_STATE_KICK_LEFT || k->GetState() == KOOPA_STATE_KICK_RIGHT)
 		{
+			
 			vx = -vx;
 		}
 		else

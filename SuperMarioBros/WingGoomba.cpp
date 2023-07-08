@@ -209,7 +209,7 @@ void CWingGoomba::SetState(int state)
 bool CWingGoomba::RespawnDetector(int mario_x)
 {
 	int xx = mario_x - (int)X;
-	if (abs(xx) > 250)
+	if (abs(xx) > 300)
 		return 1;
 	return 0;
 }
