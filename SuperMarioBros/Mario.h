@@ -141,6 +141,7 @@ class CMario : public CGameObject
 	ULONGLONG slap_time;
 	BOOLEAN isOnPlatform;
 	int coin; 
+	bool isHolding_AKey = false;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -160,7 +161,12 @@ class CMario : public CGameObject
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanuki();
+	
 public:
+	void IsHolding_AKey(bool flag)
+	{
+		isHolding_AKey = flag;
+	}
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;
@@ -192,6 +198,6 @@ public:
 	int GetLevel() { return level; }
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
-
+	int Getnx() { return nx; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

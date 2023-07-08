@@ -19,6 +19,8 @@ protected:
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
 	LPGAMEOBJECT fireball;
+	LPGAMEOBJECT koopa;
+
 	vector<LPGAMEOBJECT> objects;
 
 	void _ParseSection_SPRITES(string line);
@@ -39,8 +41,10 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	LPGAMEOBJECT GetFireBall() { return fireball; }
+	LPGAMEOBJECT GetKoopa() { return koopa; }
 	void Clear();
 	void PurgeDeletedObjects();
+	void SetKoopa(LPGAMEOBJECT thisKoopa) { this->koopa = thisKoopa; }
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };

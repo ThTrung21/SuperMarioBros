@@ -354,7 +354,13 @@ void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-	if (e->ny < 0 )//&& koopa->GetState() == KOOPA_STATE_WALKING)
+	if (koopa->GetState() == KOOPA_STATE_SHELL&& isHolding_AKey==true)
+	{
+		koopa->SetState(KOOPA_STATE_HOLD);
+		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetKoopa(koopa);
+	}
+
+	else if (e->ny < 0 )//&& koopa->GetState() == KOOPA_STATE_WALKING)
 	{
 		if (koopa->GetState() == KOOPA_STATE_WALKING)
 		{
@@ -364,9 +370,10 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	else
 	{
-		if (untouchable == 0 )
+		if (untouchable == 0   )
 		{
-			if (koopa->GetState() != KOOPA_STATE_SHELL && koopa->GetState() != KOOPA_STATE_HIDDEN)
+			if (koopa->GetState() != KOOPA_STATE_SHELL && koopa->GetState() != KOOPA_STATE_HIDDEN
+				&& koopa->GetState() != KOOPA_STATE_HOLD)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
@@ -381,6 +388,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+
 	//kick shell right
 	if (koopa->GetState() == KOOPA_STATE_SHELL && ( e->nx < 0 ) )
 	{
@@ -406,7 +414,7 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 	CWingGoomba* wgoomba = dynamic_cast<CWingGoomba*>(e->obj);
 
 	// jump on top >> kill WingGoomba and deflect a bit 
-	if (e->ny < 0)
+	if (e->ny < 0 &&wgoomba->GetState()!=WGOOMBA_STATE_HIDDEN)
 	{
 
 		if (wgoomba->GetState() != WGOOMBA_STATE_DIE && wgoomba->GetState() != WGOOMBA_STATE_JUMPING &&

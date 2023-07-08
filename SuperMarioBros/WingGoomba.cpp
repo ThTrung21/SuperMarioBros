@@ -37,9 +37,9 @@ void CWingGoomba::GetBoundingBox(float& left, float& top, float& right, float& b
 	else if (state == WGOOMBA_STATE_WALKING)
 	{
 		left= x - WGOOMBA_BBOX_WIDTH / 2;
-		top = (y - WGOOMBA_BBOX_HEIGHT_WALKING / 2)+2;
+		top = (y - WGOOMBA_BBOX_HEIGHT_WALKING / 2);
 		right = left + WGOOMBA_BBOX_WIDTH;
-		bottom = top + WGOOMBA_BBOX_HEIGHT_WALKING;
+		bottom = top + WGOOMBA_BBOX_HEIGHT_WALKING+2;
 	}
 	else
 	{

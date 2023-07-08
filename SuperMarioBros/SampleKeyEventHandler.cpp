@@ -5,7 +5,8 @@
 
 #include "Mario.h"
 #include "PlayScene.h"
-
+#include "Koopa.h"
+#include "WingKoopa.h"
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -20,11 +21,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_JUMP);
 		break;
 	case DIK_A:
-		if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
-		{
-			
-			mario->SetState(MARIO_STATE_SLAP);
-		}
+		mario->IsHolding_AKey(true);
 		break;
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
@@ -54,14 +51,26 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S:
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
-	/*case DIK_A:
-		if(mario->GetLevel() == MARIO_LEVEL_TANUKI)
-			mario->SetState(Mario_STATE_SLAP_RELEASE);
-		break;*/
+	
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
+	case DIK_A:
+		CKoopa* koopa = (CKoopa*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetKoopa();
+		if (koopa != NULL)
+		{
+			if (koopa->GetState() == KOOPA_STATE_HOLD)
+			{
+				if (mario->Getnx() > 0)
+					koopa->SetState(KOOPA_STATE_KICK_RIGHT);
+				else if (mario->Getnx() < 0)
+					koopa->SetState(KOOPA_STATE_KICK_LEFT);
+			}
+			mario->IsHolding_AKey(false);
+		}
+		break;
 	}
+
 }
 
 void CSampleKeyHandler::KeyState(BYTE *states)

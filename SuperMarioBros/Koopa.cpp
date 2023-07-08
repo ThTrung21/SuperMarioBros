@@ -59,8 +59,24 @@ bool CKoopa::RespawnDetector(int mario_x)
 
 void CKoopa::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
-	y += vy * dt;
+	if (state != KOOPA_STATE_HOLD)
+	{
+		x += vx * dt;
+		y += vy * dt;
+	}
+	else 
+	{
+		CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		if (mario->Getnx() < 0) {
+			x = mario->GetX() - 15;
+			y = mario->GetY();
+		}
+		else if (mario->Getnx() > 0) {
+			x = mario->GetX() + 15;
+			y = mario->GetY();
+		}
+	}
+
 };
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -227,7 +243,7 @@ void CKoopa::Render()
 		}
 		else if (state == KOOPA_STATE_HIT)
 			aniId = ID_ANI_KOOPA_HIT;
-		else if (state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+		else if (state == KOOPA_STATE_HOLD ||state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 		{
 			aniId = ID_ANI_KOOPA_SHELL;
 		}
@@ -248,7 +264,7 @@ void CKoopa::Render()
 		}
 		else if (state == KOOPA_STATE_HIT)
 			aniId = ID_ANI_KOOPA_GREEN_HIT;
-		else if (state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+		else if (state == KOOPA_STATE_HOLD || state == KOOPA_STATE_SHELL || state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 		{
 			aniId = ID_ANI_KOOPA_GREEN_SHELL;
 		}
@@ -319,6 +335,11 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_HIT:
 		ay = -KOOPA_POP_SPEED;
 		vx = 0;
+		break;
+	case KOOPA_STATE_HOLD:
+		vx = 0;
+		vy = 0;
+		ay = 0;
 		break;
 	case KOOPA_STATE_HIDDEN:
 		x = default_x;

@@ -96,7 +96,7 @@ WingKoopa.txt
 #4	180	2	0
 
 #tanuki leaf
-#9	644	160	
+9	644	160	
 #9	240	87
 
 #Cloud BLOCK
