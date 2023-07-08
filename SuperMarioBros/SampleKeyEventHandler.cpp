@@ -66,8 +66,9 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 				else if (mario->Getnx() < 0)
 					koopa->SetState(KOOPA_STATE_KICK_LEFT);
 			}
-			mario->IsHolding_AKey(false);
+			
 		}
+		mario->IsHolding_AKey(false);
 		break;
 	}
 

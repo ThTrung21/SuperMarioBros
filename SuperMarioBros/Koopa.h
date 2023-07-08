@@ -8,6 +8,7 @@
 
 #define KOOPA_SHELL_TIMEOUT 5001
 #define KOOPA_REVIVE_TIME 5000
+#define KOOPA_KICK_COOLDOWN 100
 
 #define KOOPA_STATE_IDLE 0
 #define KOOPA_STATE_WALKING 100
@@ -50,7 +51,7 @@ protected:
 	//type: 1-red 2-green
 	int Ktype;
 	
-
+	ULONGLONG kick_cooldown;
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
 	ULONGLONG die_timeout;
@@ -75,4 +76,10 @@ public:
 	CKoopa(float x, float y,int type);
 	virtual void SetState(int state);
 	virtual bool IsKoopa() { return 1; }
+	bool KickCooldown()
+	{
+		if (GetTickCount64() - kick_cooldown > KOOPA_KICK_COOLDOWN)
+			return true;
+		return false;
+	}
 };

@@ -392,11 +392,13 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	//kick shell right
 	if (koopa->GetState() == KOOPA_STATE_SHELL && ( e->nx < 0 ) )
 	{
-		koopa->SetState(KOOPA_STATE_KICK_RIGHT);
+		
+			koopa->SetState(KOOPA_STATE_KICK_RIGHT);
 	}
 	if (koopa->GetState() == KOOPA_STATE_SHELL && (e->ny < 0) && this->vx>0)
 	{
-		koopa->SetState(KOOPA_STATE_KICK_RIGHT);
+		if (koopa->KickCooldown() == 1)
+			koopa->SetState(KOOPA_STATE_KICK_RIGHT);
 	}
 	//kcik shell left
 	if (koopa->GetState() == KOOPA_STATE_SHELL && e->nx > 0)
@@ -405,7 +407,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	if (koopa->GetState() == KOOPA_STATE_SHELL && (e->ny < 0) && this->vx < 0)
 	{
-		koopa->SetState(KOOPA_STATE_KICK_LEFT);
+		if (koopa->KickCooldown() == 1)
+			koopa->SetState(KOOPA_STATE_KICK_LEFT);
 	}
 }
 

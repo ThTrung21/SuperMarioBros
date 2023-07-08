@@ -68,12 +68,12 @@ void CKoopa::OnNoCollision(DWORD dt)
 	{
 		CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 		if (mario->Getnx() < 0) {
-			x = mario->GetX() - 15;
-			y = mario->GetY();
+			x = (float)mario->GetX() - 15;
+			y = (float)mario->GetY();
 		}
 		else if (mario->Getnx() > 0) {
-			x = mario->GetX() + 15;
-			y = mario->GetY();
+			x = (float)mario->GetX() + 15;
+			y = (float)mario->GetY();
 		}
 	}
 
@@ -286,7 +286,7 @@ void CKoopa::SetState(int state)
 		//shell
 	case KOOPA_STATE_SHELL:
 		shell_start = GetTickCount64();
-
+		kick_cooldown = GetTickCount64();
 		y += (KOOPA_BBOX_HEIGHT - SHELL_BBOX_HEIGHT) / 2;
 		pre_vx = vx;
 		vx = 0;
@@ -305,6 +305,7 @@ void CKoopa::SetState(int state)
 		//walking
 	case KOOPA_STATE_WALKING:
 		y = default_y - 3;
+		ay = KOOPA_GRAVITY;
 		if (pre_vx > 0)
 			vx = -KOOPA_WALKING_SPEED;
 		else if (pre_vx < 0)
@@ -321,7 +322,8 @@ void CKoopa::SetState(int state)
 
 		//kick
 	case KOOPA_STATE_KICK_RIGHT:
-		y -= 3;
+		
+	y -= 3;
 		vx = KOOPA_SHELL_SPEED;
 		ay = KOOPA_GRAVITY;
 		die_timeout = GetTickCount64();
