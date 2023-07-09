@@ -14,6 +14,7 @@
 #define WKOOPA_REVIVE_TIME 5000
 #define WKOOPA_JUMP_WAIT	600
 #define WKOOPA_JUMP_TIME	200
+#define WKOOPA_KICK_COOLDOWN 100
 
 #define WKOOPA_STATE_IDLE 0
 
@@ -22,10 +23,12 @@
 
 #define WKOOPA_STATE_WALKING 100
 #define WKOOPA_STATE_SHELL 200
+#define WKOOPA_STATE_HOLD 250
 #define WKOOPA_STATE_KICK_LEFT 300
 #define WKOOPA_STATE_KICK_RIGHT 400
 #define WKOOPA_STATE_REVIVE 500
 #define WKOOPA_STATE_HIDDEN 600
+
 
 #define ID_ANI_WKOOPA_JUMPING_LEFT	25001
 #define ID_ANI_WKOOPA_JUMPING_RIGHT	25002
@@ -51,10 +54,12 @@ protected:
 	float default_y, default_x;
 	float pre_vx;
 	int flag;
+
 	int die_flag;
 	ULONGLONG fly_time;
 	ULONGLONG fly_timeout;
 
+	ULONGLONG kick_cooldown;
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
 	ULONGLONG die_timeout;
@@ -77,5 +82,11 @@ public:
 	CWingKoopa(float x, float y);
 	virtual void SetState(int state);
 	virtual bool IsKoopa() { return 1; }
+	bool KickCooldown()
+	{
+		if (GetTickCount64() - kick_cooldown > WKOOPA_KICK_COOLDOWN)
+			return true;
+		return false;
+	}
 };
 

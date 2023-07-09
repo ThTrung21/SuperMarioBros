@@ -457,6 +457,13 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 {
 	CWingKoopa* wkoopa = dynamic_cast<CWingKoopa*>(e->obj);
+	if (wkoopa->GetState() == WKOOPA_STATE_HIDDEN ||wkoopa->GetState() == WKOOPA_STATE_HOLD)
+		return;
+	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && isHolding_AKey == true)
+	{
+		wkoopa->SetState(WKOOPA_STATE_HOLD);
+		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetWKoopa(wkoopa);
+	}
 
 	// jump on top 
 	if (e->ny < 0)

@@ -92,7 +92,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	//invisible barrier for red koopa
 	else if (state == KOOPA_STATE_WALKING && Ktype==1 && dynamic_cast<CInvis*>(e->obj))
 	{
-		DebugOut(L"WALKING\n");
+		
 		vx = -vx;
 	}
 	else if (e->ny != 0 && state!=KOOPA_STATE_HIT)
@@ -195,16 +195,19 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		SetState(KOOPA_STATE_HIDDEN);
 	}
+	//shell kicked timeout
 	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > KOOPA_SHELL_TIMEOUT)
 	{
 		SetState(KOOPA_STATE_HIDDEN);
 		return;
 	}
+	//revive after turn into shell
 	if ((state == KOOPA_STATE_SHELL) &&  (GetTickCount64() - shell_start > KOOPA_SHELL_TIMEOUT))
 	{
 		SetState(KOOPA_STATE_REVIVE);
 		return;
 	}
+	//change revive ani to idle/walking ani
 	if ((state == KOOPA_STATE_REVIVE) && (GetTickCount64() - revive_start > KOOPA_REVIVE_TIME))
 	{
 		SetState(KOOPA_STATE_WALKING);
@@ -307,7 +310,6 @@ void CKoopa::SetState(int state)
 
 		//idle
 	case KOOPA_STATE_IDLE:
-
 		vx = 0;
 		ay = KOOPA_GRAVITY;
 		break;
@@ -332,9 +334,8 @@ void CKoopa::SetState(int state)
 		break;
 
 		//kick
-	case KOOPA_STATE_KICK_RIGHT:
-		
-	y -= 3;
+	case KOOPA_STATE_KICK_RIGHT:	
+		y -= 3;
 		vx = KOOPA_SHELL_SPEED;
 		ay = KOOPA_GRAVITY;
 		die_timeout = GetTickCount64();

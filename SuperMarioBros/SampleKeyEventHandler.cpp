@@ -56,6 +56,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
 	case DIK_A:
+		CWingKoopa* wkoopa= (CWingKoopa*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetWKoopa();
 		CKoopa* koopa = (CKoopa*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetKoopa();
 		if (koopa != NULL)
 		{
@@ -67,6 +68,17 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 					koopa->SetState(KOOPA_STATE_KICK_LEFT);
 			}
 			
+		}
+		if (wkoopa != NULL)
+		{
+			if (wkoopa->GetState() == WKOOPA_STATE_HOLD)
+			{
+				if (mario->Getnx() > 0)
+					wkoopa->SetState(WKOOPA_STATE_KICK_RIGHT);
+				else if (mario->Getnx() < 0)
+					wkoopa->SetState(WKOOPA_STATE_KICK_LEFT);
+			}
+
 		}
 		mario->IsHolding_AKey(false);
 		break;
