@@ -36,6 +36,7 @@
 #define MARIO_STATE_SLAP		700
 #define Mario_STATE_SLAP_RIGHT		701
 
+#define MARIO_STATE_FLY 800
 #pragma region ANIMATION_ID
 //BIG MARIO
 #define ID_ANI_MARIO_IDLE_RIGHT 400
@@ -104,6 +105,9 @@
 
 #define ID_ANI_MARIO_TANUKI_SLAP_RIGHT 2400
 #define ID_ANI_MARIO_TANUKI_SLAP_LEFT	2401
+
+#define ID_ANI_MARIO_TANUKI_FLY_RIGHT	2500
+#define ID_ANI_MARIO_TANUKI_FLY_LEFT	2501
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -134,12 +138,15 @@ class CMario : public CGameObject
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
-
+	bool isFlying =false;
+	bool isGlide = false;
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	ULONGLONG slap_time;
 	BOOLEAN isOnPlatform;
+	ULONGLONG resetGravity_start = -1;
+	ULONGLONG glide_start = -1;
 	int coin; 
 	bool isHolding_AKey = false;
 
@@ -199,5 +206,6 @@ public:
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	int Getnx() { return nx; }
+	float Getvx() { return vx; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

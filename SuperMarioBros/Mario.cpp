@@ -30,7 +30,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 	float x_now, y_now;
 	GetPosition(x_now, y_now);
-	if (y_now > 220)
+	if (y_now > 280)
 	{
 		SetState(MARIO_STATE_DIE);
 	}
@@ -38,6 +38,25 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetPosition(16, y_now);
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
+
+	if (isFlying) {
+		if (GetTickCount64() - resetGravity_start > 500) {
+			vy = 0.1f;
+			ay = MARIO_GRAVITY;
+			vx = 0.0f;
+			isFlying = false;
+			//SetState(MARIO_STATE_RELEASE_JUMP);
+		}
+
+	}
+	else if (isGlide) {
+		if (GetTickCount64() - glide_start > 300) {
+			vy = 0.1;
+			ay = MARIO_GRAVITY;
+			vx = 0;
+			isGlide = false;
+		}
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -62,32 +81,7 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	//color box
-	//if (e->obj->IsColorBox())
-	//{
-	//	if (e->nx != 0 && e->obj->IsColorBox())
-	//	{
-	//		
-	//		DebugOut(L"Hit colorbox wall\n");
-	//		
-	//		
-
-	//	}
-	//	else
-	//		if (e->ny > 0 && e->obj->IsColorBox())
-	//		{
-
-	//			
-	//		}
-	//		else
-	//			if (e->ny < 0 && e->obj->IsBlocking() && e->obj->IsColorBox())
-	//			{
-	//				vy = 0;
-	//				/*if (e->ny < 0)*/ isOnPlatform = true;
-
-	//			}
-	//}
-	//else
+	
 	if(!e->obj->IsInvisBlock())
 	{
 		if (e->ny != 0 && e->obj->IsBlocking())
@@ -662,13 +656,22 @@ int CMario::GetAniIdTanuki()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (state == MARIO_STATE_FLY)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_TANUKI_FLY_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_TANUKI_FLY_LEFT;
+		}
+		
+		else if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_TANUKI_JUMP_RUN_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_TANUKI_JUMP_RUN_LEFT;
 		}
+		
 		else
 		{
 			if (nx >= 0)
@@ -676,6 +679,7 @@ int CMario::GetAniIdTanuki()
 			else
 				aniId = ID_ANI_MARIO_TANUKI_JUMP_WALK_LEFT;
 		}
+		
 	}
 	else
 		if (isSitting)
@@ -792,7 +796,19 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
-		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		if (level == MARIO_LEVEL_TANUKI) {
+			if (vy > 0) {
+				ay = 0;
+				vy = 0.03f;
+				isGlide = true;
+				glide_start = GetTickCount64();
+				break;
+			}
+		}
+		else {
+			if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		}
+		
 		break;
 
 	case MARIO_STATE_SIT:
@@ -823,6 +839,15 @@ void CMario::SetState(int state)
 		//DebugOut(L"[INFO] SLAP TIME\n");
 		slap_time = GetTickCount64();
 		break;
+	case MARIO_STATE_FLY:
+		ay = 0;
+		vy = -0.2f;
+		vx = 0.2f;
+		isFlying = true;
+		resetGravity_start = GetTickCount64();
+		break;
+
+		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
@@ -844,14 +869,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
-		else if (state == MARIO_STATE_SLAP)
-		{
-			left = (x - MARIO_BIG_BBOX_WIDTH / 2)-2;
-			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
-			
-			right = left + MARIO_BIG_BBOX_WIDTH+2;
-			bottom = top + MARIO_BIG_BBOX_HEIGHT;
-		}
+		
 		else 
 		{
 			left = x - MARIO_BIG_BBOX_WIDTH/2;

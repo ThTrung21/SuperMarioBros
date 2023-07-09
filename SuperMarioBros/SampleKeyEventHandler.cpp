@@ -49,6 +49,17 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
+		if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
+		{
+			if (abs(mario->Getvx()) >= 0.2f) {
+				mario->SetState(MARIO_STATE_FLY);
+				DebugOut(L"FLYYYY\n");
+				break;
+			}
+			else mario->SetState(MARIO_STATE_RELEASE_JUMP);
+
+		}
+		else
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
 	
