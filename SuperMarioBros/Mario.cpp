@@ -354,7 +354,7 @@ void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-	if (koopa->GetState() == KOOPA_STATE_SHELL&& isHolding_AKey==true)
+	if ((koopa->GetState() == KOOPA_STATE_SHELL || koopa->GetState() == KOOPA_STATE_REVIVE)&& isHolding_AKey==true)
 	{
 		koopa->SetState(KOOPA_STATE_HOLD);
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetKoopa(koopa);
@@ -362,6 +362,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 	else if (e->ny < 0 )//&& koopa->GetState() == KOOPA_STATE_WALKING)
 	{
+		if (koopa->GetState() == WKOOPA_STATE_KICK_RIGHT || koopa->GetState() == WKOOPA_STATE_KICK_RIGHT)
+			koopa->SetState(WKOOPA_STATE_SHELL);
 		if (koopa->GetState() == KOOPA_STATE_WALKING)
 		{
 			koopa->SetState(KOOPA_STATE_SHELL);
@@ -373,7 +375,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		if (untouchable == 0   )
 		{
 			if (koopa->GetState() != KOOPA_STATE_SHELL && koopa->GetState() != KOOPA_STATE_HIDDEN
-				&& koopa->GetState() != KOOPA_STATE_HOLD)
+				&& koopa->GetState() != KOOPA_STATE_HOLD && koopa->GetState()!=KOOPA_STATE_HIT)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
@@ -457,20 +459,20 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 {
 	CWingKoopa* wkoopa = dynamic_cast<CWingKoopa*>(e->obj);
-	if (wkoopa->GetState() == WKOOPA_STATE_HIDDEN ||wkoopa->GetState() == WKOOPA_STATE_HOLD)
-		return;
-	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && isHolding_AKey == true)
+	
+	if ((wkoopa->GetState() == WKOOPA_STATE_SHELL || wkoopa->GetState() == WKOOPA_STATE_REVIVE) && isHolding_AKey == true)
 	{
 		wkoopa->SetState(WKOOPA_STATE_HOLD);
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetWKoopa(wkoopa);
 	}
 
 	// jump on top 
-	if (e->ny < 0)
+	else if (e->ny < 0)
 	{
+		if (wkoopa->GetState() == WKOOPA_STATE_KICK_RIGHT || wkoopa->GetState() == WKOOPA_STATE_KICK_RIGHT)
+			wkoopa->SetState(WKOOPA_STATE_SHELL);
 
-		if (wkoopa->GetState() != WKOOPA_STATE_SHELL && wkoopa->GetState() != WKOOPA_STATE_JUMPING &&
-			wkoopa->GetState() != WKOOPA_STATE_JUMPING_TIMEOUT )
+		else if (wkoopa->GetState() ==WKOOPA_STATE_WALKING )
 		{
 			wkoopa->SetState(WKOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -487,7 +489,8 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 		//mario get hit
 		if (untouchable == 0)
 		{
-			if (wkoopa->GetState() != WKOOPA_STATE_SHELL && wkoopa->GetState() != WKOOPA_STATE_HIDDEN)
+			if (wkoopa->GetState() != WKOOPA_STATE_SHELL && wkoopa->GetState() != WKOOPA_STATE_HIDDEN 
+				&&wkoopa->GetState()!=WKOOPA_STATE_HOLD )
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
@@ -509,6 +512,7 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 	}
 	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && (e->ny < 0) && this->vx > 0)
 	{
+		if (wkoopa->KickCooldown() == 1)
 		wkoopa->SetState(WKOOPA_STATE_KICK_RIGHT);
 	}
 	//kcik shell left
@@ -518,6 +522,7 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 	}
 	if (wkoopa->GetState() == WKOOPA_STATE_SHELL && (e->ny < 0) && this->vx < 0)
 	{
+		if (wkoopa->KickCooldown() == 1)
 		wkoopa->SetState(WKOOPA_STATE_KICK_LEFT);
 	}
 }

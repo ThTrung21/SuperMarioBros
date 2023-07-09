@@ -50,7 +50,7 @@ protected:
 	int flag;
 	//type: 1-red 2-green
 	int Ktype;
-	
+	int pop_height;
 	ULONGLONG kick_cooldown;
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
@@ -72,10 +72,12 @@ protected:
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithWingKoopa(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y,int type);
 	virtual void SetState(int state);
 	virtual bool IsKoopa() { return 1; }
+	
 	bool KickCooldown()
 	{
 		if (GetTickCount64() - kick_cooldown > KOOPA_KICK_COOLDOWN)

@@ -8,6 +8,7 @@
 #include "WingKoopa.h"
 #include "WingGoomba.h"
 #include "Invis_block.h"
+#include "WingKoopa.h"
 
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
@@ -21,6 +22,7 @@ CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 	die_timeout = -1;
 	this->Ktype = type;
 	flag = 0;
+	pop_height = 0;
 	SetState(KOOPA_STATE_WALKING);
 	
 }
@@ -86,16 +88,16 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
 	if (e->obj->IsKoopa() && e->obj->GetState() == KOOPA_STATE_HIDDEN) return;
-	
+	if (state == KOOPA_STATE_HIT) return;
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
 	//invisible barrier for red koopa
-	else if (state == KOOPA_STATE_WALKING && Ktype==1 && dynamic_cast<CInvis*>(e->obj))
+	else if (state == KOOPA_STATE_WALKING && Ktype == 1 && dynamic_cast<CInvis*>(e->obj))
 	{
-		
+
 		vx = -vx;
 	}
-	else if (e->ny != 0 && state!=KOOPA_STATE_HIT)
+	else if (e->ny != 0 && state != KOOPA_STATE_HIT)
 	{
 		vy = 0;
 	}
@@ -103,15 +105,19 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-	
+
 	else if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
 	else if (dynamic_cast<CBox*>(e->obj))
 		OnCollisionWithMysteryBox(e);
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CWingGoomba*>(e->obj))
+		OnCollisionWithWingGoomba(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CWingKoopa*>(e->obj))
+		OnCollisionWithWingKoopa(e);
 }
 
 void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
@@ -122,7 +128,19 @@ void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
 }
-
+void CKoopa::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* k = dynamic_cast<CKoopa*>(e->obj);
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	{
+		if (k->GetState() == WKOOPA_STATE_KICK_LEFT || k->GetState() == WKOOPA_STATE_KICK_RIGHT)
+		{
+			vx = -vx;
+		}
+		//else
+			//k->SetState(WKOOPA_STATE_HIT);
+	}
+}
 void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 {
 
@@ -130,13 +148,13 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT))
 	{
 		//coin mystery box
-		/*if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
+		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
 		{
 
 
 			box->SetState(BOX_STATE_USED);
 
-		}*/
+		}
 
 		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_MUSHROOM)
 		{
@@ -163,11 +181,11 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 {
 	CWingGoomba* wgoomba = dynamic_cast<CWingGoomba*>(e->obj);
-	if (wgoomba->GetState() == GOOMBA_STATE_DIE) return;
-	if (wgoomba->GetState() == GOOMBA_STATE_HIDDEN) return;
+	if (wgoomba->GetState() == WGOOMBA_STATE_DIE) return;
+	if (wgoomba->GetState() == WGOOMBA_STATE_HIDDEN) return;
 	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
-		wgoomba->SetState(GOOMBA_STATE_DIE);
+		wgoomba->SetState(WGOOMBA_STATE_DIE);
 
 	}
 }
@@ -195,6 +213,9 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		SetState(KOOPA_STATE_HIDDEN);
 	}
+	
+	
+
 	//shell kicked timeout
 	if ((state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > KOOPA_SHELL_TIMEOUT)
 	{
@@ -213,8 +234,8 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(KOOPA_STATE_WALKING);
 		return;
 	}
-
-	if (state == KOOPA_STATE_HIT && y < (default_y - 48))
+	//koopa got hit
+	if (state == KOOPA_STATE_HIT && y < pop_height)
 	{
 		ay = KOOPA_GRAVITY;
 	}
@@ -348,6 +369,7 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_HIT:
 		ay = -KOOPA_POP_SPEED;
+		pop_height = y - 48;
 		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:
@@ -356,6 +378,7 @@ void CKoopa::SetState(int state)
 		ay = 0;
 		break;
 	case KOOPA_STATE_HIDDEN:
+		pop_height = 0;
 		x = default_x;
 		y = default_y-3;
 		vx = 0;

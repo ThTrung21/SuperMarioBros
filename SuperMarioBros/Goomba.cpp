@@ -149,6 +149,8 @@ void CGoomba::SetState(int state)
 			vx = -GOOMBA_WALKING_SPEED;
 			break;
 		case GOOMBA_STATE_IDLE:	
+			x = X;
+			y = Y;
 			vx = 0;
 			ay = GOOMBA_GRAVITY;
 			break;

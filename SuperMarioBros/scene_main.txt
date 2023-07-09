@@ -100,7 +100,7 @@ WingKoopa.txt
 #9	240	87
 
 #Cloud BLOCK
-16	200	100
+#16	200	100
 
 
 
@@ -139,7 +139,7 @@ WingKoopa.txt
 15	496	146
 15	608	146
 
-15	1092	162
+
 #Portal
 
 #BRICK

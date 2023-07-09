@@ -75,9 +75,11 @@ protected:
 	bool RespawnDetector(int x);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
-	//void OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e);
-	//void OnCollisionWithMysteryBox(LPCOLLISIONEVENT e);
-	//void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e);
+	void OnCollisionWithMysteryBox(LPCOLLISIONEVENT e);
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 public:
 	CWingKoopa(float x, float y);
 	virtual void SetState(int state);

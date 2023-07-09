@@ -1,10 +1,14 @@
 #include "WingKoopa.h"
+#include "WingGoomba.h"
 #include "Goomba.h"
+#include "Tanuki_Leaf.h"
+#include "MysteryBox.h"
 #include "Koopa.h"
 #include "Mario.h"
 #include "debug.h"
 #include "PlayScene.h"
-
+#include"ColorBox.h"
+#include "Invis_block.h"
 CWingKoopa::CWingKoopa(float x, float y)
 {
 	die_flag = 0;
@@ -32,18 +36,109 @@ bool CWingKoopa::RespawnDetector(int mario_x)
 }
 void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking() && !e->obj->IsGoomba()) return;
+	//if (!e->obj->IsBlocking() && !e->obj->IsGoomba()) return;
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
-
+	/*if (e->nx != 0 && dynamic_cast<CColorBox*>(e->obj))
+		return;*/
 	if (e->ny != 0)
 	{
 		vy = 0;
 	}
-	else if (e->nx != 0 && !e->obj->IsGoomba())
+	else if (e->nx != 0 && !e->obj->IsGoomba()&& !dynamic_cast<CInvis*>(e->obj))
 	{
 		vx = -vx;
 	}
+	else if (dynamic_cast<CTanukiLeaf*>(e->obj))
+		OnCollisionithTanukiLeaf(e);
+	else if (dynamic_cast<CBox*>(e->obj))
+		OnCollisionWithMysteryBox(e);
+	else if (dynamic_cast<CGoomba*>(e->obj))
+		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CWingGoomba*>(e->obj))
+		OnCollisionWithWingGoomba(e);
+	/*else if (dynamic_cast<CWingKoopa*>(e->obj))
+		OnCollisionWithWingKoopa(e);*/
 }
+
+void CWingKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
+{
+	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
+	if (e->nx != 0 && (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT) && leaf->GetState() == LEAF_STATE_HIDDEN)
+	{
+		leaf->SetState(LEAF_STATE_SHOW);
+	}
+}
+
+void CWingKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
+{
+
+	CBox* box = dynamic_cast<CBox*>(e->obj);
+	if (e->nx != 0 && (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT))
+	{
+		//coin mystery box
+		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
+		{
+
+
+			box->SetState(BOX_STATE_USED);
+
+		}
+
+		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_MUSHROOM)
+		{
+			box->SetState(BOX_STATE_USED);
+
+		}
+	}
+}
+
+
+void CWingKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+
+
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (goomba->GetState() == GOOMBA_STATE_DIE) return;
+	if (goomba->GetState() == GOOMBA_STATE_HIDDEN) return;
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
+	{
+		goomba->SetState(GOOMBA_STATE_DIE);
+
+	}
+}
+void CWingKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
+{
+	CWingGoomba* wgoomba = dynamic_cast<CWingGoomba*>(e->obj);
+	if (wgoomba->GetState() == GOOMBA_STATE_DIE) return;
+	if (wgoomba->GetState() == GOOMBA_STATE_HIDDEN) return;
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
+	{
+		wgoomba->SetState(WGOOMBA_STATE_DIE);
+
+	}
+}
+
+void CWingKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* k = dynamic_cast<CKoopa*>(e->obj);
+	DebugOut(L"[info] koopa hit koopa\n");
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
+	{
+		if (k->GetState() == KOOPA_STATE_KICK_LEFT || k->GetState() == KOOPA_STATE_KICK_RIGHT)
+		{
+			vx = -vx;
+		}
+		else
+		{
+			DebugOut(L"[info] koopa hit koopa\n");
+			k->SetState(KOOPA_STATE_HIT);
+
+		}
+	}
+}
+
 void CWingKoopa::OnNoCollision(DWORD dt)
 {
 	if (state != WKOOPA_STATE_HOLD)
@@ -191,7 +286,7 @@ void CWingKoopa::SetState(int state)
 		//shell
 	case WKOOPA_STATE_SHELL:
 		shell_start = GetTickCount64();
-
+		kick_cooldown = GetTickCount64();
 		y += (WKOOPA_BBOX_HEIGHT - WSHELL_BBOX_HEIGHT) / 2;
 		pre_vx = vx;
 		vx = 0;
