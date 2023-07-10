@@ -34,16 +34,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(MARIO_STATE_DIE);
 	}
+	if (y_now < -200)
+	{
+		SetPosition(x, -200);
+	}
 	if (x_now < 10)
 		SetPosition(16, y_now);
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
 	if (isFlying) {
-		if (GetTickCount64() - resetGravity_start > 500) {
-			vy = 0.1f;
+		if (GetTickCount64() - resetGravity_start > TANUKI_FLY_SET_GRAVITY_BACK) {
+			//vy = 0.1f;
 			ay = MARIO_GRAVITY;
-			vx = 0.0f;
+			//vx = 0.0f;
 			isFlying = false;
 			//SetState(MARIO_STATE_RELEASE_JUMP);
 		}
@@ -656,14 +660,20 @@ int CMario::GetAniIdTanuki()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (state == MARIO_STATE_FLY)
+		if (/*state == MARIO_STATE_FLY*/ isFlying == true)
+		{
+			if (vx >= 0)
+				aniId = ID_ANI_MARIO_TANUKI_FLY_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_TANUKI_FLY_LEFT;
+		}
+		else if (isGlide == true)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_TANUKI_FLY_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_TANUKI_FLY_LEFT;
 		}
-		
 		else if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
 			if (nx >= 0)
@@ -841,8 +851,8 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY:
 		ay = 0;
-		vy = -0.2f;
-		vx = 0.2f;
+		vy = -0.1f;
+		//vx = 0.2f;
 		isFlying = true;
 		resetGravity_start = GetTickCount64();
 		break;
