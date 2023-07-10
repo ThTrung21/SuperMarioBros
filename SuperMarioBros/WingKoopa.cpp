@@ -9,6 +9,10 @@
 #include "PlayScene.h"
 #include"ColorBox.h"
 #include "Invis_block.h"
+#include "FirePlant.h"
+#include "FirePlant_Short.h"
+#include"Chomper.h"
+
 CWingKoopa::CWingKoopa(float x, float y)
 {
 	die_flag = 0;
@@ -36,13 +40,22 @@ bool CWingKoopa::RespawnDetector(int mario_x)
 }
 void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (state == KOOPA_STATE_HIT) return;
 	//if (!e->obj->IsBlocking() && !e->obj->IsGoomba()) return;
 	if (e->obj->IsGoomba() &&( e->obj->GetState() == GOOMBA_STATE_HIDDEN ||e->obj->GetState() == GOOMBA_STATE_IDLE)) return;
 	if (dynamic_cast<CWingGoomba*>(e->obj) && (e->obj->GetState() == WGOOMBA_STATE_HIDDEN || e->obj->GetState() == WGOOMBA_STATE_IDLE)) return;
+	
 	if (e->obj->IsKoopa() &&( e->obj->GetState() == KOOPA_STATE_HIDDEN || e->obj->GetState() == KOOPA_STATE_IDLE)) return;
 	if(dynamic_cast<CWingKoopa*>(e->obj) &&( e->obj->GetState() == WKOOPA_STATE_HIDDEN || e->obj->GetState() == WKOOPA_STATE_IDLE)) return;
 
-	if (state == KOOPA_STATE_HIT) return;
+
+
+	if (dynamic_cast<CFirePlant*>(e->obj))
+		OnCollisionWithFirePlant(e);
+	if (dynamic_cast<CFirePlant_Short*>(e->obj))
+		OnCollisionWithFirePlantShort(e);
+	if (dynamic_cast<CChomper*>(e->obj))
+		OnCollisionWithChomper(e);
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
 	if (dynamic_cast<CBox*>(e->obj))
@@ -70,6 +83,33 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithWingKoopa(e);*/
 }
 
+
+void CWingKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
+{
+	CFirePlant* plant = dynamic_cast<CFirePlant*>(e->obj);
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	{
+		if (plant->GetState() != PLANT_STATE_DIE)
+			plant->SetState(PLANT_STATE_DIE);
+	}
+}
+void CWingKoopa::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
+{
+	CFirePlant_Short* short_plant = dynamic_cast<CFirePlant_Short*>(e->obj);
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	{
+		if (short_plant->GetState() != SHORT_PLANT_STATE_DIE)
+			short_plant->SetState(SHORT_PLANT_STATE_DIE);
+	}
+}
+void CWingKoopa::OnCollisionWithChomper(LPCOLLISIONEVENT e)
+{
+
+	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+		if (chomper->GetState() != CHOMPER_STATE_DIE)
+			chomper->SetState(CHOMPER_STATE_DIE);
+}
 void CWingKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);

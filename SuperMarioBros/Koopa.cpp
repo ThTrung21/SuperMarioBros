@@ -88,14 +88,14 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (state == KOOPA_STATE_HIT) return;
 
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
 	if (dynamic_cast<CWingGoomba*>(e->obj) && (e->obj->GetState() == WGOOMBA_STATE_HIDDEN || e->obj->GetState() == WGOOMBA_STATE_IDLE)) return;
 	if (e->obj->IsKoopa() && e->obj->GetState() == KOOPA_STATE_HIDDEN) return;
 	if (dynamic_cast<CWingKoopa*>(e->obj) && (e->obj->GetState() == WKOOPA_STATE_HIDDEN || e->obj->GetState() == WKOOPA_STATE_IDLE)) return;
 
-	if (state == KOOPA_STATE_HIT) return;
-
+	
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
 	if (dynamic_cast<CBox*>(e->obj))
@@ -135,7 +135,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
 	CFirePlant* plant = dynamic_cast<CFirePlant*>(e->obj);
-	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 	{
 		if (plant->GetState() != PLANT_STATE_DIE)
 			plant->SetState(PLANT_STATE_DIE);
@@ -144,7 +144,7 @@ void CKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 {
 	CFirePlant_Short* short_plant = dynamic_cast<CFirePlant_Short*>(e->obj);
-	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state ==WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 	{
 		if (short_plant->GetState() != SHORT_PLANT_STATE_DIE)
 			short_plant->SetState(SHORT_PLANT_STATE_DIE);
@@ -154,16 +154,9 @@ void CKoopa::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 {
 	
 	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
-	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
-	{
-		vx = -vx;
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 		if (chomper->GetState() != CHOMPER_STATE_DIE)
-		{
-			DebugOut(L"[info] HIT chomper\n");
 			chomper->SetState(CHOMPER_STATE_DIE);
-			
-		}
-	}
 }
 
 
