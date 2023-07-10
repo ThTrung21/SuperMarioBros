@@ -135,7 +135,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
 	CFirePlant* plant = dynamic_cast<CFirePlant*>(e->obj);
-	if (state == KOOPA_STATE_KICK_RIGHT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		if (plant->GetState() != PLANT_STATE_DIE)
 			plant->SetState(PLANT_STATE_DIE);
@@ -144,7 +144,7 @@ void CKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 {
 	CFirePlant_Short* short_plant = dynamic_cast<CFirePlant_Short*>(e->obj);
-	if (state == KOOPA_STATE_KICK_RIGHT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		if (short_plant->GetState() != SHORT_PLANT_STATE_DIE)
 			short_plant->SetState(SHORT_PLANT_STATE_DIE);
@@ -154,7 +154,7 @@ void CKoopa::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 {
 	
 	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
-	if (state == KOOPA_STATE_KICK_RIGHT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		vx = -vx;
 		if (chomper->GetState() != CHOMPER_STATE_DIE)
