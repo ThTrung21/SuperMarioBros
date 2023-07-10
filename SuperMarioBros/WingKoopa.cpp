@@ -37,9 +37,17 @@ bool CWingKoopa::RespawnDetector(int mario_x)
 void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	//if (!e->obj->IsBlocking() && !e->obj->IsGoomba()) return;
-	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
-	/*if (e->nx != 0 && dynamic_cast<CColorBox*>(e->obj))
-		return;*/
+	if (e->obj->IsGoomba() &&( e->obj->GetState() == GOOMBA_STATE_HIDDEN ||e->obj->GetState() == GOOMBA_STATE_IDLE)) return;
+	if (dynamic_cast<CWingGoomba*>(e->obj) && (e->obj->GetState() == WGOOMBA_STATE_HIDDEN || e->obj->GetState() == WGOOMBA_STATE_IDLE)) return;
+	if (e->obj->IsKoopa() &&( e->obj->GetState() == KOOPA_STATE_HIDDEN || e->obj->GetState() == KOOPA_STATE_IDLE)) return;
+	if(dynamic_cast<CWingKoopa*>(e->obj) &&( e->obj->GetState() == WKOOPA_STATE_HIDDEN || e->obj->GetState() == WKOOPA_STATE_IDLE)) return;
+
+	if (state == KOOPA_STATE_HIT) return;
+	if (dynamic_cast<CTanukiLeaf*>(e->obj))
+		OnCollisionithTanukiLeaf(e);
+	if (dynamic_cast<CBox*>(e->obj))
+		OnCollisionWithMysteryBox(e);
+
 	if (e->ny != 0)
 	{
 		vy = 0;

@@ -8,6 +8,7 @@
 #define GBRICK_STATE_NEW	100
 #define GBRICK_STATE_BOUNCE 150
 #define GBRICK_STATE_USED	200
+#define GBRICK_STATE_HIDDEN 300
 
 #define GBRICK_BOUNCE_SPEED 0.15f
 #define ID_ANI_GOLD_BRICK 22000
@@ -30,4 +31,8 @@ public:
 	bool GetContent(){ return interact; }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void SetState(int state,int mario_level);
+	virtual void OnNoCollision(DWORD dt);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	int IsCollidable() { return 1; }
+	int GetType() { return interact; }
 };

@@ -27,7 +27,7 @@
 #include "FirePlant_Short.h"
 #include "Chomper.h"
 #include "WingKoopa.h"
-
+#include "Pwr_btn.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -156,6 +156,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_CLOUD_BLOCK: obj = new CCloudBlock(x, y); break;
 	case OBJECT_TYPE_INVIS_BLOCK: obj = new CInvis(x, y); break;
+	case OBJECT_TYPE_BTN: obj = new CBtn(x, y); break;
 	case OBJECT_TYPE_COIN:
 	{
 		bool isHidden = atoi(tokens[3].c_str());
@@ -386,7 +387,7 @@ void CPlayScene::Update(DWORD dt)
 	
 	if (cx < 0) cx = 0;
 	
-	if (cy > -60)cy = 1.0f;
+	if (cy > -75)cy = 1.0f;
 
 	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
 

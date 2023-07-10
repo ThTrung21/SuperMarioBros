@@ -87,10 +87,14 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
+	if (dynamic_cast<CWingGoomba*>(e->obj) && (e->obj->GetState() == WGOOMBA_STATE_HIDDEN || e->obj->GetState() == WGOOMBA_STATE_IDLE)) return;
 	if (e->obj->IsKoopa() && e->obj->GetState() == KOOPA_STATE_HIDDEN) return;
+
 	if (state == KOOPA_STATE_HIT) return;
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
+	if (dynamic_cast<CBox*>(e->obj))
+		OnCollisionWithMysteryBox(e);
 	//invisible barrier for red koopa
 	else if (state == KOOPA_STATE_WALKING && Ktype == 1 && dynamic_cast<CInvis*>(e->obj))
 	{
@@ -108,8 +112,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	else if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
-	else if (dynamic_cast<CBox*>(e->obj))
-		OnCollisionWithMysteryBox(e);
+	
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CWingGoomba*>(e->obj))
@@ -147,19 +150,11 @@ void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)
 	CBox* box = dynamic_cast<CBox*>(e->obj);
 	if (e->nx != 0 && (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT))
 	{
-		//coin mystery box
-		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_COIN)
-		{
 
-
-			box->SetState(BOX_STATE_USED);
-
-		}
-
-		if (box->GetState() != BOX_STATE_USED && box->GetContent() == BOX_CONTENT_MUSHROOM)
+		if (box->GetState() != BOX_STATE_USED )
 		{
 			box->SetState(BOX_STATE_USED);
-
+			vx = -vx;
 		}
 	}
 }
@@ -322,11 +317,12 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_SHELL:
 		shell_start = GetTickCount64();
 		kick_cooldown = GetTickCount64();
-		y += (KOOPA_BBOX_HEIGHT - SHELL_BBOX_HEIGHT) / 2;
+		
+		//y += (KOOPA_BBOX_HEIGHT - SHELL_BBOX_HEIGHT) / 2;
 		pre_vx = vx;
 		vx = 0;
 		//vy = 0;
-		ay = 0;
+		ay = KOOPA_GRAVITY;
 		break;
 
 		//idle
@@ -369,7 +365,7 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_HIT:
 		ay = -KOOPA_POP_SPEED;
-		pop_height = y - 48;
+		pop_height =(int) y - 48;
 		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:

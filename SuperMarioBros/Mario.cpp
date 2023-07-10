@@ -23,6 +23,7 @@
 #include "GoldBrick.h"
 #include "Chomper.h"
 #include "WingKoopa.h"
+#include "Pwr_btn.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -55,7 +56,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (isGlide) {
 		if (GetTickCount64() - glide_start > 300) {
-			vy = 0.1;
+			vy =(float) 0.1;
 			ay = MARIO_GRAVITY;
 			vx = 0;
 			isGlide = false;
@@ -85,22 +86,20 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	
-	if(!e->obj->IsInvisBlock())
+	if (e->ny != 0 && e->obj->IsBlocking())
 	{
-		if (e->ny != 0 && e->obj->IsBlocking())
-		{
-			vy = 0;
-			if (e->ny < 0) isOnPlatform = true;
-		}
-
-		else
-			if (e->nx != 0 && e->obj->IsBlocking())
-			{
-				DebugOut(L"You shall not pass\n");
-				vx = 0;
-			}
+		vy = 0;
+		if (e->ny < 0) isOnPlatform = true;
 	}
+	else
+		if (e->nx != 0 && e->obj->IsBlocking())
+		{
+			//			DebugOut(L"You shall not pass\n");
+			vx = 0;
+		}
+	
+		
+	
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
@@ -132,6 +131,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFirePlantShort(e);
 	else if (dynamic_cast<CWingKoopa*>(e->obj))
 		OnCollisionWithWingKoopa(e);
+	else if (dynamic_cast<CBtn*>(e->obj))
+		OnCollisionWithBtn(e);
 
 }
 
@@ -241,6 +242,26 @@ void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionWithBtn(LPCOLLISIONEVENT e)
+{
+	CBtn* b = dynamic_cast<CBtn*>(e->obj);
+	if (b->GetState() == BTN_STATE_HIDDEN ) 
+	{
+		b->SetState(BTN_STATE_HIDDEN) ;
+		return;
+	}
+	if (b->GetState() == BTN_STATE_USED)
+	{
+		b->SetState(BTN_STATE_USED);
+		return;
+	}
+	else
+	{
+		if (e->ny < 0)
+			b->SetState(BTN_STATE_USED);
+	}
+			
+}
 
 void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
@@ -342,9 +363,9 @@ void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
 	else if(leaf->GetState()== LEAF_STATE_SHOW || leaf->GetState()==LEAF_STATE_FALL)
-	if (level != MARIO_LEVEL_BIG)
+	if (level != MARIO_LEVEL_TANUKI)
 	{
-		level = MARIO_LEVEL_BIG;
+		level = MARIO_LEVEL_TANUKI;
 		e->obj->Delete();
 	}
 }

@@ -1,5 +1,5 @@
 #include "Pwr_btn.h"
-
+#include "GoldBrick.h"
 
 void CBtn::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -7,6 +7,26 @@ void CBtn::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y - BTN_BBOX_HEIGHT / 2;
 	r = l + BTN_BBOX_WIDTH;
 	b = t + BTN_BBOX_HEIGHT;
+}
+
+void CBtn::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case BTN_STATE_HIDDEN:
+		x = X;
+		y = Y;
+		break;
+	case BTN_STATE_SHOW:
+		x = X;
+		y = Y;
+		break;
+	case BTN_STATE_USED:
+		x = X;
+		y = Y;
+		break;
+	}
 }
 
 void CBtn::Render()
@@ -18,6 +38,26 @@ void CBtn::Render()
 			aniId = ID_ANI_BTN_USED;
 		CAnimations* animations = CAnimations::GetInstance();
 		animations->Get(aniId)->Render(x, y);
-		//RenderBoundingBox();
+		
+	}
+	RenderBoundingBox();
+}
+
+void CBtn::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+
+void CBtn::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	if (dynamic_cast<CGoldBrick*>(e->src_obj))
+	{
+		CGoldBrick* b = dynamic_cast<CGoldBrick*>(e->src_obj);
+		if (b->GetType() == 1)
+		{
+			if (e->ny != 0)
+				SetState(BTN_STATE_SHOW);
+		}
 	}
 }

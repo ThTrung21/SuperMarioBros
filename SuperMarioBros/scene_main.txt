@@ -24,7 +24,7 @@ Wood.txt
 FirePlant_Short.txt
 Chomper.txt
 WingKoopa.txt
-
+Btn.txt
 
 #################################
 [OBJECTS]
@@ -96,7 +96,7 @@ WingKoopa.txt
 #4	180	2	0
 
 #tanuki leaf
-9	644	160	
+9	646	164	
 #9	240	87
 
 #Cloud BLOCK
@@ -147,6 +147,8 @@ WingKoopa.txt
 
 #GOLDBRICK
 18	80	140	1
+#button
+23	80	124
 
 #Platform#########################
 #
@@ -188,7 +190,7 @@ WingKoopa.txt
 #14	848	130
 
 #wing koopa
-22	330	170
+#22	330	170
 
 #Goomba
 #2	330	170
@@ -202,3 +204,4 @@ WingKoopa.txt
 #type: 1-red	2-green
 3	550	140	1
 #3	120	120	2
+
