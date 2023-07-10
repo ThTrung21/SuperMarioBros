@@ -29,6 +29,7 @@
 #include "WingKoopa.h"
 #include "Pwr_btn.h"
 #include "SampleKeyEventHandler.h"
+#include"Tail.h"
 
 using namespace std;
 
@@ -138,6 +139,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		player = (CMario*)obj;  
 
 		DebugOut(L"[INFO] Player object has been created!\n");
+		break;
+	case OBJECT_TYPE_TAIL:
+		obj = new CTail(x, y);
+		tail = (CTail*)obj;
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 

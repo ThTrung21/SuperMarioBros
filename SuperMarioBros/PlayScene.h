@@ -21,6 +21,7 @@ protected:
 	LPGAMEOBJECT fireball;
 	LPGAMEOBJECT koopa;
 	LPGAMEOBJECT wkoopa;
+	LPGAMEOBJECT tail;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -44,8 +45,11 @@ public:
 	LPGAMEOBJECT GetFireBall() { return fireball; }
 	LPGAMEOBJECT GetKoopa() { return koopa; }
 	LPGAMEOBJECT GetWKoopa() { return wkoopa; }
+	LPGAMEOBJECT GetTail() { return tail; }
+
 	void Clear();
 	void PurgeDeletedObjects();
+
 	void SetKoopa(LPGAMEOBJECT thisKoopa) { this->koopa = thisKoopa; }
 	void SetWKoopa(LPGAMEOBJECT thisWingKoopa) { this->wkoopa = thisWingKoopa; }
 	void SetFireBall(LPGAMEOBJECT thisFireball) { this->fireball = thisFireball; }

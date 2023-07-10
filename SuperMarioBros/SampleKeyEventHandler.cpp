@@ -6,6 +6,7 @@
 #include "Mario.h"
 #include "PlayScene.h"
 #include "Koopa.h"
+#include "Tail.h"
 #include "WingKoopa.h"
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -22,7 +23,14 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		mario->IsHolding_AKey(true);
-
+		if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
+		{
+			//DebugOut(L"[info]slpa trigger\n");
+			CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
+			if(tail!= NULL)
+				tail->SetState(TAIL_STATE_ACTIVE);
+			mario->IsSlappingTail(true);
+		}
 		break;
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
@@ -41,6 +49,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	}
 }
+
+
 
 void CSampleKeyHandler::OnKeyUp(int KeyCode)
 {
@@ -68,6 +78,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
 	case DIK_A:
+		mario->IsRunning(false);
 		CWingKoopa* wkoopa= (CWingKoopa*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetWKoopa();
 		CKoopa* koopa = (CKoopa*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetKoopa();
 		if (koopa != NULL)
@@ -93,11 +104,20 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 			}
 
 		}
+		if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
+		{
+			CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
+			if (tail != NULL)
+				tail->SetState(TAIL_STATE_IDLE);
+			mario->IsSlappingTail(false);
+		}
 		mario->IsHolding_AKey(false);
+		
 		break;
 	}
 
 }
+
 
 void CSampleKeyHandler::KeyState(BYTE *states)
 {
@@ -107,14 +127,20 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (game->IsKeyDown(DIK_A))
+		{
 			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+			//mario->IsRunning(true);
+		}
 		else
 			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
 		if (game->IsKeyDown(DIK_A))
+		{
 			mario->SetState(MARIO_STATE_RUNNING_LEFT);
+			//mario->IsRunning(true);
+		}
 		else
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 	}

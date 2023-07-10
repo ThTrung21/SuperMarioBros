@@ -15,7 +15,7 @@ CBox::CBox(float x, float y,int content):CGameObject(x, y)
 {
 	state = ID_ANI_BOX;
 	icontent = content;
-	this->max_y = y - 4;
+	this->max_y = (int)y - 4;
 	this->Y = (int)y;
 	vy = 0;
 }
@@ -58,7 +58,7 @@ void CBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y >= Y && state==BOX_STATE_BOUNCE)
 	{
 		vy = 0;
-		y = Y;
+		y = (int)Y;
 		SetState(BOX_STATE_USED);
 	}
 	CGameObject::Update(dt, coObjects);

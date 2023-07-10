@@ -1,9 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-#pragma once
-#include "GameObject.h"
-
 
 #define WKOOPA_GRAVITY 0.002f
 #define WKOOPA_WALKING_SPEED 0.05f
@@ -38,14 +35,11 @@
 #define ID_ANI_WKOOPA_REVIVE 25006
 
 
-
-
-
 #define WKOOPA_BBOX_WIDTH 16
 #define WKOOPA_BBOX_HEIGHT 26
 #define WKOOPA_BBOX_WALKING_HEIGHT 25
 #define WSHELL_BBOX_HEIGHT 16
-
+;
 class CWingKoopa : public CGameObject
 {
 protected:
@@ -67,7 +61,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; };
+	virtual int IsCollidable() { return 1; }
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 

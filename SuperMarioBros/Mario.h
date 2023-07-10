@@ -112,7 +112,7 @@
 
 #define GROUND_Y 160.0f
 
-#define TANUKI_SLAP_TIME 1000
+#define TANUKI_SLAP_TIME 400
 #define TANUKI_FLY_SET_GRAVITY_BACK 300
 
 #define	MARIO_LEVEL_SMALL	1
@@ -143,13 +143,14 @@ class CMario : public CGameObject
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
-	ULONGLONG slap_time;
+	ULONGLONG slap_time =-1;
 	BOOLEAN isOnPlatform;
 	ULONGLONG resetGravity_start = -1;
 	ULONGLONG glide_start = -1;
 	int coin; 
 	bool isHolding_AKey = false;
-
+	bool isSlapTail = false;
+	bool isRunning = false;
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
@@ -175,13 +176,22 @@ public:
 	{
 		isHolding_AKey = flag;
 	}
+	void IsRunning(bool flag)
+	{
+		isRunning = flag;
+	}
+	void IsSlappingTail(bool flag)
+	{
+		isSlapTail = flag;
+	}
+	
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
-		slap_time = -1;
+
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;

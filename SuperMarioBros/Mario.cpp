@@ -29,6 +29,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+	if (abs(vx) >= MARIO_ACCEL_RUN_X)
+		IsRunning(true);
+	if (abs(vx) < MARIO_ACCEL_RUN_X)
+		IsRunning(false);
 	float x_now, y_now;
 	GetPosition(x_now, y_now);
 	if (y_now > 280)
@@ -706,7 +710,18 @@ int CMario::GetAniIdTanuki()
 		
 		else
 		{
-			if (nx >= 0)
+			if(isSlapTail == true)
+				if (nx < 0)
+				{
+					aniId = ID_ANI_MARIO_TANUKI_SLAP_RIGHT;
+					DebugOut(L"[info]slpa trigger right\n");
+				}
+				else if (nx > 0)
+				{
+					DebugOut(L"[info]slpa trigger LEFT\n");
+					aniId = ID_ANI_MARIO_TANUKI_SLAP_LEFT;
+				}
+			else if (nx >= 0)
 				aniId = ID_ANI_MARIO_TANUKI_JUMP_WALK_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_TANUKI_JUMP_WALK_LEFT;
@@ -722,28 +737,47 @@ int CMario::GetAniIdTanuki()
 				aniId = ID_ANI_MARIO_TANUKI_SIT_LEFT;
 		}
 		else
-			if (state == MARIO_STATE_SLAP)
-			{
-				DebugOut(L"[INFO] BOOOOOOOOOOOOOO\n");
-				if (nx > 0) aniId = ID_ANI_MARIO_TANUKI_SLAP_RIGHT;
-				else aniId = ID_ANI_MARIO_TANUKI_SLAP_LEFT;
-			}
-			else
+			
+			
+			
 			if (vx == 0)
 			{
 				/*if (state == MARIO_STATE_SLAP)
 				{
 					
 				}*/
-				 if (nx > 0) aniId = ID_ANI_MARIO_TANUKI_IDLE_RIGHT;
+				if (isSlapTail == true && isRunning == false)
+				{
+					
+					if (nx < 0)
+					{
+						aniId = ID_ANI_MARIO_TANUKI_SLAP_RIGHT;
+						DebugOut(L"[info]slpa trigger right\n");
+						slap_time = GetTickCount64();
+					}
+					else if (nx > 0)
+					{
+						DebugOut(L"[info]slpa trigger LEFT\n");
+						aniId = ID_ANI_MARIO_TANUKI_SLAP_LEFT;
+						slap_time = GetTickCount64();
+					}
+				}
+				else if (GetTickCount64() - slap_time > TANUKI_SLAP_TIME)
+				{
+					if (nx > 0) aniId = ID_ANI_MARIO_TANUKI_IDLE_RIGHT;
 					else aniId = ID_ANI_MARIO_TANUKI_IDLE_LEFT;
-				
+				}
 				
 					
 			}
 			else if (vx > 0)
 			{
-				if (ax < 0)
+				if (isSlapTail == true && isRunning == false)
+				{
+					DebugOut(L"[info]slpa walk right\n");
+					aniId = ID_ANI_MARIO_TANUKI_SLAP_RIGHT;
+				}
+				else if (ax < 0)
 					aniId = ID_ANI_MARIO_TANUKI_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_TANUKI_RUNNING_RIGHT;
@@ -752,16 +786,21 @@ int CMario::GetAniIdTanuki()
 			}
 			else // vx < 0
 			{
-				if (ax > 0)
+				if (isSlapTail == true && isRunning == false)
+				{
+					aniId = ID_ANI_MARIO_TANUKI_SLAP_LEFT;
+					DebugOut(L"[info]slpa walk LEFT\n");
+				}
+				else if (ax > 0)
 					aniId = ID_ANI_MARIO_TANUKI_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_TANUKI_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_TANUKI_WALKING_LEFT;
 			}
-
+	
 	if (aniId == -1) aniId = ID_ANI_MARIO_TANUKI_IDLE_RIGHT;
-
+	
 	return aniId;
 }
 void CMario::Render()
@@ -925,6 +964,10 @@ void CMario::SetLevel(int l)
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+	}
+	if (this->level == MARIO_LEVEL_BIG)
+	{
+		IsSlappingTail(false);
 	}
 	level = l;
 }
