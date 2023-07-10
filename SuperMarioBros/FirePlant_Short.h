@@ -35,7 +35,7 @@ protected:
 	bool IsMoving;
 	float TopPos;
 	float BotPos;
-	float default_y;
+	float default_x,default_y;
 	int direction;
 	bool isShooting;
 

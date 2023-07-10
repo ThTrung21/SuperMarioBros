@@ -35,7 +35,7 @@ protected:
 	bool IsMoving;	
 	float TopPos;
 	float BotPos;
-	float default_y;
+	float default_x, default_y;
 	int direction;
 	bool isShooting;
 	
@@ -43,8 +43,9 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	bool MarioDetection(int x, int y);
-	//virtual int IsCollidable() { return 1; };
+	
 	virtual int IsBlocking() { return 0; }
+	virtual int IsColliable() { return 1; }
 	virtual void OnNoCollision(DWORD dt);
 	bool RespawnDetector(int x);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);

@@ -14,6 +14,7 @@ CFirePlant_Short::CFirePlant_Short(float x, float y) :CGameObject(x, y)
 	SetDir(SHORT_PLANT_DIR_TOPLEFT);
 	SetState(SHORT_PLANT_STATE_AWAKE);
 	this->default_y = y;
+	this->default_x = x;
 	this->isShooting = false;
 
 }
@@ -235,7 +236,7 @@ void CFirePlant_Short::SetState(int state)
 		y = BotPos;
 
 	case SHORT_PLANT_STATE_DIE:
-	
+		x = default_x;
 		vy = 0;
 		y = default_y;
 		isShooting = false;

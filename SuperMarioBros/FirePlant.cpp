@@ -14,6 +14,7 @@ CFirePlant::CFirePlant(float x, float y) :CGameObject(x,y)
 	SetDir(PLANT_DIR_TOPLEFT);
 	SetState(PLANT_STATE_AWAKE);
 	this->default_y = y;
+	this->default_x = x;
 	this->isShooting = false;
 
 }
@@ -27,30 +28,6 @@ bool CFirePlant::MarioDetection(int mario_x, int mario_y)
 }
 void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
-
-	//set the plant moving logic
-	if (state == PLANT_STATE_AWAKE) 
-	{
-		y += vy * dt;
-		if (y <= TopPos || y >= BotPos) 
-		{
-			SetState(PLANT_STATE_STOP);
-		}
-
-		return;
-	}
-
-	else if (state == PLANT_STATE_STOP ) 
-	{
-		
-		if (GetTickCount64() - stop_start > PLANT_STOP_TIMEOUT) 
-		{
-			
-			SetState(PLANT_STATE_AWAKE);
-		}
-		
-	}
 
 	//DETECTING MARIO POSITION
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
@@ -63,7 +40,8 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		SetState(PLANT_STATE_AWAKE);
 	}
-	
+	if (state == PLANT_STATE_DIE)
+		return;
 	//detect mario
 	if (MarioDetection(mario_x, mario_y) == true)
 	{
@@ -72,12 +50,35 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if(y>=default_y)
 		SetState(PLANT_STATE_SLEEP);
+	//set the plant moving logic
+	if (state == PLANT_STATE_AWAKE)
+	{
+		y += vy * dt;
+		if (y <= TopPos || y >= BotPos)
+		{
+			SetState(PLANT_STATE_STOP);
+		}
 
+		return;
+	}
+
+	else if (state == PLANT_STATE_STOP)
+	{
+
+		if (GetTickCount64() - stop_start > PLANT_STOP_TIMEOUT)
+		{
+
+			SetState(PLANT_STATE_AWAKE);
+		}
+
+	}
 
 
 	//Fireball shooting logic
+
 	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireBall();
 	
+
 	if (isShooting)
 	{
 		
@@ -230,6 +231,7 @@ void CFirePlant::SetState(int state)
 	case PLANT_STATE_DIE:
 	{
 		vy = 0;
+		x = default_x;
 		y = default_y;
 		isShooting = false;
 		break;

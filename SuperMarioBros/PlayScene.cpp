@@ -37,6 +37,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 {
 	player = NULL;
 	fireball = NULL;
+
 	key_handler = new CSampleKeyHandler(this);
 }
 

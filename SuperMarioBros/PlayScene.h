@@ -48,6 +48,7 @@ public:
 	void PurgeDeletedObjects();
 	void SetKoopa(LPGAMEOBJECT thisKoopa) { this->koopa = thisKoopa; }
 	void SetWKoopa(LPGAMEOBJECT thisWingKoopa) { this->wkoopa = thisWingKoopa; }
+	void SetFireBall(LPGAMEOBJECT thisFireball) { this->fireball = thisFireball; }
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };

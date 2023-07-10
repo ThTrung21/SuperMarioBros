@@ -3,10 +3,20 @@
 
 void CBtn::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - BTN_BBOX_WIDTH / 2;
-	t = y - BTN_BBOX_HEIGHT / 2;
-	r = l + BTN_BBOX_WIDTH;
-	b = t + BTN_BBOX_HEIGHT;
+	if (state == BTN_STATE_SHOW)
+	{	
+		l = x - BTN_BBOX_WIDTH / 2;
+		t = y - BTN_BBOX_HEIGHT / 2;
+		r = l + BTN_BBOX_WIDTH;
+		b = t + BTN_BBOX_HEIGHT;
+	}
+	else if (state == BTN_STATE_USED)
+	{
+		l = x - BTN_BBOX_WIDTH / 2;
+		t =(y - BTN_BBOX_HEIGHT / 2)+16 ;
+		r = l + BTN_BBOX_WIDTH;
+		b = t + BTN_BBOX_HEIGHT_USED+2;
+	}
 }
 
 void CBtn::SetState(int state)
@@ -23,7 +33,9 @@ void CBtn::SetState(int state)
 		y = Y;
 		break;
 	case BTN_STATE_USED:
+
 		x = X;
+		//y += (BTN_BBOX_HEIGHT - BTN_BBOX_HEIGHT_USED) / 2;
 		y = Y;
 		break;
 	}
@@ -45,6 +57,7 @@ void CBtn::Render()
 
 void CBtn::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	x = X;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

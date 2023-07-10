@@ -22,7 +22,7 @@ class CGoldBrick : public CGameObject {
 protected:
 	//1- can be hit from under for powerup ;		2-none
 	int interact;
-	float Y, max_y;
+	float X,Y, max_y;
 	int mario_level;
 public:
 	CGoldBrick(float x, float y,int brick_type) ;
@@ -31,8 +31,8 @@ public:
 	bool GetContent(){ return interact; }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void SetState(int state,int mario_level);
-	virtual void OnNoCollision(DWORD dt);
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	
+	//virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	int IsCollidable() { return 1; }
 	int GetType() { return interact; }
 };

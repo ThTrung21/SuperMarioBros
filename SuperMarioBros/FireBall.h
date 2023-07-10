@@ -44,9 +44,11 @@ protected:
 	void ResetPos();
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
+	
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
 	CFireBall(float x, float y);
+	float GetX() { return x; }
 	virtual void SetState(int state);
 	
 };

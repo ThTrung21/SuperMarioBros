@@ -86,6 +86,7 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (dynamic_cast<CBtn*>(e->obj) && e->nx != 0) return;
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
@@ -358,7 +359,7 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 {
 	CTanukiLeaf* leaf = dynamic_cast<CTanukiLeaf*>(e->obj);
-	if( leaf->GetState() == LEAF_STATE_HIDDEN/* && e->ny> 0*/  )	
+	if( leaf->GetState() == LEAF_STATE_HIDDEN && e->ny> 0  )	
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}

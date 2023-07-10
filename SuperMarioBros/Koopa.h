@@ -73,6 +73,10 @@ protected:
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingKoopa(LPCOLLISIONEVENT e);
+
+	void OnCollisionWithFirePlant(LPCOLLISIONEVENT e);
+	void OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e);
+	void OnCollisionWithChomper(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y,int type);
 	virtual void SetState(int state);

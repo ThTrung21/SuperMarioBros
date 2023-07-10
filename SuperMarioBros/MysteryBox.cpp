@@ -16,7 +16,7 @@ CBox::CBox(float x, float y,int content):CGameObject(x, y)
 	state = ID_ANI_BOX;
 	icontent = content;
 	this->max_y = y - 4;
-	this->Y = y;
+	this->Y = (int)y;
 	vy = 0;
 }
 void CBox::SetState(int state)

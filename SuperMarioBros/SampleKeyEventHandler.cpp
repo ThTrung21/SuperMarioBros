@@ -22,6 +22,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		mario->IsHolding_AKey(true);
+
 		break;
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
@@ -80,6 +81,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 			}
 			
 		}
+
 		if (wkoopa != NULL)
 		{
 			if (wkoopa->GetState() == WKOOPA_STATE_HOLD)

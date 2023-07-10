@@ -6,6 +6,7 @@ CGoldBrick::CGoldBrick(float x, float y, int brick_type):CGameObject(x,y)
 	this->interact = brick_type;
 	this->max_y = y - 4;
 	this->Y = y;
+	this->X = x;
 	mario_level = -1;
 	SetState(GBRICK_STATE_NEW,mario_level);
 }
@@ -29,7 +30,8 @@ void CGoldBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
+	x = X;
+	//y = Y;
 	if (state == GBRICK_STATE_USED)
 	{
 		y = Y;
@@ -81,20 +83,17 @@ void CGoldBrick::SetState(int state,int mario_level)
 	}
 }
 
-void CGoldBrick::OnNoCollision(DWORD dt)
-{
 
-}
-
-void CGoldBrick::OnCollisionWith(LPCOLLISIONEVENT e)
-{
-	
-	if (interact == 2)return;
-	
-	//if (dynamic_cast<CBtn*>(e->obj)  /*&& e->ny != 0*/)
-	//{
-	//	DebugOut(L"BTNNNNN\n");
-	//	CBtn* b = dynamic_cast<CBtn*>(e->obj);
-	//	b->SetState(BTN_STATE_SHOW);
-	//}
-}
+//
+//void CGoldBrick::OnCollisionWith(LPCOLLISIONEVENT e)
+//{
+//	
+//	if (interact == 2)return;
+//	
+//	if (dynamic_cast<CBtn*>(e->obj)  /*&& e->ny != 0*/)
+//	{
+//		DebugOut(L"BTNNNNN\n");
+//		CBtn* b = dynamic_cast<CBtn*>(e->obj);
+//		b->SetState(BTN_STATE_USED);
+//	}
+//}

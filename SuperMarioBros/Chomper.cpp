@@ -51,6 +51,12 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
+	else if (state == CHOMPER_STATE_DIE)
+	{
+		x = default_x;
+		y = default_y;
+		vy = 0;
+	}
 
 	//DETECTING MARIO POSITION
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
@@ -108,7 +114,7 @@ void CChomper::OnNoCollision(DWORD dt)
 
 void CChomper::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->obj->IsBlocking())return;
+	//if (e->obj->IsBlocking())return;
 }
 
 
@@ -132,18 +138,11 @@ void CChomper::SetState(int state)
 	}
 	case CHOMPER_STATE_AWAKE:
 	{
-
-
-
 		//if (prev_vy != 0)
 		if (y <= TopPos)
 			vy = CHOMPER_SPEED;
 		else if (y >= BotPos)
 			vy = -CHOMPER_SPEED;
-
-
-
-
 		break;
 	}
 	case CHOMPER_STATE_SLEEP:
@@ -154,6 +153,7 @@ void CChomper::SetState(int state)
 	case CHOMPER_STATE_DIE:
 		x = default_x;
 		y = default_y;
+		DebugOut(L"[info]  chomper DIEEEEEE\n");
 		vy = 0;
 		break;
 	}
