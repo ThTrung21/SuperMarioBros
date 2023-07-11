@@ -415,6 +415,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	if (koopa->GetState() == KOOPA_STATE_HIT)return;
 	if ((koopa->GetState() == KOOPA_STATE_SHELL || koopa->GetState() == KOOPA_STATE_REVIVE)&& isHolding_AKey==true)
 	{
+		isSlapTail = false;
 		koopa->SetState(KOOPA_STATE_HOLD);
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetKoopa(koopa);
 	}
@@ -538,6 +539,7 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 	if (wkoopa->GetState() == WKOOPA_STATE_HIT)return;
 	if ((wkoopa->GetState() == WKOOPA_STATE_SHELL || wkoopa->GetState() == WKOOPA_STATE_REVIVE) && isHolding_AKey == true)
 	{
+		isSlapTail = false;
 		wkoopa->SetState(WKOOPA_STATE_HOLD);
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetWKoopa(wkoopa);
 	}
