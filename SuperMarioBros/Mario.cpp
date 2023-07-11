@@ -33,6 +33,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (level != MARIO_LEVEL_TANUKI)
 	{
 		isSlapTail = false;
+		if(tail!=NULL)
 		tail->SetState(TAIL_STATE_IDLE);
 	}
 	if (isGlide == true)

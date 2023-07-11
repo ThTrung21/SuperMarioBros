@@ -7,14 +7,14 @@
 CPipe::CPipe(float x, float y,
 	int Height,
 	int spriteID_TopLeft, int spriteID_TopRight,
-	int spriteID_BodyLeft, int spriteID_BodyRight, int accessibility):CGameObject(x,y)
+	int spriteID_BodyLeft, int spriteID_BodyRight, int color):CGameObject(x,y)
 {
 	this->Height = Height;
 	this->spriteIDTopLeft = spriteID_TopLeft;
 	this->spriteIDTopRight = spriteID_TopRight;
 	this->spriteIDBodyLeft = spriteID_BodyLeft;
 	this->spriteIDBodyRight = spriteID_BodyRight;
-	this->state = accessibility;
+	this->state = color;
 
 }
 
@@ -34,34 +34,61 @@ void CPipe::Render()
 	//
 	// Top
 	// 
+	//state:	0-green	/	1-black
+	if (state == 0)
+	{
+		//Top Left
+		s->Get(this->spriteIDTopLeft)->Draw(xx, yy);
+		xx += this->cellWidth;
 
-	//Top Left
-	s->Get(this->spriteIDTopLeft)->Draw(xx, yy);
-	xx += this->cellWidth;
+		//Top Right
+		s->Get(this->spriteIDTopRight)->Draw(xx, yy);
+		yy += cellHeight;
+		xx = x + 1;
 
-	//Top Right
-	s->Get(this->spriteIDTopRight)->Draw(xx, yy);
-	yy += cellHeight;
-	xx = x+1;
+		//
+		//Body
+		//
+		for (int i = 1; i < this->Height; i++)
+		{
 
-	//
-	//Body
-	//
-	for (int i = 1; i < this->Height; i++)
+			//Body Left
+			s->Get(this->spriteIDBodyLeft)->Draw(xx, yy);
+			xx += this->cellWidth - 1;
+
+			//Body Right
+			s->Get(this->spriteIDBodyRight)->Draw(xx, yy);
+
+			yy += cellHeight;
+			xx = x + 1;
+
+		}
+	}
+	else if(state==1)
 	{
 		
-		//Body Left
+		for (int i = 0; i < this->Height-1; i++)
+		{
+			
+			//Body Left
+			s->Get(this->spriteIDTopLeft)->Draw(xx, yy);
+			xx += this->cellWidth;
+
+			//Body Right
+			s->Get(this->spriteIDTopRight)->Draw(xx, yy);
+
+			yy += cellHeight;
+			
+
+		}
+		//bottom left
+		xx = x;
 		s->Get(this->spriteIDBodyLeft)->Draw(xx, yy);
-		xx += this->cellWidth-1;
-
-		//Body Right
+		xx += this->cellWidth;
 		s->Get(this->spriteIDBodyRight)->Draw(xx, yy);
-
-		yy += cellHeight;
-		xx = x+1;
-
+		
 	}
-
+	
 }
 
 void CPipe::RenderBoundingBox()
