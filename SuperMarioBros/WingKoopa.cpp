@@ -12,7 +12,7 @@
 #include "FirePlant.h"
 #include "FirePlant_Short.h"
 #include"Chomper.h"
-
+#include "Tail.h"
 CWingKoopa::CWingKoopa(float x, float y)
 {
 	die_flag = 0;
@@ -40,7 +40,19 @@ bool CWingKoopa::RespawnDetector(int mario_x)
 }
 void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (state == KOOPA_STATE_HIT) return;
+	//if (state == KOOPA_STATE_HIT) return;
+	
+	/*if (dynamic_cast<CTail*>(e->obj))
+	{
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+
+			if (state != WGOOMBA_STATE_DIE)
+				SetState(WGOOMBA_STATE_DIE);
+			return;
+		}
+	}*/
 	//if (!e->obj->IsBlocking() && !e->obj->IsGoomba()) return;
 	if (e->obj->IsGoomba() &&( e->obj->GetState() == GOOMBA_STATE_HIDDEN ||e->obj->GetState() == GOOMBA_STATE_IDLE)) return;
 	if (dynamic_cast<CWingGoomba*>(e->obj) && (e->obj->GetState() == WGOOMBA_STATE_HIDDEN || e->obj->GetState() == WGOOMBA_STATE_IDLE)) return;

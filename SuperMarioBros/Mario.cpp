@@ -24,11 +24,17 @@
 #include "Chomper.h"
 #include "WingKoopa.h"
 #include "Pwr_btn.h"
-
+#include "Tail.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 	vy += ay * dt;
 	vx += ax * dt;
+	if (level != MARIO_LEVEL_TANUKI)
+	{
+		isSlapTail = false;
+		tail->SetState(TAIL_STATE_IDLE);
+	}
 	if (abs(vx) >= MARIO_ACCEL_RUN_X)
 		IsRunning(true);
 	if (abs(vx) < MARIO_ACCEL_RUN_X)
@@ -165,7 +171,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_HIDDEN)
 			{
 				if (level == MARIO_LEVEL_TANUKI)
+				{
 					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
 				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
@@ -291,7 +300,12 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 	CFirePlant* f = dynamic_cast<CFirePlant*>(e->obj);
 	if (untouchable == 0 && f->GetState()!=PLANT_STATE_DIE)
 	{
-		if (level > MARIO_LEVEL_SMALL)
+		if (level == MARIO_LEVEL_TANUKI)
+		{
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_BIG)
 		{
 			level = MARIO_LEVEL_SMALL;
 			StartUntouchable();
@@ -308,7 +322,12 @@ void CMario::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 	CFirePlant_Short* f = dynamic_cast<CFirePlant_Short*>(e->obj);
 	if (untouchable == 0 && f->GetState() != SHORT_PLANT_STATE_DIE)
 	{
-		if (level > MARIO_LEVEL_SMALL)
+		if (level == MARIO_LEVEL_TANUKI)
+		{
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_BIG)
 		{
 			level = MARIO_LEVEL_SMALL;
 			StartUntouchable();
@@ -326,13 +345,16 @@ void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 	if (untouchable == 0)
 	{
 		
-			if (level == MARIO_LEVEL_TANUKI)
-				level = MARIO_LEVEL_BIG;
-			else if (level == MARIO_LEVEL_BIG)
-			{
-				level = MARIO_LEVEL_SMALL;
-				StartUntouchable();
-			}
+		if (level == MARIO_LEVEL_TANUKI)
+		{
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_BIG)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
 			else
 			{
 				DebugOut(L">>> Mario DIE >>> \n");
@@ -347,7 +369,12 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 	CFireBall* f = dynamic_cast<CFireBall*>(e->obj);
 	if (untouchable == 0 && f->GetState()!= FIREBALL_STATE_HIDDEN)
 	{
-		if (level > MARIO_LEVEL_SMALL)
+		if (level == MARIO_LEVEL_TANUKI)
+		{
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_BIG)
 		{
 			level = MARIO_LEVEL_SMALL;
 			StartUntouchable();
@@ -401,7 +428,12 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			if (koopa->GetState() != KOOPA_STATE_SHELL && koopa->GetState() != KOOPA_STATE_HIDDEN
 				&& koopa->GetState() != KOOPA_STATE_HOLD && koopa->GetState()!=KOOPA_STATE_HIT)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_TANUKI)
+				{
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
@@ -465,7 +497,12 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 		{
 			if (wgoomba->GetState() != WGOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_TANUKI)
+				{
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
@@ -516,7 +553,12 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 			if (wkoopa->GetState() != WKOOPA_STATE_SHELL && wkoopa->GetState() != WKOOPA_STATE_HIDDEN 
 				&&wkoopa->GetState()!=WKOOPA_STATE_HOLD )
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_TANUKI)
+				{
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();

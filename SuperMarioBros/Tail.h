@@ -7,8 +7,8 @@
 #define TAIL_STATE_IDLE 1
 #define TAIL_STATE_ACTIVE 2
 
-#define TAIL_WIDTH 10
-#define TAIL_HEIGHT 6
+#define TAIL_WIDTH 12
+#define TAIL_HEIGHT 10
 
 #define SLAP_TIME 250
 class CTail : public CGameObject

@@ -2,7 +2,8 @@
 #include "Koopa.h"
 #include "Mario.h"
 #include "PlayScene.h"
-
+#include "WingKoopa.h"
+#include "Tail.h"
 #include"debug.h"
 CWingGoomba::CWingGoomba(float x, float y) :CGameObject(x, y)
 {
@@ -58,9 +59,19 @@ void CWingGoomba::OnNoCollision(DWORD dt)
 
 void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (dynamic_cast<CTail*>(e->obj))
+	{
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+			if (state != WGOOMBA_STATE_DIE && state != WGOOMBA_STATE_HIDDEN)
+				SetState(WGOOMBA_STATE_DIE);
+			return;
+		}
+	}
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CWingGoomba*>(e->obj)) return;
-
+	
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -164,7 +175,7 @@ void CWingGoomba::SetState(int state)
 		y += (WGOOMBA_BBOX_HEIGHT_WALKING - WGOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
-		ay = 0;
+		ay = WGOOMBA_GRAVITY;
 		break;
 
 	case WGOOMBA_STATE_WALKING:

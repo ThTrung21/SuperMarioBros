@@ -50,7 +50,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 		CTail* tail = dynamic_cast<CTail*>(e->obj);
 		if (tail->GetState() == TAIL_STATE_ACTIVE)
 		{
-			if (state != GOOMBA_STATE_DIE)
+			if (state != GOOMBA_STATE_DIE && state!=GOOMBA_STATE_HIDDEN)
 				SetState(GOOMBA_STATE_DIE);
 			return;
 		}
@@ -153,7 +153,7 @@ void CGoomba::SetState(int state)
 			y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE)/2;
 			vx = 0;
 			vy = 0;
-			ay = 0; 
+			ay = GOOMBA_GRAVITY;
 			break;
 		case GOOMBA_STATE_WALKING: 
 			vx = -GOOMBA_WALKING_SPEED;

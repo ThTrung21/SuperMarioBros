@@ -12,7 +12,7 @@
 #include"FirePlant.h"
 #include"FirePlant_Short.h"
 #include"Chomper.h"
-
+#include "Tail.h"
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -88,7 +88,20 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (state == KOOPA_STATE_HIT) return;
+	if(state ==KOOPA_STATE_HIT && e->ny!=0)
+		SetState(KOOPA_STATE_HIDDEN);
+	else if (state == KOOPA_STATE_HIT) return;
+
+	if (dynamic_cast<CTail*>(e->obj))
+	{
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+			if (state == KOOPA_STATE_WALKING)
+				SetState(KOOPA_STATE_HIT);
+			return;
+		}
+	}
 
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
 	if (dynamic_cast<CWingGoomba*>(e->obj) && (e->obj->GetState() == WGOOMBA_STATE_HIDDEN || e->obj->GetState() == WGOOMBA_STATE_IDLE)) return;
@@ -270,8 +283,10 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == KOOPA_STATE_HIT && y < pop_height)
 	{
 		ay = KOOPA_GRAVITY;
-	}
 
+
+	}
+	
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	int mario_x;
 	mario_x = mario->GetX();
@@ -402,8 +417,8 @@ void CKoopa::SetState(int state)
 		ay = KOOPA_GRAVITY;
 		break;
 	case KOOPA_STATE_HIT:
-		ay = -KOOPA_POP_SPEED;
-		pop_height =(int) y - 48;
+		ay = -KOOPA_GRAVITY;
+		pop_height =(int) y - 38;
 		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:
