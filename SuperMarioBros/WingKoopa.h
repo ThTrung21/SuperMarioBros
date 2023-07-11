@@ -25,7 +25,7 @@
 #define WKOOPA_STATE_KICK_RIGHT 400
 #define WKOOPA_STATE_REVIVE 500
 #define WKOOPA_STATE_HIDDEN 600
-
+#define WKOOPA_STATE_HIT 650
 
 #define ID_ANI_WKOOPA_JUMPING_LEFT	25001
 #define ID_ANI_WKOOPA_JUMPING_RIGHT	25002
@@ -48,7 +48,7 @@ protected:
 	float default_y, default_x;
 	float pre_vx;
 	int flag;
-
+	int pop_height;
 	int die_flag;
 	ULONGLONG fly_time;
 	ULONGLONG fly_timeout;

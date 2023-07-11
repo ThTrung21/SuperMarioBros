@@ -27,6 +27,7 @@ CWingKoopa::CWingKoopa(float x, float y)
 	pre_vx = 0;
 	default_x = x;
 	default_y = y;
+	pop_height = 0;
 	SetState(WKOOPA_STATE_IDLE);
 
 }
@@ -40,19 +41,22 @@ bool CWingKoopa::RespawnDetector(int mario_x)
 }
 void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	//if (state == KOOPA_STATE_HIT) return;
+	if (state == WKOOPA_STATE_HIT && e->ny != 0)
+		SetState(WKOOPA_STATE_HIDDEN);
+	if (state == WKOOPA_STATE_HIT) return;
 	
-	/*if (dynamic_cast<CTail*>(e->obj))
+	if (dynamic_cast<CTail*>(e->obj))
 	{
 		CTail* tail = dynamic_cast<CTail*>(e->obj);
 		if (tail->GetState() == TAIL_STATE_ACTIVE)
 		{
 
-			if (state != WGOOMBA_STATE_DIE)
-				SetState(WGOOMBA_STATE_DIE);
+			if (state == WKOOPA_STATE_WALKING||state ==WKOOPA_STATE_JUMPING
+				|| state==WKOOPA_STATE_JUMPING_TIMEOUT)
+				SetState(WKOOPA_STATE_HIT);
 			return;
 		}
-	}*/
+	}
 	//if (!e->obj->IsBlocking() && !e->obj->IsGoomba()) return;
 	if (e->obj->IsGoomba() &&( e->obj->GetState() == GOOMBA_STATE_HIDDEN ||e->obj->GetState() == GOOMBA_STATE_IDLE)) return;
 	if (dynamic_cast<CWingGoomba*>(e->obj) && (e->obj->GetState() == WGOOMBA_STATE_HIDDEN || e->obj->GetState() == WGOOMBA_STATE_IDLE)) return;
@@ -418,6 +422,11 @@ void CWingKoopa::SetState(int state)
 		y = default_y - 3;
 		vx = 0;
 		ay = WKOOPA_GRAVITY;
+		break;
+	case WKOOPA_STATE_HIT:
+		ay = -WKOOPA_GRAVITY;
+		pop_height = (int)y - 38;
+		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:
 		vx = 0;
