@@ -27,8 +27,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		{
 			//DebugOut(L"[info]slpa trigger\n");
 			CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
-			if(tail!= NULL)
+			if(mario->GetAbsAx()<MARIO_ACCEL_RUN_X)
 				tail->SetState(TAIL_STATE_ACTIVE);
+			else
+				tail->SetState(TAIL_STATE_IDLE);
 			mario->IsSlappingTail(true);
 		}
 		break;
@@ -123,11 +125,13 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-
+	CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
+		
 		if (game->IsKeyDown(DIK_A))
 		{
+			tail->SetState(TAIL_STATE_IDLE);
 			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
 			//mario->IsRunning(true);
 		}
@@ -138,6 +142,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	{
 		if (game->IsKeyDown(DIK_A))
 		{
+			tail->SetState(TAIL_STATE_IDLE);
 			mario->SetState(MARIO_STATE_RUNNING_LEFT);
 			//mario->IsRunning(true);
 		}

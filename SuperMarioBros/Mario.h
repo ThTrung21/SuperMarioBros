@@ -112,7 +112,7 @@
 
 #define GROUND_Y 160.0f
 
-#define TANUKI_SLAP_TIME 400
+#define TANUKI_SLAP_TIME 300
 #define TANUKI_FLY_SET_GRAVITY_BACK 300
 
 #define	MARIO_LEVEL_SMALL	1
@@ -172,6 +172,10 @@ class CMario : public CGameObject
 	int GetAniIdTanuki();
 	
 public:
+	bool GetIsRunning()
+	{
+		return isRunning;
+	}
 	void IsHolding_AKey(bool flag)
 	{
 		isHolding_AKey = flag;
@@ -184,7 +188,7 @@ public:
 	{
 		isSlapTail = flag;
 	}
-	
+	float GetAbsAx() { return abs(ax); }
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;

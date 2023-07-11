@@ -752,7 +752,7 @@ int CMario::GetAniIdTanuki()
 				{
 					
 				}*/
-				if (isSlapTail == true && isRunning == false)
+				if (isSlapTail == true )
 				{
 					
 					if (nx > 0)
@@ -778,18 +778,20 @@ int CMario::GetAniIdTanuki()
 			}
 			else if (vx > 0)
 			{
-				if (isSlapTail == true && isRunning == false)
+				/*if (isSlapTail == true && isRunning == false)
 				{
 					DebugOut(L"[info]slpa walk right\n");
 					aniId = ID_ANI_MARIO_TANUKI_SLAP_RIGHT;
 					slap_time = GetTickCount64();
 				}
-				else if (ax < 0)
+				else*/ if (ax < 0)
 					aniId = ID_ANI_MARIO_TANUKI_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X)
+				{
+					IsSlappingTail(false);
 					aniId = ID_ANI_MARIO_TANUKI_RUNNING_RIGHT;
-				else if (ax == MARIO_ACCEL_WALK_X && isSlapTail == false &&
-					GetTickCount64() - slap_time > TANUKI_SLAP_TIME)
+				}
+				else if (ax == MARIO_ACCEL_WALK_X )
 					aniId = ID_ANI_MARIO_TANUKI_WALKING_RIGHT;
 			}
 			else // vx < 0

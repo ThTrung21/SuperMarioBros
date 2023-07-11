@@ -3,7 +3,7 @@
 #include "Mario.h"
 #include "PlayScene.h"
 #include "debug.h"
-
+#include "Tail.h"
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -45,6 +45,16 @@ void CGoomba::OnNoCollision(DWORD dt)
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	if (dynamic_cast<CTail*>(e->obj))
+	{
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+			if (state != GOOMBA_STATE_DIE)
+				SetState(GOOMBA_STATE_DIE);
+			return;
+		}
+	}
 	if (!e->obj->IsBlocking()) return; 
 	if (dynamic_cast<CGoomba*>(e->obj)) return; 
 	

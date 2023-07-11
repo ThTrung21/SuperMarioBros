@@ -17,34 +17,56 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	/*vy = mario_vy;
 	vx = mario_vx;*/
 	
-	if (mario->Getnx() > 0)
-		x = mario_x - TAIL_WIDTH +2;
-	else if(mario->Getnx() < 0)
-		x = mario_x + MARIO_BIG_BBOX_WIDTH-4;
-
 	y = mario_y + 10;
-	
+	if (state == TAIL_STATE_ACTIVE)
+	{
+		if (mario->Getnx() > 0)
+		{
+			x = mario_x + MARIO_BIG_BBOX_WIDTH - 4;
+			slaptime = GetTickCount64();
+			
+		}
+		else if (mario->Getnx() < 0)
+		{
+			x = mario_x - TAIL_WIDTH + 2;
+			slaptime = GetTickCount64();
+		}
+	}
+	else
+		if (mario->Getnx() > 0)
+			x = mario_x - TAIL_WIDTH + 2;
+		else if (mario->Getnx() < 0)
+			x = mario_x + MARIO_BIG_BBOX_WIDTH - 4;
 
+		
+		
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
-void CTail::OnNoCollision(DWORD dt)
-{
-	/*x += vx * dt;
-	y += vy * dt;*/
-}
+
 
 void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (state == TAIL_STATE_IDLE)
+	/*if (state == TAIL_STATE_IDLE)
 		return;
-	else
+	else if(state==TAIL_STATE_ACTIVE)
 	{
 		DebugOut(L"STH\n");
-		//collision handler
-	}
+		if (dynamic_cast<CGoomba*>(e->obj))
+			OnCollisionWithGoompa(e);
+	}*/
 }
 
+//void CTail::OnCollisionWithGoompa(LPCOLLISIONEVENT e)
+//{
+//	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+//	if (goomba->GetState() != GOOMBA_STATE_WALKING)
+//		return;
+//	else
+//		goomba->SetState(GOOMBA_STATE_DIE);
+//
+//	
+//}
 void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x - TAIL_WIDTH / 2;
