@@ -35,12 +35,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isSlapTail = false;
 		tail->SetState(TAIL_STATE_IDLE);
 	}
+	if (isGlide == true)
+	{
+		isSlapTail = false;
+	}
 	if (abs(vx) >= MARIO_ACCEL_RUN_X)
 		IsRunning(true);
 	if (abs(vx) < MARIO_ACCEL_RUN_X)
 		IsRunning(false);
 	float x_now, y_now;
 	GetPosition(x_now, y_now);
+
 	if (y_now > 280)
 	{
 		SetState(MARIO_STATE_DIE);

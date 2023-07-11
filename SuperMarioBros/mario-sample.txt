@@ -10,6 +10,7 @@ height	240
 1	scene01.txt
 2	scene02.txt
 5	scene_main.txt
+6	scene_secret.txt
 
 # id	file 
 [TEXTURES]

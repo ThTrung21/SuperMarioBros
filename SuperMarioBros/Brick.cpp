@@ -1,10 +1,29 @@
 #include "Brick.h"
 
+CBrick::CBrick(float x, float y, int width, int height, int spriteID) : CGameObject(x, y) 
+{
+	this->height = height;
+	this->width = width;
+	this->spriteID = spriteID;
+}
+
 void CBrick::Render()
 {
-	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_BRICK)->Render(x, y);
-	//RenderBoundingBox();
+	CSprites* s = CSprites::GetInstance();
+	float xx = x;
+	float yy = y;
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			s->Get(this->spriteID)->Draw(xx, yy);
+			yy += 16;
+		}
+		xx += 16;
+	}
+
+	s->Get(this->spriteID)->Draw(xx, yy);
+	
 }
 
 void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)

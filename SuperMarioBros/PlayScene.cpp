@@ -153,7 +153,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CKoopa(x, y, koopa_type);
 		break;
 	}
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_BRICK:
+	{
+		int width = atoi(tokens[3].c_str());
+		int height = atoi(tokens[4].c_str());
+		int sprite = atoi(tokens[5].c_str());
+		obj = new CBrick(x, y, width, height, sprite);
+	break; 
+	}
 	case OBJECT_TYPE_GOLD_BRICK:
 	{
 		int content = atoi(tokens[3].c_str());
