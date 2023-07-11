@@ -54,6 +54,8 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 				SetState(GOOMBA_STATE_DIE);
 			return;
 		}
+		else
+			return;
 	}
 	if (!e->obj->IsBlocking()) return; 
 	if (dynamic_cast<CGoomba*>(e->obj)) return; 

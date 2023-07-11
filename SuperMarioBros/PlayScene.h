@@ -54,6 +54,7 @@ public:
 	void SetWKoopa(LPGAMEOBJECT thisWingKoopa) { this->wkoopa = thisWingKoopa; }
 	void SetFireBall(LPGAMEOBJECT thisFireball) { this->fireball = thisFireball; }
 
+
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };
 

@@ -25,7 +25,8 @@ CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 	die_timeout = -1;
 	this->Ktype = type;
 	flag = 0;
-	pop_height = 0;
+	bounce_start = -1;
+	pop_height = (int)y - 28;
 	SetState(KOOPA_STATE_WALKING);
 	
 }
@@ -89,7 +90,7 @@ void CKoopa::OnNoCollision(DWORD dt)
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if(state ==KOOPA_STATE_HIT && e->ny!=0)
-		SetState(KOOPA_STATE_HIDDEN);
+		SetState(KOOPA_STATE_SHELL);
 	else if (state == KOOPA_STATE_HIT) return;
 
 	if (dynamic_cast<CTail*>(e->obj))
@@ -97,10 +98,14 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		CTail* tail = dynamic_cast<CTail*>(e->obj);
 		if (tail->GetState() == TAIL_STATE_ACTIVE)
 		{
-			if (state == KOOPA_STATE_WALKING)
+			if (state == KOOPA_STATE_WALKING ||state==KOOPA_STATE_SHELL)
+			{
 				SetState(KOOPA_STATE_HIT);
-			return;
+				bounce_start = GetTickCount64();
+			}
 		}
+		else
+			return;
 	}
 
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
@@ -382,6 +387,7 @@ void CKoopa::SetState(int state)
 		vx = 0;
 		ay = KOOPA_GRAVITY;
 		break;
+		
 		x = default_x;
 		y = default_y-3;
 		//walking
@@ -418,7 +424,7 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_HIT:
 		ay = -KOOPA_GRAVITY;
-		pop_height =(int) y - 38;
+		pop_height = (int)y - 28;
 		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:
@@ -427,7 +433,7 @@ void CKoopa::SetState(int state)
 		ay = 0;
 		break;
 	case KOOPA_STATE_HIDDEN:
-		pop_height = 0;
+		
 		x = default_x;
 		y = default_y-3;
 		vx = 0;

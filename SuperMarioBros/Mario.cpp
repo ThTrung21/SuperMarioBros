@@ -410,7 +410,9 @@ void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
+
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if (koopa->GetState() == KOOPA_STATE_HIT)return;
 	if ((koopa->GetState() == KOOPA_STATE_SHELL || koopa->GetState() == KOOPA_STATE_REVIVE)&& isHolding_AKey==true)
 	{
 		koopa->SetState(KOOPA_STATE_HOLD);
@@ -419,12 +421,19 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 	else if (e->ny < 0 )//&& koopa->GetState() == KOOPA_STATE_WALKING)
 	{
-		if (koopa->GetState() == WKOOPA_STATE_KICK_RIGHT || koopa->GetState() == WKOOPA_STATE_KICK_RIGHT)
-			koopa->SetState(WKOOPA_STATE_SHELL);
-		if (koopa->GetState() == KOOPA_STATE_WALKING)
+		if (koopa->GetState() == KOOPA_STATE_KICK_RIGHT || koopa->GetState() == KOOPA_STATE_KICK_RIGHT)
+			koopa->SetState(KOOPA_STATE_SHELL);
+		else if (koopa->GetState() == KOOPA_STATE_WALKING)
 		{
 			koopa->SetState(KOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else if (koopa->GetState() == KOOPA_STATE_SHELL)
+		{
+			if (nx > 0)
+				koopa->SetState(KOOPA_STATE_KICK_RIGHT);
+			else
+				koopa->SetState(KOOPA_STATE_KICK_LEFT);
 		}
 	}
 	else
@@ -526,7 +535,7 @@ void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 {
 	CWingKoopa* wkoopa = dynamic_cast<CWingKoopa*>(e->obj);
-	
+	if (wkoopa->GetState() == WKOOPA_STATE_HIT)return;
 	if ((wkoopa->GetState() == WKOOPA_STATE_SHELL || wkoopa->GetState() == WKOOPA_STATE_REVIVE) && isHolding_AKey == true)
 	{
 		wkoopa->SetState(WKOOPA_STATE_HOLD);
@@ -543,6 +552,13 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 		{
 			wkoopa->SetState(WKOOPA_STATE_SHELL);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else if (wkoopa->GetState() == WKOOPA_STATE_SHELL)
+		{
+			if (nx > 0)
+				wkoopa->SetState(WKOOPA_STATE_KICK_RIGHT);
+			else
+				wkoopa->SetState(WKOOPA_STATE_KICK_LEFT);
 		}
 		else if (wkoopa->GetState() == WKOOPA_STATE_JUMPING ||
 			wkoopa->GetState() == WKOOPA_STATE_JUMPING_TIMEOUT)

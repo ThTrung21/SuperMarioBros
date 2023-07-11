@@ -77,7 +77,7 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//Fireball shooting logic
 	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireBall();
 
-	/*if (isShooting)
+	if (isShooting)
 	{
 
 		if (mario_x < x)
@@ -117,7 +117,7 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 
-	}*/
+	}
 
 
 	//set the plant direction according to mario position.

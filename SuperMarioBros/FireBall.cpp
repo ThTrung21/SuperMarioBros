@@ -47,6 +47,7 @@ void CFireBall::Render()
 
 		CAnimations::GetInstance()->Get(aniID)->Render(x, y);
 	}
+	RenderBoundingBox();
 }
 
 void CFireBall::ResetPos()

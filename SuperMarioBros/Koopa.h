@@ -9,6 +9,7 @@
 #define KOOPA_SHELL_TIMEOUT 5001
 #define KOOPA_REVIVE_TIME 5000
 #define KOOPA_KICK_COOLDOWN 100
+#define KOOPA_BOUNCE_TIME 600
 
 #define KOOPA_STATE_IDLE 0
 #define KOOPA_STATE_WALKING 100
@@ -52,6 +53,7 @@ protected:
 	int Ktype;
 	int pop_height;
 	ULONGLONG kick_cooldown;
+	ULONGLONG bounce_start;
 	ULONGLONG revive_start;
 	ULONGLONG shell_start;
 	ULONGLONG die_timeout;

@@ -7,8 +7,8 @@
 #define TAIL_STATE_IDLE 1
 #define TAIL_STATE_ACTIVE 2
 
-#define TAIL_WIDTH 12
-#define TAIL_HEIGHT 10
+#define TAIL_WIDTH 30
+#define TAIL_HEIGHT 12
 
 #define SLAP_TIME 250
 class CTail : public CGameObject
@@ -19,8 +19,6 @@ protected:
 	virtual void Render() { RenderBoundingBox(); }
 	virtual int IsBlocking() { return 0; }
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-	//void OnCollisionWithGoompa(LPCOLLISIONEVENT e);
 	ULONGLONG slaptime;
 public:
 	CTail(float x, float y);

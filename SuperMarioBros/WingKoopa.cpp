@@ -27,7 +27,7 @@ CWingKoopa::CWingKoopa(float x, float y)
 	pre_vx = 0;
 	default_x = x;
 	default_y = y;
-	pop_height = 0;
+	pop_height = (int)y - 28;
 	SetState(WKOOPA_STATE_IDLE);
 
 }
@@ -51,11 +51,21 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (tail->GetState() == TAIL_STATE_ACTIVE)
 		{
 
-			if (state == WKOOPA_STATE_WALKING||state ==WKOOPA_STATE_JUMPING
-				|| state==WKOOPA_STATE_JUMPING_TIMEOUT)
+			if (state == WKOOPA_STATE_WALKING
+				|| state == WKOOPA_STATE_JUMPING_TIMEOUT || state == WKOOPA_STATE_SHELL)
+			{
+				ay = WKOOPA_GRAVITY;
 				SetState(WKOOPA_STATE_HIT);
+			}
+			else if (state == WKOOPA_STATE_JUMPING)
+			{
+				ay = WKOOPA_GRAVITY;
+				SetState(WKOOPA_STATE_HIT);
+			}
 			return;
 		}
+		else
+			return;
 	}
 	//if (!e->obj->IsBlocking() && !e->obj->IsGoomba()) return;
 	if (e->obj->IsGoomba() &&( e->obj->GetState() == GOOMBA_STATE_HIDDEN ||e->obj->GetState() == GOOMBA_STATE_IDLE)) return;
@@ -76,19 +86,6 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionithTanukiLeaf(e);
 	if (dynamic_cast<CBox*>(e->obj))
 		OnCollisionWithMysteryBox(e);
-
-	if (e->ny != 0)
-	{
-		vy = 0;
-	}
-	else if (e->nx != 0 && !e->obj->IsGoomba()&& !dynamic_cast<CInvis*>(e->obj))
-	{
-		vx = -vx;
-	}
-	else if (dynamic_cast<CTanukiLeaf*>(e->obj))
-		OnCollisionithTanukiLeaf(e);
-	else if (dynamic_cast<CBox*>(e->obj))
-		OnCollisionWithMysteryBox(e);
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
@@ -97,6 +94,20 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithWingGoomba(e);
 	/*else if (dynamic_cast<CWingKoopa*>(e->obj))
 		OnCollisionWithWingKoopa(e);*/
+
+	if (!e->obj->IsBlocking())
+		return;
+	if (e->ny != 0)
+	{
+		vy = 0;
+	}
+
+	else if (e->nx != 0 && !e->obj->IsGoomba()&& !dynamic_cast<CInvis*>(e->obj))
+	{
+		vx = -vx;
+	}
+	
+	
 }
 
 
@@ -253,6 +264,7 @@ void CWingKoopa::GetBoundingBox(float& left, float& top, float& right, float& bo
 
 void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	
 	vy += ay * dt;
 	vx += ax * dt;
 	if (y > 220)
@@ -425,7 +437,7 @@ void CWingKoopa::SetState(int state)
 		break;
 	case WKOOPA_STATE_HIT:
 		ay = -WKOOPA_GRAVITY;
-		pop_height = (int)y - 38;
+		pop_height = (int)y - 28;
 		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:

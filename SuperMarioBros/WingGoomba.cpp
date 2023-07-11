@@ -68,6 +68,8 @@ void CWingGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 				SetState(WGOOMBA_STATE_DIE);
 			return;
 		}
+		else
+			return;
 	}
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CWingGoomba*>(e->obj)) return;
