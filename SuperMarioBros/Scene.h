@@ -11,7 +11,7 @@ protected:
 	LPKEYEVENTHANDLER key_handler;
 	int id;
 	LPCWSTR sceneFilePath;
-
+	bool FirstLoad = true;
 public: 
 	CScene(int id, LPCWSTR filePath);
 	

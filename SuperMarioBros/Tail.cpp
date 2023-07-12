@@ -12,8 +12,8 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	/*float mario_vx, mario_vy;
 	mario->GetSpeed(mario_vx, mario_vy);*/
-	mario_x=mario->GetX();
-	mario_y = mario->GetY();
+	mario_x= (int)mario->GetX();
+	mario_y = (int)mario->GetY();
 	/*vy = mario_vy;
 	vx = mario_vx;*/
 	

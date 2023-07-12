@@ -11,11 +11,11 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	
 }
-CFireBall::CFireBall(float x, float y,int id):CGameObject(x,y)
+CFireBall::CFireBall(float x, float y):CGameObject(x,y)
 {
 	state = FIREBALL_STATE_HIDDEN;
 	this->X = x;
-	this->id = id;
+	
 	this->Y = y;
 	vx = 0;
 	vy = 0;

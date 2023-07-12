@@ -26,7 +26,7 @@ class CGame
 {
 	static CGame* __instance;
 	HWND hWnd;									// Window handle
-
+	
 	int backBufferWidth = 0;					// Backbuffer width & height, will be set during Direct3D initialization
 	int backBufferHeight = 0;
 
@@ -62,7 +62,7 @@ class CGame
 public:
 	// Init DirectX, Sprite Handler
 	void Init(HWND hWnd, HINSTANCE hInstance);
-
+	
 	//
 	// Draw a portion or ALL the texture at position (x,y) on the screen. (x,y) is at the CENTER of the image
 	// rect : if NULL, the whole texture will be drawn

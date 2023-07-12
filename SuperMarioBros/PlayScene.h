@@ -16,12 +16,15 @@
 class CPlayScene: public CScene
 {
 protected: 
+	bool firstload = true;
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
-	LPGAMEOBJECT fireball;
+	LPGAMEOBJECT fireball_1;
+	LPGAMEOBJECT fireball_2;
 	LPGAMEOBJECT koopa;
 	LPGAMEOBJECT wkoopa;
 	LPGAMEOBJECT tail;
+	LPGAMEOBJECT button;
 
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> fireballs;
@@ -42,16 +45,18 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
-	//LPGAMEOBJECT GetFireBall() { return fireball; }
+	LPGAMEOBJECT GetFireBall(int index) 
+	{
+		if(index==1)
+			return fireball_1;
+		return fireball_2;
+	}
 	LPGAMEOBJECT GetKoopa() { return koopa; }
 	LPGAMEOBJECT GetWKoopa() { return wkoopa; }
 	LPGAMEOBJECT GetTail() { return tail; }
+	LPGAMEOBJECT GetButton() { return button; }
 
-	LPGAMEOBJECT GetSingleFireball(int index) {
-		if (index < fireballs.size())
-			return fireballs[index];
-		return NULL;
-	}
+	
 	void Clear();
 	void PurgeDeletedObjects();
 

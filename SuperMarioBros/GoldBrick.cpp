@@ -1,6 +1,7 @@
 #include "GoldBrick.h"
 #include "Mario.h"
 #include "Pwr_btn.h"
+#include "PlayScene.h"
 CGoldBrick::CGoldBrick(float x, float y, int brick_type):CGameObject(x,y)
 {
 	this->interact = brick_type;
@@ -62,6 +63,20 @@ void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(GBRICK_STATE_USED, mario_level);
 	}
 	y += vy * dt;
+
+
+	CBtn* button = (CBtn*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetButton();
+	if (button->GetState() == BTN_STATE_USED)
+	{
+		if (interact == 2)
+		{
+			isDeleted = true;
+			return;
+		}
+	}
+
+
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -84,16 +99,3 @@ void CGoldBrick::SetState(int state,int mario_level)
 }
 
 
-//
-//void CGoldBrick::OnCollisionWith(LPCOLLISIONEVENT e)
-//{
-//	
-//	if (interact == 2)return;
-//	
-//	if (dynamic_cast<CBtn*>(e->obj)  /*&& e->ny != 0*/)
-//	{
-//		DebugOut(L"BTNNNNN\n");
-//		CBtn* b = dynamic_cast<CBtn*>(e->obj);
-//		b->SetState(BTN_STATE_USED);
-//	}
-//}

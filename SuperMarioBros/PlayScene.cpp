@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "AssetIDs.h"
+#include "Game.h"
 
 #include "PlayScene.h"
 #include "Utils.h"
@@ -37,7 +38,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	player = NULL;
-	fireball = NULL;
+	fireball_1 = NULL;
+	fireball_2 = NULL;
 
 	key_handler = new CSampleKeyHandler(this);
 }
@@ -135,8 +137,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
-		player = (CMario*)obj;  
+		if (FirstLoad == true)
+		{
+			obj = new CMario(x, y);
+			player = (CMario*)obj;
+			firstload = false;
+		}
+		else
+		{
+			obj = new CMario(1200, 10);
+			player = (CMario*)obj;
+		}
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
@@ -169,7 +180,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_CLOUD_BLOCK: obj = new CCloudBlock(x, y); break;
 	case OBJECT_TYPE_INVIS_BLOCK: obj = new CInvis(x, y); break;
-	case OBJECT_TYPE_BTN: obj = new CBtn(x, y); break;
+	case OBJECT_TYPE_BTN:
+		obj = new CBtn(x, y); 
+		button = (CBtn*)obj;
+		break;
 	case OBJECT_TYPE_COIN:
 	{
 		bool isHidden = atoi(tokens[3].c_str());
@@ -266,11 +280,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		int id = atoi(tokens[3].c_str());
-		obj = new CFireBall(x, y, id);
-		fireballs.push_back(obj);
-
+		
+		obj = new CFireBall(x, y);
+		fireball_1 = (CFireBall*)obj;
 	break; 
+	}
+	case OBJECT_TYPE_FIREBALL_2:
+	{
+		obj = new CFireBall(x, y);
+		fireball_2 = (CFireBall*)obj;
+		break;
 	}
 	case OBJECT_TYPE_TANUKI_LEAF:
 		obj = new CTanukiLeaf(x, y);

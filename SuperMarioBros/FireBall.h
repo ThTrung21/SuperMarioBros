@@ -37,7 +37,7 @@ class CFireBall : public CGameObject
 {
 protected:
 	float X, Y;
-	int id;
+	
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -47,7 +47,7 @@ protected:
 	
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
-	CFireBall(float x, float y,int id);
+	CFireBall(float x, float y);
 	float GetX() { return x; }
 	virtual void SetState(int state);
 	
