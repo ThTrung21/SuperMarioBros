@@ -26,7 +26,7 @@ protected:
 	LPGAMEOBJECT tail;
 	LPGAMEOBJECT button;
 	LPGAMEOBJECT portal;
-
+	LPGAMEOBJECT mini;
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> fireballs;
 	void _ParseSection_SPRITES(string line);
@@ -46,6 +46,7 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+	LPGAMEOBJECT GetMini() { return mini; }
 	LPGAMEOBJECT GetFireBall(int index) 
 	{
 		if(index==1)

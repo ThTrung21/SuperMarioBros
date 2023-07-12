@@ -33,6 +33,7 @@
 #include"Tail.h"
 #include"Hidden_Coin.h"
 #include"title.h"
+#include "miniMario.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -166,6 +167,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CTail(x, y);
 		tail = (CTail*)obj;
 		break;
+	case OBJECT_TYPE_MINI:
+	{
+		obj = new CMini(x, y);
+		mini = (CMini*)obj;
+		break;
+	}
 	case OBJECT_TYPE_TITLE:
 	{
 		int id = atoi(tokens[3].c_str());
@@ -453,9 +460,10 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0;
 	
 	if (cy > -75)cy = 1.0f;
-
-	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
-
+	//if (id != 2)
+		CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
+	//else
+		//CGame::GetInstance()->SetCamPos(1.0f, 1.0f);
 	PurgeDeletedObjects();
 }
 

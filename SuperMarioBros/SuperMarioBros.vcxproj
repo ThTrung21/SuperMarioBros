@@ -155,6 +155,7 @@
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="miniMario.h" />
     <ClInclude Include="MysteryBox.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Platform.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="miniMario.cpp" />
     <ClCompile Include="MysteryBox.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Platform.cpp" />

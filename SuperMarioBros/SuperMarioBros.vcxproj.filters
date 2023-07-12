@@ -153,6 +153,9 @@
     <ClInclude Include="title.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="miniMario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -279,6 +282,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="title.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="miniMario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
