@@ -48,7 +48,7 @@ void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y = Y;
 		return;
 	}
-	if (y >= Y && state == GBRICK_STATE_BOUNCE && (interact == 0 
+	if (y >= Y && state == GBRICK_STATE_BOUNCE && (interact == 2 
 		||(interact==1 && mario_level == MARIO_LEVEL_SMALL) ) )
 	{
 		vy = 0;

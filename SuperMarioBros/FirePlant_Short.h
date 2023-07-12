@@ -20,7 +20,7 @@
 #define SHORT_PLANT_STATE_DIE 400
 
 #define SHORT_PLANT_SPEED	0.03f
-#define SHORT_PLANT_STOP_TIMEOUT 1200
+#define SHORT_PLANT_STOP_TIMEOUT 1000
 
 #define ID_ANI_SHORT_FIREPLANT_TOPLEFT 15100
 #define	ID_ANI_SHORT_FIREPLANT_BOTTOMLEFT 15101
@@ -43,9 +43,9 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	bool MarioDetection(int x, int y);
-	//virtual int IsCollidable() { return 1; };
+	virtual int IsCollidable() { return 1; }
 	virtual int IsBlocking() { return 0; }
-	virtual void OnNoCollision(DWORD dt);
+	
 	bool RespawnDetector(int x);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:

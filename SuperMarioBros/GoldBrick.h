@@ -34,5 +34,6 @@ public:
 	
 	//virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	int IsCollidable() { return 1; }
+	int IsBlocking() { return 1; }
 	int GetType() { return interact; }
 };

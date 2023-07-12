@@ -1,6 +1,6 @@
 #include "Chomper.h"
 #include "debug.h"
-
+#include "Tail.h"
 
 
 
@@ -94,7 +94,7 @@ void CChomper::Render()
 		int aniID = ID_ANI_CHOMPER;
 
 		CAnimations::GetInstance()->Get(aniID)->Render(x, y);
-		RenderBoundingBox();
+		
 	}
 }
 
@@ -106,15 +106,26 @@ void CChomper::GetBoundingBox(float& left, float& top, float& right, float& bott
 	bottom = y + CHOMPER_HEIGHT - 6;
 }
 
-void CChomper::OnNoCollision(DWORD dt)
-{
-
-
-}
+//void CChomper::OnNoCollision(DWORD dt)
+//{
+//
+//
+//}
 
 void CChomper::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	//if (e->obj->IsBlocking())return;
+	if (dynamic_cast<CTail*>(e->obj))
+	{
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+			if (state != CHOMPER_STATE_DIE)
+				SetState(CHOMPER_STATE_DIE);
+			DebugOut(L"tail_hit\n");
+			return;
+		}
+	}
 }
 
 
@@ -128,8 +139,6 @@ void CChomper::SetState(int state)
 	{
 	case CHOMPER_STATE_STOP:
 	{
-
-
 
 		prev_vy = vy;
 		vy = 0;
@@ -153,7 +162,7 @@ void CChomper::SetState(int state)
 	case CHOMPER_STATE_DIE:
 		x = default_x;
 		y = default_y;
-		DebugOut(L"[info]  chomper DIEEEEEE\n");
+		
 		vy = 0;
 		break;
 	}

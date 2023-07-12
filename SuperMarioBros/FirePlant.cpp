@@ -1,6 +1,7 @@
 #include "FirePlant.h"
 #include "debug.h"
 #include "FireBall.h"
+#include "Tail.h"
 
 
 
@@ -50,6 +51,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if(y>=default_y)
 		SetState(PLANT_STATE_SLEEP);
+
 	//set the plant moving logic
 	if (state == PLANT_STATE_AWAKE)
 	{
@@ -185,12 +187,17 @@ void CFirePlant::OnNoCollision(DWORD dt)
 
 void CFirePlant::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (dynamic_cast<CFireBall*>(e->obj) && state!= PLANT_STATE_SLEEP &&state!=PLANT_STATE_DIE)
+	
+	if (dynamic_cast<CTail*>(e->obj))
 	{
-		CFireBall* fire = dynamic_cast<CFireBall*>(e->obj);
-		//((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetFireBall(fire);
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+			if (state != PLANT_STATE_DIE)
+				SetState(PLANT_STATE_DIE);
+			return;
+		}
 	}
-	if (e->obj->IsBlocking())return;
 	
 }
 

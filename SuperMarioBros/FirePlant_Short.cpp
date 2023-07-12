@@ -1,7 +1,7 @@
 #include "FirePlant_Short.h"
 #include "debug.h"
 #include "FireBall.h"
-
+#include "Tail.h"
 
 
 CFirePlant_Short::CFirePlant_Short(float x, float y) :CGameObject(x, y)
@@ -11,10 +11,11 @@ CFirePlant_Short::CFirePlant_Short(float x, float y) :CGameObject(x, y)
 	this->vy = SHORT_PLANT_SPEED;
 	this->TopPos = y - 8;
 	this->BotPos = y + 16;
-	SetDir(SHORT_PLANT_DIR_TOPLEFT);
-	SetState(SHORT_PLANT_STATE_AWAKE);
 	this->default_y = y;
 	this->default_x = x;
+	SetDir(SHORT_PLANT_DIR_TOPLEFT);
+	SetState(SHORT_PLANT_STATE_AWAKE);
+	
 	this->isShooting = false;
 
 }
@@ -28,7 +29,29 @@ bool CFirePlant_Short::MarioDetection(int mario_x, int mario_y)
 }
 void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	//DETECTING MARIO POSITION
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	int mario_x, mario_y;
+	mario_x = mario->GetX();
+	mario_y = mario->GetY();
 
+	//respawn detector
+	if (state == SHORT_PLANT_STATE_DIE && RespawnDetector(mario_x) == 1)
+	{
+		SetState(SHORT_PLANT_STATE_AWAKE);
+	}
+
+	if (state == SHORT_PLANT_STATE_DIE)
+		return;
+	//mario detection
+	if (MarioDetection(mario_x, mario_y) == true)
+	{
+		if (state == SHORT_PLANT_STATE_SLEEP)
+			SetState(SHORT_PLANT_STATE_AWAKE);
+
+	}
+	else if (y >= default_y)
+		SetState(SHORT_PLANT_STATE_SLEEP);
 
 	//set the plant moving logic
 	if (state == SHORT_PLANT_STATE_AWAKE)
@@ -53,26 +76,10 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	}
 
-	//DETECTING MARIO POSITION
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	int mario_x, mario_y;
-	mario_x = mario->GetX();
-	mario_y = mario->GetY();
+	
 
 
-	//respawn detector
-	if (state == SHORT_PLANT_STATE_DIE && RespawnDetector(mario_x) == 1)
-	{
-		SetState(SHORT_PLANT_STATE_AWAKE);
-	}
-
-	if (MarioDetection(mario_x, mario_y) == true)
-	{
-		if (state == SHORT_PLANT_STATE_SLEEP)
-			SetState(SHORT_PLANT_STATE_AWAKE);
-	}
-	else if (y >= default_y)
-		SetState(SHORT_PLANT_STATE_SLEEP);
+	
 
 	//Fireball shooting logic
 	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireBall(2);
@@ -82,35 +89,35 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (mario_x < x)
 		{
-			if (abs(mario_y - TopPos) >= 16 && mario_y < TopPos)
+			if (abs(mario_y - TopPos) >= 32 && mario_y < TopPos)
 			{
 				fireball->SetState(FIREBALL_DIR_TOP_LEFT);
 			}
-			else if (abs(mario_y - TopPos) < 16 && mario_y < TopPos)
+			else if (abs(mario_y - TopPos) < 32 && mario_y < TopPos)
 			{
 				fireball->SetState(FIREBALL_DIR_UPMID_LEFT);
 
 			}
-			else if (abs(mario_y - TopPos) < 16 && mario_y > TopPos)
+			else if (abs(mario_y - TopPos) < 32 && mario_y > TopPos)
 			{
 				fireball->SetState(FIREBALL_DIR_LOMID_LEFT);
 
 			}
-			else if (abs(mario_y - TopPos) >= 16 && mario_y > TopPos)
+			else if (abs(mario_y - TopPos) >= 32 && mario_y > TopPos)
 				fireball->SetState(FIREBALL_DIR_BOT_LEFT);
 
 		}
 		else
 		{
-			if (abs(mario_y - TopPos) >= 16 && mario_y < TopPos)
+			if (abs(mario_y - TopPos) >= 32 && mario_y < TopPos)
 				fireball->SetState(FIREBALL_DIR_TOP_RIGHT);
 
-			else if (abs(mario_y - TopPos) < 16 && mario_y < TopPos)
+			else if (abs(mario_y - TopPos) < 32 && mario_y < TopPos)
 				fireball->SetState(FIREBALL_DIR_UPMID_RIGHT);
 
-			else if (abs(mario_y - TopPos) < 16 && mario_y > TopPos)
+			else if (abs(mario_y - TopPos) < 32 && mario_y > TopPos)
 				fireball->SetState(FIREBALL_DIR_LOMID_RIGHT);
-			else if (abs(mario_y - TopPos) >= 16 && mario_y > TopPos)
+			else if (abs(mario_y - TopPos) >= 32 && mario_y > TopPos)
 				fireball->SetState(FIREBALL_DIR_BOT_RIGHT);
 
 		}
@@ -129,12 +136,6 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetDir(SHORT_PLANT_DIR_TOPRIGHT);
 	else if (mario_x > x && mario_y > y)
 		SetDir(SHORT_PLANT_DIR_BOTTOMRIGHT);
-	else
-		SetState(this->state);
-
-
-
-
 
 	CGameObject::Update(dt, coObjects);
 }
@@ -170,20 +171,23 @@ void CFirePlant_Short::Render()
 void CFirePlant_Short::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x - SHORT_PLANT_WIDTH / 6;
-	top = y - SHORT_PLANT_HEIGHT / 6;
+	top = y -8- SHORT_PLANT_HEIGHT / 6;
 	right = x + SHORT_PLANT_WIDTH - 3;
 	bottom = y + SHORT_PLANT_HEIGHT - 6;
 }
 
-void CFirePlant_Short::OnNoCollision(DWORD dt)
-{
-
-
-}
-
 void CFirePlant_Short::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->obj->IsBlocking())return;
+	if (dynamic_cast<CTail*>(e->obj))
+	{
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+			if (state != SHORT_PLANT_STATE_DIE)
+				SetState(SHORT_PLANT_STATE_DIE);
+			return;
+		}
+	}
 }
 
 bool CFirePlant_Short::RespawnDetector(int mario_x)
@@ -204,7 +208,7 @@ void CFirePlant_Short::SetState(int state)
 	{
 	case SHORT_PLANT_STATE_STOP:
 	{
-
+		DebugOut(L"stoPPPP\n");
 		if (y <= TopPos)
 			isShooting = true;
 
@@ -215,7 +219,7 @@ void CFirePlant_Short::SetState(int state)
 	}
 	case SHORT_PLANT_STATE_AWAKE:
 	{
-
+		DebugOut(L"move\n");
 		isShooting = false;
 
 		//if (prev_vy != 0)
@@ -223,14 +227,10 @@ void CFirePlant_Short::SetState(int state)
 			vy = SHORT_PLANT_SPEED;
 		else if (y >= BotPos)
 			vy = -SHORT_PLANT_SPEED;
-
-
-
-
 		break;
 	}
 	case SHORT_PLANT_STATE_SLEEP:
-
+		DebugOut(L"sleep\n");
 		isShooting = false;
 		vy = 0;
 		y = BotPos;
