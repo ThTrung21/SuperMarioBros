@@ -171,6 +171,7 @@
     <ClInclude Include="Tanuki_Leaf.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="title.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WingGoomba.h" />
     <ClInclude Include="WingKoopa.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="Tail.cpp" />
     <ClCompile Include="Tanuki_Leaf.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="title.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WingGoomba.cpp" />
     <ClCompile Include="WingKoopa.cpp" />

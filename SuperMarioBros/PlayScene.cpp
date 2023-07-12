@@ -32,6 +32,7 @@
 #include "SampleKeyEventHandler.h"
 #include"Tail.h"
 #include"Hidden_Coin.h"
+#include"title.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -165,6 +166,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CTail(x, y);
 		tail = (CTail*)obj;
 		break;
+	case OBJECT_TYPE_TITLE:
+	{
+		int id = atoi(tokens[3].c_str());
+		obj = new CTitle(x, y, id);
+		break; 
+	}
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 
 	case OBJECT_TYPE_KOOPA:

@@ -7,8 +7,8 @@ height	240
 # type: 0: intro, 1: play scene 
 [SCENES]
 0	intro.txt
-1	scene01.txt
-2	scene02.txt
+1	scene_title.txt
+2	scene_map.txt
 5	scene_main.txt
 6	scene_secret.txt
 
@@ -30,3 +30,6 @@ height	240
 50	textures\enemies_2.png
 60	textures\enemies_2_flip.png
 70	textures\enemies_flip.png
+
+80	textures\title.png
+90	textures\map.png
