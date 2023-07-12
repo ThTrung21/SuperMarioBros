@@ -35,14 +35,14 @@ CWingKoopa::CWingKoopa(float x, float y)
 bool CWingKoopa::RespawnDetector(int mario_x)
 {
 	int xx = mario_x - (int)default_x;
-	if (abs(xx) > 300)
+	if (abs(xx) > 240)
 		return 1;
 	return 0;
 }
 void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (state == WKOOPA_STATE_HIT && e->ny != 0)
-		SetState(WKOOPA_STATE_HIDDEN);
+		SetState(WKOOPA_STATE_SHELL);
 	if (state == WKOOPA_STATE_HIT) return;
 	
 	if (dynamic_cast<CTail*>(e->obj))
@@ -51,7 +51,7 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (tail->GetState() == TAIL_STATE_ACTIVE)
 		{
 
-			if (state == WKOOPA_STATE_WALKING
+			if (state == WKOOPA_STATE_WALKING|| state == WKOOPA_STATE_JUMPING
 				|| state == WKOOPA_STATE_JUMPING_TIMEOUT || state == WKOOPA_STATE_SHELL)
 			{
 				ay = WKOOPA_GRAVITY;
@@ -214,6 +214,25 @@ void CWingKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 }
 
+void CWingKoopa::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
+{
+	CWingKoopa* wk = dynamic_cast<CWingKoopa*>(e->obj);
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
+	{
+		if (wk->GetState() == WKOOPA_STATE_KICK_LEFT || wk->GetState() == WKOOPA_STATE_KICK_RIGHT)
+		{
+			vx = -vx;
+		}
+		else
+			wk->SetState(WKOOPA_STATE_HIT);
+	}
+	if (state != WKOOPA_STATE_KICK_LEFT && state != WKOOPA_STATE_KICK_RIGHT)
+	{
+		if (wk->GetState() == WKOOPA_STATE_KICK_LEFT || wk->GetState() == WKOOPA_STATE_KICK_RIGHT)
+			SetState(WKOOPA_STATE_HIT);
+	}
+}
+
 void CWingKoopa::OnNoCollision(DWORD dt)
 {
 	if (state != WKOOPA_STATE_HOLD)
@@ -270,6 +289,7 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y > 220)
 	{
 		SetState(WKOOPA_STATE_HIDDEN);
+		return;
 	}
 	//shell kicked timeout
 	if ((state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT) && GetTickCount64() - die_timeout > WKOOPA_SHELL_TIMEOUT)
@@ -277,7 +297,11 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(WKOOPA_STATE_HIDDEN);
 		return;
 	}
+	if (state == KOOPA_STATE_HIT && y < pop_height)
+	{
+		ay = KOOPA_GRAVITY;
 
+	}
 	//revive after turn into shell
 	if ((state == WKOOPA_STATE_SHELL) && (GetTickCount64() - shell_start > WKOOPA_SHELL_TIMEOUT))
 	{
@@ -305,7 +329,7 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//respawn mechanic
 	if (state == WKOOPA_STATE_HIDDEN && RespawnDetector(mario_x) == 1)
 	{
-		
+
 		flag = 0;	
 		SetState(WKOOPA_STATE_IDLE);
 		die_flag = 0;
@@ -340,7 +364,8 @@ void CWingKoopa::Render()
 			if (vx < 0)
 				aniId = ID_ANI_WKOOPA_WALKING_LEFT;
 		}
-
+		else if (state == WKOOPA_STATE_HIT)
+			aniId = ID_ANI_WKOOPA_HIT;
 		else if (state == KOOPA_STATE_HOLD||state == WKOOPA_STATE_SHELL || state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 		{
 			aniId = ID_ANI_WKOOPA_SHELL;
@@ -375,10 +400,12 @@ void CWingKoopa::SetState(int state)
 
 		vx = 0;
 		ay = WKOOPA_GRAVITY;
-		break;
+		y = default_y - 5;
 		x = default_x;
-		if(die_flag = 0)
-			y = default_y - 5;
+		break;
+		
+		//if(die_flag = 0)
+			
 		//walking
 	case WKOOPA_STATE_WALKING:
 		//if(die_flag==1)

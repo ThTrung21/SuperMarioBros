@@ -257,7 +257,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBox(x,y,icontent);
 		break;
 	}
-	case OBJECT_TYPE_MUSHROOM_RED: obj = new CMushroom(x, y); break;
+	case OBJECT_TYPE_MUSHROOM:
+	{
+		int color = atoi(tokens[3].c_str());
+		obj = new CMushroom(x, y,color); break;
+	}
 	case OBJECT_TYPE_PIPE:
 	{
 		int height = atoi(tokens[3].c_str());

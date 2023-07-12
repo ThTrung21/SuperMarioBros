@@ -101,7 +101,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			if (state == KOOPA_STATE_WALKING ||state==KOOPA_STATE_SHELL)
 			{
 				SetState(KOOPA_STATE_HIT);
-				bounce_start = GetTickCount64();
+				//bounce_start = GetTickCount64();
 			}
 		}
 		else
@@ -195,8 +195,8 @@ void CKoopa::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 		{
 			vx = -vx;
 		}
-		//else
-			//k->SetState(WKOOPA_STATE_HIT);
+		else
+			k->SetState(WKOOPA_STATE_HIT);
 	}
 }
 void CKoopa::OnCollisionWithMysteryBox(LPCOLLISIONEVENT e)

@@ -8,7 +8,7 @@
 #define MUSHROOM_BBOX_HEIGHT 16
 
 #define ID_ANI_MUSHROOM_RED 14000
-
+#define ID_ANI_MUSHROOM_GREEN 14001
 
 #define MUSHROOM_STATE_HIDDEN 100
 #define MUSHROOM_STATE_SHOW 200
@@ -21,6 +21,7 @@ protected:
 	float ay, ax;
 	ULONGLONG moveDelay;
 	ULONGLONG direction;
+	int color;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -31,6 +32,6 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CMushroom(float x, float y);
+	CMushroom(float x, float y,int color);
 	virtual void SetState(int state);
 };

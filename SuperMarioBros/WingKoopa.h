@@ -33,7 +33,7 @@
 #define ID_ANI_WKOOPA_WALKING_RIGHT 25004
 #define ID_ANI_WKOOPA_SHELL 25005
 #define ID_ANI_WKOOPA_REVIVE 25006
-
+#define ID_ANI_WKOOPA_HIT	25007
 
 #define WKOOPA_BBOX_WIDTH 16
 #define WKOOPA_BBOX_HEIGHT 26
@@ -74,6 +74,7 @@ protected:
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithWingKoopa(LPCOLLISIONEVENT e);
 
 	void OnCollisionWithFirePlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e);

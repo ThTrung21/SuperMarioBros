@@ -1,17 +1,22 @@
 #include "RedMushroom.h"
 
-CMushroom::CMushroom(float x, float y) :CGameObject(x, y)
+CMushroom::CMushroom(float x, float y,int color) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = 0;
+	this->color = color;
 	moveDelay = -1;
 	SetState(MUSHROOM_STATE_HIDDEN);
 }
 
 void CMushroom::Render()
 {
+
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_MUSHROOM_RED)->Render(x, y);
+	if(color==1)
+		animations->Get(ID_ANI_MUSHROOM_RED)->Render(x, y);
+	else if(color==2)
+		animations->Get(ID_ANI_MUSHROOM_GREEN)->Render(x, y);
 	RenderBoundingBox();
 }
 

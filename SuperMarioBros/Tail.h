@@ -7,7 +7,7 @@
 #define TAIL_STATE_IDLE 1
 #define TAIL_STATE_ACTIVE 2
 
-#define TAIL_WIDTH 30
+#define TAIL_WIDTH 12
 #define TAIL_HEIGHT 12
 
 #define SLAP_TIME 250
