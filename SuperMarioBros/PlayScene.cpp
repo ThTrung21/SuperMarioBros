@@ -31,7 +31,7 @@
 #include "Pwr_btn.h"
 #include "SampleKeyEventHandler.h"
 #include"Tail.h"
-
+#include"Hidden_Coin.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -198,6 +198,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		bool isHidden = atoi(tokens[3].c_str());
 		obj = new CCoin(x, y, isHidden);
+		break;
+	}
+	case OBJECT_TYPE_COIN_HIDDEN:
+	{
+		bool id = atoi(tokens[3].c_str());
+		obj = new CHiddenCoin(x, y, id);
 		break;
 	}
 	case OBJECT_TYPE_PLATFORM:

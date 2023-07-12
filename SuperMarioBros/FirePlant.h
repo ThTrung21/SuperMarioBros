@@ -45,7 +45,7 @@ protected:
 	bool MarioDetection(int x, int y);
 	
 	virtual int IsBlocking() { return 0; }
-	virtual int IsColliable() { return 1; }
+	virtual int IsCollidable() { return 1; }
 	virtual void OnNoCollision(DWORD dt);
 	bool RespawnDetector(int x);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);

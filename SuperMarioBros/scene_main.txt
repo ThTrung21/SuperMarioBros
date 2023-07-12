@@ -25,6 +25,8 @@ FirePlant_Short.txt
 Chomper.txt
 WingKoopa.txt
 Btn.txt
+Hidden_coin.txt
+
 
 #################################
 [OBJECTS]

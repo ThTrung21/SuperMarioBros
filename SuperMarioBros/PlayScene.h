@@ -52,6 +52,7 @@ public:
 			return fireball_1;
 		return fireball_2;
 	}
+
 	LPGAMEOBJECT GetKoopa() { return koopa; }
 	LPGAMEOBJECT GetWKoopa() { return wkoopa; }
 	LPGAMEOBJECT GetTail() { return tail; }

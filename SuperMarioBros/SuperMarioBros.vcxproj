@@ -150,6 +150,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GoldBrick.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="Hidden_Coin.h" />
     <ClInclude Include="Invis_block.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopa.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GoldBrick.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Hidden_coin.cpp" />
     <ClCompile Include="Invis_block.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />
