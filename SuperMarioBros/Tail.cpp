@@ -1,5 +1,6 @@
 #include "Tail.h"
-
+#include "Koopa.h"
+#include "WingKoopa.h"
 CTail::CTail(float x, float y) :CGameObject(x,y)
 {
 
@@ -43,6 +44,20 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+
+void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	if (state == TAIL_STATE_ACTIVE)
+	{
+		if (dynamic_cast<CKoopa*>(e->obj))
+		{
+			CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+			if (koopa->GetState() == KOOPA_STATE_SHELL)
+				koopa->SetState(KOOPA_STATE_HIT);
+
+		}
+	}
 }
 
 

@@ -7,7 +7,8 @@
 #include "Texture.h"
 #include "Animations.h"
 #include "PlayScene.h"
-
+#include "Portal.h"
+#include "Mario.h"
 CGame * CGame::__instance = NULL;
 
 /*
@@ -527,7 +528,18 @@ void CGame::SwitchScene()
 
 void CGame::InitiateSwitchScene(int scene_id)
 {
-	next_scene = scene_id;
+	/*CPortal* portal = (CPortal*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPortal();
+
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (portal != NULL && mario != NULL)
+	{
+		if (portal->GetDir() == 1 && mario->GetIsHoldingUp())
+			next_scene = scene_id;
+		else if (portal->GetDir() == 2 && mario->GetIsSitting())
+			next_scene = scene_id;
+		else next_scene = -1;
+	}
+	else*/ next_scene = scene_id;
 }
 
 

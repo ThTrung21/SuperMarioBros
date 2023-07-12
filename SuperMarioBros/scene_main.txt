@@ -91,7 +91,7 @@ Btn.txt
 
 # MARIO
 0	60	10
-0	1200	10
+#0	1200	10
 #tail
 24	60	10
 
@@ -207,7 +207,8 @@ Btn.txt
 
 
 #Portal
-50	200	160	216	180	6
+#id	l	t	r	b	scene	dir
+50	200	160	216	200	6	2
 
 
 #BRICK

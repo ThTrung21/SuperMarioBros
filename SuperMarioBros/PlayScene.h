@@ -25,6 +25,7 @@ protected:
 	LPGAMEOBJECT wkoopa;
 	LPGAMEOBJECT tail;
 	LPGAMEOBJECT button;
+	LPGAMEOBJECT portal;
 
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> fireballs;
@@ -55,7 +56,7 @@ public:
 	LPGAMEOBJECT GetWKoopa() { return wkoopa; }
 	LPGAMEOBJECT GetTail() { return tail; }
 	LPGAMEOBJECT GetButton() { return button; }
-
+	LPGAMEOBJECT GetPortal() { return portal; }
 	
 	void Clear();
 	void PurgeDeletedObjects();

@@ -148,10 +148,14 @@ class CMario : public CGameObject
 	BOOLEAN isOnPlatform;
 	ULONGLONG resetGravity_start = -1;
 	ULONGLONG glide_start = -1;
+
 	int coin; 
 	bool isHolding_AKey = false;
 	bool isSlapTail = false;
 	bool isRunning = false;
+	bool isHolding_Up = false;
+	
+	
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
@@ -178,6 +182,17 @@ public:
 	{
 		return isRunning;
 	}
+	bool GetIsSitting()
+	{
+		return isSitting;
+	}
+	bool GetIsHoldingUp()
+	{
+		return isHolding_Up;
+	}
+
+
+
 	void IsHolding_AKey(bool flag)
 	{
 		isHolding_AKey = flag;
@@ -190,7 +205,15 @@ public:
 	{
 		isSlapTail = flag;
 	}
+
+	void IsHoldingUp(bool flag)
+	{
+		isHolding_Up = true;
+	}
+
+
 	float GetAbsAx() { return abs(ax); }
+
 	CMario(float x, float y):CGameObject(x,y)
 	{
 		CGame::GetInstance()->AddLoadTime();
@@ -221,10 +244,12 @@ public:
 	bool IsMario() { return 1; }
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
+
 	int GetX() { return(int) this->x; }
 	int GetY() { return (int)this->y; }
 	int GetLevel() { return level; }
 	void SetLevel(int l);
+
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	int Getnx() { return nx; }
 	float Getvx() { return vx; }

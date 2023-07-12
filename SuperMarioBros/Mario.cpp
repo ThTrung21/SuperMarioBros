@@ -31,13 +31,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	//change loacation after exit secret room
 	int load_time = CGame::GetInstance()->GetLoadTime();
-	DebugOut(L"LOAD NUMBER %d\n", load_time);
+	
 	if (load_time % 2 != 0 && load_time != 1)
 	{
 		if(posChangeLock)
 		{
-			DebugOut(L"CHANGE LOCATION\n");
-			//CGame::GetInstance()->ChangePos(x, y);
+			
 			SetPosition(1200, 20);
 			posChangeLock = 0;
 		}
@@ -179,18 +178,31 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-
+	float gx, gy;
+	
 	if (goomba->GetState() == GOOMBA_STATE_DIE || goomba->GetState() == GOOMBA_STATE_HIDDEN) return;
 
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
+		goomba->GetPosition(gx, gy);
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
+			
 			goomba->SetState(GOOMBA_STATE_DIE);
+			goomba->SetPosition(gx,gy);
+
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
+		else if(goomba->GetState()==GOOMBA_STATE_DIE)
+		goomba->SetPosition(gx, gy);
+
 	}
+	
+	if(state==MARIO_STATE_SLAP||state==Mario_STATE_SLAP_RIGHT)
+		if (goomba->GetState() != GOOMBA_STATE_DIE)
+			goomba->SetState(GOOMBA_STATE_DIE);
+	
 	else // hit by Goomba
 	{
 		if (untouchable == 0)
@@ -334,7 +346,10 @@ void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
 	CFirePlant* f = dynamic_cast<CFirePlant*>(e->obj);
-	if (untouchable == 0 && f->GetState()!=PLANT_STATE_DIE)
+	if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+		if (f->GetState() != PLANT_STATE_DIE)
+			f->SetState(PLANT_STATE_DIE);
+	else if (untouchable == 0 && f->GetState()!=PLANT_STATE_DIE)
 	{
 		if (level == MARIO_LEVEL_TANUKI)
 		{
@@ -356,7 +371,10 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 {
 	CFirePlant_Short* f = dynamic_cast<CFirePlant_Short*>(e->obj);
-	if (untouchable == 0 && f->GetState() != SHORT_PLANT_STATE_DIE)
+	if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+		if (f->GetState() != SHORT_PLANT_STATE_DIE)
+			f->SetState(SHORT_PLANT_STATE_DIE);
+	else if (untouchable == 0 && f->GetState() != SHORT_PLANT_STATE_DIE)
 	{
 		if (level == MARIO_LEVEL_TANUKI)
 		{
@@ -378,7 +396,10 @@ void CMario::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 {
 	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
-	if (untouchable == 0)
+	if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+		if (chomper->GetState() != SHORT_PLANT_STATE_DIE)
+			chomper->SetState(SHORT_PLANT_STATE_DIE);
+	else if (untouchable == 0)
 	{
 		
 		if (level == MARIO_LEVEL_TANUKI)
@@ -449,8 +470,11 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		koopa->SetState(KOOPA_STATE_HOLD);
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetKoopa(koopa);
 	}
+	else if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+		if (koopa->GetState() ==KOOPA_STATE_WALKING)
+			koopa->SetState(KOOPA_STATE_HIT);
 
-	else if (e->ny < 0 )//&& koopa->GetState() == KOOPA_STATE_WALKING)
+	if (e->ny < 0 )//&& koopa->GetState() == KOOPA_STATE_WALKING)
 	{
 		if (koopa->GetState() == KOOPA_STATE_KICK_RIGHT || koopa->GetState() == KOOPA_STATE_KICK_RIGHT)
 			koopa->SetState(KOOPA_STATE_SHELL);
@@ -519,7 +543,9 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 {
 	CWingGoomba* wgoomba = dynamic_cast<CWingGoomba*>(e->obj);
-
+	if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+		if (wgoomba->GetState() == WGOOMBA_STATE_DIE)
+			wgoomba->SetState(WGOOMBA_STATE_DIE);
 	// jump on top >> kill WingGoomba and deflect a bit 
 	if (e->ny < 0 &&wgoomba->GetState()!=WGOOMBA_STATE_HIDDEN)
 	{
@@ -573,9 +599,13 @@ void CMario::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 		wkoopa->SetState(WKOOPA_STATE_HOLD);
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetWKoopa(wkoopa);
 	}
-
+	else
+		if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+			if (wkoopa->GetState() == WKOOPA_STATE_WALKING || wkoopa->GetState() == WKOOPA_STATE_JUMPING
+				|| wkoopa->GetState() == WKOOPA_STATE_JUMPING_TIMEOUT)
+				wkoopa->SetState(WKOOPA_STATE_HIT);
 	// jump on top 
-	else if (e->ny < 0)
+	 if (e->ny < 0)
 	{
 		if (wkoopa->GetState() == WKOOPA_STATE_KICK_RIGHT || wkoopa->GetState() == WKOOPA_STATE_KICK_RIGHT)
 			wkoopa->SetState(WKOOPA_STATE_SHELL);

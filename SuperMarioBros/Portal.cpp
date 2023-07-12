@@ -2,13 +2,14 @@
 #include "Game.h"
 #include "Textures.h"
 
-CPortal::CPortal(float l, float t, float r, float b, int scene_id )
+CPortal::CPortal(float l, float t, float r, float b, int scene_id,int dir )
 {
 	this->scene_id = scene_id;
 	x = l; 
 	y = t;
 	width = r - l;
 	height = b - t;
+	direction = dir;
 }
 
 void CPortal::RenderBoundingBox()

@@ -26,7 +26,7 @@ CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 	this->Ktype = type;
 	flag = 0;
 	bounce_start = -1;
-	pop_height = (int)y - 28;
+	pop_height = (int)y - 20;
 	SetState(KOOPA_STATE_WALKING);
 	
 }
@@ -424,7 +424,7 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_HIT:
 		ay = -KOOPA_GRAVITY;
-		pop_height = (int)y - 28;
+		pop_height = (int)y - 20;
 		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:

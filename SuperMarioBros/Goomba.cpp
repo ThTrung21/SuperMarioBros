@@ -82,6 +82,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(GOOMBA_STATE_HIDDEN);
 	}
+	
 	if ( (state==GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT) )
 	{
 		SetState(GOOMBA_STATE_HIDDEN);
@@ -152,7 +153,7 @@ void CGoomba::SetState(int state)
 	{
 		case GOOMBA_STATE_DIE:
 			die_start = GetTickCount64();
-			y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE)/2;
+			//y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE)/2;
 			vx = 0;
 			vy = 0;
 			ay = GOOMBA_GRAVITY;

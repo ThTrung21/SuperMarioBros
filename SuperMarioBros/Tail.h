@@ -7,7 +7,7 @@
 #define TAIL_STATE_IDLE 1
 #define TAIL_STATE_ACTIVE 2
 
-#define TAIL_WIDTH 12
+#define TAIL_WIDTH 14
 #define TAIL_HEIGHT 12
 
 #define SLAP_TIME 250
@@ -18,6 +18,8 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render() { RenderBoundingBox(); }
 	virtual int IsBlocking() { return 0; }
+	void OnCollisionWith(LPCOLLISIONEVENT e);
+
 
 	ULONGLONG slaptime;
 public:

@@ -25,7 +25,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->IsHolding_AKey(true);
 		if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
 		{
-			//DebugOut(L"[info]slpa trigger\n");
+			
 			CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 			if(mario->GetAbsAx()<MARIO_ACCEL_RUN_X)
 				tail->SetState(TAIL_STATE_ACTIVE);
@@ -37,6 +37,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
 		break;
+	
 	case DIK_2:
 		mario->SetLevel(MARIO_LEVEL_BIG);
 		break;
@@ -148,6 +149,16 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		}
 		else
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
+	}
+	else if (game->IsKeyDown(DIK_UP))
+	{
+		if (game->IsKeyDown(DIK_S))
+		{
+			mario->IsHoldingUp(1);
+		}
+		else
+			mario->IsHoldingUp(0);
+		
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);

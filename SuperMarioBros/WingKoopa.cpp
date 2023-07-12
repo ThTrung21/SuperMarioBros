@@ -27,7 +27,7 @@ CWingKoopa::CWingKoopa(float x, float y)
 	pre_vx = 0;
 	default_x = x;
 	default_y = y;
-	pop_height = (int)y - 28;
+	pop_height = (int)y - 20;
 	SetState(WKOOPA_STATE_IDLE);
 
 }
@@ -464,7 +464,7 @@ void CWingKoopa::SetState(int state)
 		break;
 	case WKOOPA_STATE_HIT:
 		ay = -WKOOPA_GRAVITY;
-		pop_height = (int)y - 28;
+		pop_height = (int)y - 20;
 		vx = 0;
 		break;
 	case KOOPA_STATE_HOLD:
