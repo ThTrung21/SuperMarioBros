@@ -12,7 +12,7 @@ using namespace std;
 #include "Texture.h"
 #include "KeyEventHandler.h"
 #include "Scene.h"
-
+#include "debug.h"
 #define MAX_FRAME_RATE 100
 #define KEYBOARD_BUFFER_SIZE 1024
 #define KEYBOARD_STATE_SIZE 256
@@ -27,6 +27,9 @@ class CGame
 	static CGame* __instance;
 	HWND hWnd;									// Window handle
 	int Coin = 0;
+	int level = 1;
+	float mario_x=1200, mario_y=20;
+	int LoadTime = 0;
 	int backBufferWidth = 0;					// Backbuffer width & height, will be set during Direct3D initialization
 	int backBufferHeight = 0;
 
@@ -105,8 +108,24 @@ public:
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
+
 	int GetCoin() { return Coin; }
+	int GetLoadTime() { return LoadTime; }
+	int GetLevel() { return level; }
+	void ChangePos(float& a, float& b)
+	{
+		a = this->mario_x;
+		b = this->mario_y;
+		
+	}
+
 	void SetCoin(int c) { Coin = c; }
+	void SetLevel(int l) { level = l; }
+	void AddLoadTime() { LoadTime += 1; }
+
+	
+	
+	
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);
 	void SwitchScene();

@@ -31,13 +31,13 @@ void CBtn::SetState(int state)
 		break;
 	case BTN_STATE_SHOW:
 		x = X;
-		y = Y-16;
+		y = Y-15;
 		break;
 	case BTN_STATE_USED:
 
 		x = X;
 		//y += (BTN_BBOX_HEIGHT - BTN_BBOX_HEIGHT_USED) / 2;
-		y = Y - 16;
+		y = Y - 15;
 		break;
 	}
 }
@@ -59,6 +59,8 @@ void CBtn::Render()
 void CBtn::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	x = X;
+	if(state!=BTN_STATE_HIDDEN)
+		y = Y - 15;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

@@ -40,8 +40,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	player = NULL;
 	fireball_1 = NULL;
 	fireball_2 = NULL;
-
+	
 	key_handler = new CSampleKeyHandler(this);
+
 }
 
 
@@ -137,17 +138,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		if (FirstLoad == true)
+		
+		//if (CGame::GetInstance()->GetFirstLoad()==1 &&GetId() == 5)
 		{
+			
 			obj = new CMario(x, y);
 			player = (CMario*)obj;
-			firstload = false;
+			
+			
 		}
-		else
+		/*else if (CGame::GetInstance()->GetLoadTime() == 0 && GetId() == 5)
 		{
 			obj = new CMario(1200, 10);
 			player = (CMario*)obj;
 		}
+		else
+		{
+			obj = new CMario(x, y);
+			player = (CMario*)obj;
+			
+		}*/
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;

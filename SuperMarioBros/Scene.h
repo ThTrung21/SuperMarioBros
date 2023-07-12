@@ -11,7 +11,7 @@ protected:
 	LPKEYEVENTHANDLER key_handler;
 	int id;
 	LPCWSTR sceneFilePath;
-	bool FirstLoad = true;
+	
 public: 
 	CScene(int id, LPCWSTR filePath);
 	
@@ -21,6 +21,7 @@ public:
 	virtual void Unload() = 0;
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0; 
+	int GetId() { return id; }
 };
 typedef CScene * LPSCENE;
 
@@ -34,6 +35,7 @@ public:
 	virtual void KeyState(BYTE *states) = 0;
 	virtual void OnKeyDown(int KeyCode) = 0;
 	virtual void OnKeyUp(int KeyCode) = 0;
+	
 	CSceneKeyHandler(LPSCENE s) :CKeyEventHandler() { scence = s; }
 };
 

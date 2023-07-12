@@ -141,6 +141,7 @@ class CMario : public CGameObject
 	bool isFlying =false;
 	bool isGlide = false;
 	int level; 
+	bool posChangeLock = 1;
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	ULONGLONG slap_time =-1;
@@ -190,14 +191,18 @@ public:
 		isSlapTail = flag;
 	}
 	float GetAbsAx() { return abs(ax); }
-	CMario(float x, float y) : CGameObject(x, y)
+	CMario(float x, float y):CGameObject(x,y)
 	{
+		CGame::GetInstance()->AddLoadTime();
+		
 		isSitting = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
+		posChangeLock = 1;
+		level = CGame::GetInstance()->GetLevel();
+		
 
-		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;

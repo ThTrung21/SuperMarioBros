@@ -27,6 +27,22 @@
 #include "Tail.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	CGame::GetInstance()->SetLevel(level);
+
+	//change loacation after exit secret room
+	int load_time = CGame::GetInstance()->GetLoadTime();
+	DebugOut(L"LOAD NUMBER %d\n", load_time);
+	if (load_time % 2 != 0 && load_time != 1)
+	{
+		if(posChangeLock)
+		{
+			DebugOut(L"CHANGE LOCATION\n");
+			//CGame::GetInstance()->ChangePos(x, y);
+			SetPosition(1200, 20);
+			posChangeLock = 0;
+		}
+	}
+
 	CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 	vy += ay * dt;
 	vx += ax * dt;

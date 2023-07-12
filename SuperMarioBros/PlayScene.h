@@ -16,7 +16,7 @@
 class CPlayScene: public CScene
 {
 protected: 
-	bool firstload = true;
+
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
 	LPGAMEOBJECT fireball_1;
