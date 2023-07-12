@@ -18,7 +18,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx = mario_vx;*/
 	
 	y = mario_y + 6;
-	x = mario_x - 8;
+	x = mario_x-8;
 	//if (state == TAIL_STATE_ACTIVE)
 	//{
 	//	/*if (mario->Getnx() > 0)
@@ -52,6 +52,6 @@ void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x-8;// -TAIL_WIDTH / 2;
 	top = y  - TAIL_HEIGHT / 2;
-	right = x + MARIO_BIG_BBOX_WIDTH+16;
+	right = x + MARIO_BIG_BBOX_WIDTH;
 	bottom = top + TAIL_HEIGHT;
 }

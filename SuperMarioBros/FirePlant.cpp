@@ -76,7 +76,7 @@ void CFirePlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	//Fireball shooting logic
 
-	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireBall();
+	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetSingleFireball(1);
 
 
 	if (isShooting)
@@ -188,7 +188,7 @@ void CFirePlant::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CFireBall*>(e->obj) && state!= PLANT_STATE_SLEEP &&state!=PLANT_STATE_DIE)
 	{
 		CFireBall* fire = dynamic_cast<CFireBall*>(e->obj);
-		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetFireBall(fire);
+		//((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetFireBall(fire);
 	}
 	if (e->obj->IsBlocking())return;
 	

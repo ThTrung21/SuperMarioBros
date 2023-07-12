@@ -3,7 +3,7 @@
 
 void CBtn::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	if (state == BTN_STATE_SHOW)
+	if (state != BTN_STATE_USED)
 	{	
 		l = x - BTN_BBOX_WIDTH / 2;
 		t = y - BTN_BBOX_HEIGHT / 2;
@@ -17,6 +17,7 @@ void CBtn::GetBoundingBox(float& l, float& t, float& r, float& b)
 		r = l + BTN_BBOX_WIDTH;
 		b = t + BTN_BBOX_HEIGHT_USED+2;
 	}
+	
 }
 
 void CBtn::SetState(int state)
@@ -30,13 +31,13 @@ void CBtn::SetState(int state)
 		break;
 	case BTN_STATE_SHOW:
 		x = X;
-		y = Y;
+		y = Y-16;
 		break;
 	case BTN_STATE_USED:
 
 		x = X;
 		//y += (BTN_BBOX_HEIGHT - BTN_BBOX_HEIGHT_USED) / 2;
-		y = Y;
+		y = Y - 16;
 		break;
 	}
 }
@@ -73,4 +74,5 @@ void CBtn::OnCollisionWith(LPCOLLISIONEVENT e)
 				SetState(BTN_STATE_SHOW);
 		}
 	}
+
 }

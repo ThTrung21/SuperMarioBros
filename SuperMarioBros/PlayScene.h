@@ -24,7 +24,7 @@ protected:
 	LPGAMEOBJECT tail;
 
 	vector<LPGAMEOBJECT> objects;
-
+	vector<LPGAMEOBJECT> fireballs;
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
@@ -42,17 +42,22 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
-	LPGAMEOBJECT GetFireBall() { return fireball; }
+	//LPGAMEOBJECT GetFireBall() { return fireball; }
 	LPGAMEOBJECT GetKoopa() { return koopa; }
 	LPGAMEOBJECT GetWKoopa() { return wkoopa; }
 	LPGAMEOBJECT GetTail() { return tail; }
 
+	LPGAMEOBJECT GetSingleFireball(int index) {
+		if (index < fireballs.size())
+			return fireballs[index];
+		return NULL;
+	}
 	void Clear();
 	void PurgeDeletedObjects();
 
 	void SetKoopa(LPGAMEOBJECT thisKoopa) { this->koopa = thisKoopa; }
 	void SetWKoopa(LPGAMEOBJECT thisWingKoopa) { this->wkoopa = thisWingKoopa; }
-	void SetFireBall(LPGAMEOBJECT thisFireball) { this->fireball = thisFireball; }
+	//void SetFireBall(LPGAMEOBJECT thisFireball) { this->fireball = thisFireball; }
 
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);

@@ -75,7 +75,7 @@ void CFirePlant_Short::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(SHORT_PLANT_STATE_SLEEP);
 
 	//Fireball shooting logic
-	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetFireBall();
+	CFireBall* fireball = (CFireBall*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetSingleFireball(2);
 
 	if (isShooting)
 	{

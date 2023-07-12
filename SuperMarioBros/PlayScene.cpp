@@ -265,10 +265,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CFirePlant_Short(x, y);
 		break;
 	case OBJECT_TYPE_FIREBALL:
-		obj = new CFireBall(x, y);
-		fireball = (CFireBall*)obj;
+	{
+		int id = atoi(tokens[3].c_str());
+		obj = new CFireBall(x, y, id);
+		fireballs.push_back(obj);
 
-		break;
+	break; 
+	}
 	case OBJECT_TYPE_TANUKI_LEAF:
 		obj = new CTanukiLeaf(x, y);
 		break;

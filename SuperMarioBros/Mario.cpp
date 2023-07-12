@@ -265,11 +265,17 @@ void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithBtn(LPCOLLISIONEVENT e)
 {
 	CBtn* b = dynamic_cast<CBtn*>(e->obj);
+	if (b->GetState() == BTN_STATE_HIDDEN && e->ny > 0 && level>=MARIO_LEVEL_BIG)
+	{
+		b->SetState(BTN_STATE_SHOW);
+		return;
+	}
 	if (b->GetState() == BTN_STATE_HIDDEN ) 
 	{
 		b->SetState(BTN_STATE_HIDDEN) ;
 		return;
 	}
+	
 	if (b->GetState() == BTN_STATE_USED)
 	{
 		b->SetState(BTN_STATE_USED);

@@ -9,6 +9,7 @@
 #define BTN_BBOX_WIDTH 16
 #define BTN_BBOX_HEIGHT 16
 #define BTN_BBOX_HEIGHT_USED 7
+#define BTN_BBOX_HEIGHT_HIDDEN 28
 
 #define BTN_STATE_HIDDEN 1
 #define BTN_STATE_SHOW	2
@@ -20,7 +21,7 @@ public:
 	{
 		X = x;
 		Y = y;
-		SetState(BTN_STATE_SHOW);
+		SetState(BTN_STATE_HIDDEN);
 	}
 	void Render();
 	void Update(DWORD dt) {}
