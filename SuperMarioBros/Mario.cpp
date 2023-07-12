@@ -103,6 +103,7 @@ void CMario::OnNoCollision(DWORD dt)
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (dynamic_cast<CBtn*>(e->obj) && e->nx != 0) return;
+	
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
@@ -111,7 +112,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else
 		if (e->nx != 0 && e->obj->IsBlocking())
 		{
-			//			DebugOut(L"You shall not pass\n");
+			
 			vx = 0;
 		}
 	
@@ -140,6 +141,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithWingGoomba(e);
 	else if (dynamic_cast<CChomper*>(e->obj))
 		OnCollisionWithChomper(e);
+	/*else if (dynamic_cast<CGoldBrick*>(e->obj) && e->nx != 0)
+	{
+		vx = 0; return;
+	}*/
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
 		OnCollisionWithGoldBrick(e);
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
@@ -205,6 +210,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	{
 		e->obj->Delete();
 		coin++;
+		CGame::GetInstance()->SetCoin(coin);
 	}
 	else if(e->ny>0)
 	{
@@ -228,6 +234,7 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 		{
 			
 			coin++;
+			CGame::GetInstance()->SetCoin(coin);
 			box->SetState(BOX_STATE_BOUNCE);
 			
 		}
@@ -243,6 +250,7 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 {
 	CGoldBrick* gb = dynamic_cast<CGoldBrick*>(e->obj);
+	if (gb->GetType() == 2) return;
 
 	if (level == MARIO_LEVEL_SMALL && gb->GetState() == GBRICK_STATE_NEW)
 	{

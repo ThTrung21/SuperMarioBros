@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Game.h"
 #include "Animation.h"
 #include "Animations.h"
 
@@ -201,7 +201,7 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
-		coin = 0;
+		coin = CGame::GetInstance()->GetCoin();
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

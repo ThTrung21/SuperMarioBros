@@ -58,7 +58,7 @@ void CBox::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y >= Y && state==BOX_STATE_BOUNCE)
 	{
 		vy = 0;
-		y = (int)Y;
+		y = (float)Y;
 		SetState(BOX_STATE_USED);
 	}
 	CGameObject::Update(dt, coObjects);

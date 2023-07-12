@@ -8,7 +8,7 @@ CGoldBrick::CGoldBrick(float x, float y, int brick_type):CGameObject(x,y)
 	this->max_y = y - 4;
 	this->Y = y;
 	this->X = x;
-	mario_level = -1;
+	mario_level = 1;
 	SetState(GBRICK_STATE_NEW,mario_level);
 }
 
@@ -31,38 +31,40 @@ void CGoldBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	y += vy * dt;
 	x = X;
-	//y = Y;
+	
 	if (state == GBRICK_STATE_USED)
 	{
-		y = Y;
+		vy = 0;
 		return;
 	}
-	if (y <= max_y)
+	if (y <= max_y )
 	{
 		vy = GBRICK_BOUNCE_SPEED;
-
 	}
-	if (y > Y)
+	
+	if (y != Y &&state==GBRICK_STATE_NEW)
 	{
 		y = Y;
 		return;
 	}
-	if (y >= Y && state == GBRICK_STATE_BOUNCE && (interact == 2 
-		||(interact==1 && mario_level == MARIO_LEVEL_SMALL) ) )
+
+	if (y >= Y && state == GBRICK_STATE_BOUNCE &&
+		interact==1 && mario_level == MARIO_LEVEL_SMALL)  
 	{
 		vy = 0;
-		y = Y;
+		
 		SetState(GBRICK_STATE_NEW,1);
 	}
 
 	else if (y >= Y && state == GBRICK_STATE_BOUNCE && interact==1 && mario_level !=MARIO_LEVEL_SMALL)
 	{
 		vy = 0;
-		y = Y;
+		
 		SetState(GBRICK_STATE_USED, mario_level);
 	}
-	y += vy * dt;
+	
 
 
 	CBtn* button = (CBtn*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetButton();
@@ -86,14 +88,14 @@ void CGoldBrick::SetState(int state,int mario_level)
 	switch (state)
 	{
 	case GBRICK_STATE_NEW:
-		vy = 0;
+		//vy = 0;
 		break;
 
 	case GBRICK_STATE_BOUNCE:
 		this->mario_level = mario_level;
 		vy = -GBRICK_BOUNCE_SPEED;
 	case GBRICK_STATE_USED:
-		y = Y;
+		//y = Y;
 		break;
 	}
 }
