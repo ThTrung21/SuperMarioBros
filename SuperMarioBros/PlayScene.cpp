@@ -196,17 +196,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBrick(x, y, width, height, sprite);
 	break; 
 	}
-	case OBJECT_TYPE_GOLD_BRICK:
-	{
-		int content = atoi(tokens[3].c_str());
-		int id = atoi(tokens[4].c_str());
-		obj = new CGoldBrick(x, y,content,id);
-		if (content != 1)
-		{
-			bricks.push_back(obj);
-		}
-		break;
-	}
+	
 	case OBJECT_TYPE_CLOUD_BLOCK: obj = new CCloudBlock(x, y); break;
 	case OBJECT_TYPE_INVIS_BLOCK: obj = new CInvis(x, y); break;
 	case OBJECT_TYPE_BTN:
@@ -219,10 +209,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CCoin(x, y, isHidden);
 		break;
 	}
+	case OBJECT_TYPE_GOLD_BRICK:
+	{
+		int content = atoi(tokens[3].c_str());
+		int id = atoi(tokens[4].c_str());
+		obj = new CGoldBrick(x, y, content, id);
+		if (content != 1)
+		{
+			bricks.push_back(obj);
+		}
+		break;
+	}
 	case OBJECT_TYPE_COIN_HIDDEN:
 	{
 		bool id = atoi(tokens[3].c_str());
 		obj = new CHiddenCoin(x, y, id);
+		hidden_coins.push_back(obj);
 		break;
 	}
 	case OBJECT_TYPE_PLATFORM:

@@ -14,6 +14,7 @@
 #include"Chomper.h"
 #include "Tail.h"
 #include "GoldBrick.h"
+#include "Hidden_Coin.h"
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -170,7 +171,9 @@ void CKoopa::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 		{
 
 			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(g->GetId());
+			CHiddenCoin* coin = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(g->GetId());
 			brick->SetForceBreak(true);
+			coin->SetDestroy(true);
 			brick->SetState(GBRICK_STATE_BROKEN);
 			
 		}

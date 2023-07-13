@@ -25,6 +25,7 @@
 #include "WingKoopa.h"
 #include "Pwr_btn.h"
 #include "Tail.h"
+#include "Hidden_Coin.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGame::GetInstance()->SetLevel(level);
@@ -160,6 +161,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
+	else if (dynamic_cast<CHiddenCoin*>(e->obj))
+		OnCollisionWithHiddenCoin(e);	
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CBox*>(e->obj))
@@ -269,6 +272,18 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionWithHiddenCoin(LPCOLLISIONEVENT e)
+{
+	CHiddenCoin* hidden= dynamic_cast<CHiddenCoin*>(e->obj);
+	if (hidden->GetState() == HCOIN_STATE_SHOW)
+	{
+		e->obj->Delete();
+		coin++;
+		CGame::GetInstance()->SetCoin(coin);
+	}
+}
+
+
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
@@ -306,7 +321,9 @@ void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 		{
 
 			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(gb->GetId());
+			CHiddenCoin* coin = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(gb->GetId());
 			brick->SetForceBreak(true);
+			coin->SetDestroy(true);
 			brick->SetState(GBRICK_STATE_BROKEN);
 
 		}

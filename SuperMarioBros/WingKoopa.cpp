@@ -14,6 +14,7 @@
 #include"Chomper.h"
 #include "Tail.h"
 #include "GoldBrick.h"
+#include "Hidden_Coin.h"
 CWingKoopa::CWingKoopa(float x, float y)
 {
 	die_flag = 0;
@@ -123,7 +124,9 @@ void CWingKoopa::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 		{
 
 			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(g->GetId());
+			CHiddenCoin* coin = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(g->GetId());
 			brick->SetForceBreak(true);
+			coin->SetDestroy(true);
 			brick->SetState(GBRICK_STATE_BROKEN);
 
 		}

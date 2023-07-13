@@ -30,7 +30,7 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> bricks;
-
+	vector<LPGAMEOBJECT> hidden_coins;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -60,6 +60,12 @@ public:
 	{
 		if (index < bricks.size())
 			return bricks[index];
+		return NULL;
+	}
+	LPGAMEOBJECT GetIdCoins(int index)
+	{
+		if (index < hidden_coins.size())
+			return hidden_coins[index];
 		return NULL;
 	}
 

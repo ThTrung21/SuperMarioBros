@@ -87,7 +87,7 @@ void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CBtn* button = (CBtn*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetButton();
 	if (button->GetState() == BTN_STATE_USED)
 	{
-		if (interact == 2)
+		if (interact == 2 && state==GBRICK_STATE_NEW)
 		{
 			SetState(GBRICK_STATE_HIDDEN);
 			

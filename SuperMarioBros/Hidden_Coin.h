@@ -24,9 +24,10 @@
 class CHiddenCoin : public CGameObject {
 protected:
 	//1:hidden inside box	-	0:not hidden
+	
 	bool hidden;
 	int id;
-
+	bool isDestroy = 0;
 
 public:
 	CHiddenCoin(float x, float y, int id);
@@ -34,7 +35,12 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsBlocking() { return 0; }
-	int IsCollidable() { return 1; }
-	int IsHidden();
+	
+	int GetId() { return id; }
+
+	void SetDestroy(bool index)
+	{
+		isDestroy = index;
+	}
 	virtual void SetState(int state);
 };
