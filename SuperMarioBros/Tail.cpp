@@ -25,14 +25,14 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (mario->Getnx() > 0)
 		{
-			x = mario_x + MARIO_BIG_BBOX_WIDTH - 4;
+			x = mario_x + MARIO_BIG_BBOX_WIDTH+4 ;
 			slaptime = GetTickCount64();
 
 			//x = mario_x - MARIO_BIG_BBOX_WIDTH + 4;
 		}
 		else if (mario->Getnx() < 0)
 		{
-			x = mario_x - TAIL_WIDTH + 2;
+			x = mario_x - TAIL_WIDTH -6;
 			slaptime = GetTickCount64();
 			//x = mario_x + TAIL_WIDTH - 2;
 		}

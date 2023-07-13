@@ -207,7 +207,7 @@ void CWingKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			vx = -vx;
 		}
-		else
+		else if(k->GetState()!=KOOPA_STATE_HIDDEN)
 		{
 			DebugOut(L"[info] koopa hit koopa\n");
 			k->SetState(KOOPA_STATE_HIT);
@@ -225,7 +225,7 @@ void CWingKoopa::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 		{
 			vx = -vx;
 		}
-		else
+		else if (wk->GetState() != WKOOPA_STATE_HIDDEN)
 			wk->SetState(WKOOPA_STATE_HIT);
 	}
 	if (state != WKOOPA_STATE_KICK_LEFT && state != WKOOPA_STATE_KICK_RIGHT)

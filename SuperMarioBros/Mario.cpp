@@ -41,7 +41,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			posChangeLock = 0;
 		}
 	}
-
+	
 	CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 	vy += ay * dt;
 	vx += ax * dt;
@@ -93,16 +93,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			isGlide = false;
 		}
 	}
-	else if (isSlapTail)
+	/*else if (isSlapTail)
 	{
-		if(GetTickCount64()-slap_time> TANUKI_SLAP_TIME)
-	}
-
+		if (GetTickCount64() - slap_time > TANUKI_SLAP_TIME)
+			isSlapTail = false;
+	}*/
+	
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+		
 	}
 	/*if (GetTickCount64() - slap_time > TANUKI_SLAP_TIME && state==MARIO_STATE_SLAP)
 	{

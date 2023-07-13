@@ -10,7 +10,7 @@
 #define TAIL_WIDTH 14
 #define TAIL_HEIGHT 20
 
-#define SLAP_TIME 250
+#define SLAP_TIME 300
 class CTail : public CGameObject
 {
 protected:
