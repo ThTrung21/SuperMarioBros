@@ -13,6 +13,7 @@
 #include "FirePlant_Short.h"
 #include"Chomper.h"
 #include "Tail.h"
+#include "GoldBrick.h"
 CWingKoopa::CWingKoopa(float x, float y)
 {
 	die_flag = 0;
@@ -77,7 +78,8 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->obj->IsKoopa() &&( e->obj->GetState() == KOOPA_STATE_HIDDEN || e->obj->GetState() == KOOPA_STATE_IDLE)) return;
 	if(dynamic_cast<CWingKoopa*>(e->obj) &&( e->obj->GetState() == WKOOPA_STATE_HIDDEN || e->obj->GetState() == WKOOPA_STATE_IDLE)) return;
 
-
+	if (dynamic_cast<CGoldBrick*>(e->obj))
+		OnCollisionWithGoldBrick(e);
 
 	if (dynamic_cast<CFirePlant*>(e->obj))
 		OnCollisionWithFirePlant(e);
@@ -111,12 +113,27 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	
 	
 }
+void CWingKoopa::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
+{
+	CGoldBrick* g = dynamic_cast<CGoldBrick*>(e->obj);
+	//if (g->GetState() == GBRICK_STATE_BROKEN)	return;
+	if (g->GetType() == 2)
+	{
+		if (state == WKOOPA_STATE_KICK_RIGHT || state == WKOOPA_STATE_KICK_LEFT)
+		{
 
+			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(g->GetId());
+			brick->SetForceBreak(true);
+			brick->SetState(GBRICK_STATE_BROKEN);
+
+		}
+	}
+}
 
 void CWingKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
 	CFirePlant* plant = dynamic_cast<CFirePlant*>(e->obj);
-	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 	{
 		if (plant->GetState() != PLANT_STATE_DIE)
 			plant->SetState(PLANT_STATE_DIE);
@@ -125,7 +142,7 @@ void CWingKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 void CWingKoopa::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 {
 	CFirePlant_Short* short_plant = dynamic_cast<CFirePlant_Short*>(e->obj);
-	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 	{
 		if (short_plant->GetState() != SHORT_PLANT_STATE_DIE)
 			short_plant->SetState(SHORT_PLANT_STATE_DIE);
@@ -135,7 +152,7 @@ void CWingKoopa::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 {
 
 	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
-	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
+	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 		if (chomper->GetState() != CHOMPER_STATE_DIE)
 			chomper->SetState(CHOMPER_STATE_DIE);
 }
@@ -234,6 +251,8 @@ void CWingKoopa::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 			SetState(WKOOPA_STATE_HIT);
 	}
 }
+
+
 
 void CWingKoopa::OnNoCollision(DWORD dt)
 {

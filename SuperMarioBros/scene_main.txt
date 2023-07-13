@@ -182,7 +182,7 @@ Hidden_coin.txt
 12	360	140
 
 #short fireplant
-#20	1836	140
+20	1836	140
 
 #chomper
 #21	1772	156

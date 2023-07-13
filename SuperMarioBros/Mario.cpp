@@ -369,10 +369,10 @@ void CMario::OncCollisionWithMushroom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
 	CFirePlant* f = dynamic_cast<CFirePlant*>(e->obj);
-	if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
-		if (f->GetState() != PLANT_STATE_DIE)
-			f->SetState(PLANT_STATE_DIE);
-	else if (untouchable == 0 && f->GetState()!=PLANT_STATE_DIE)
+	//if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+	//	if (f->GetState() != PLANT_STATE_DIE)
+	//		f->SetState(PLANT_STATE_DIE);
+	 if (untouchable == 0 && f->GetState()!=PLANT_STATE_DIE)
 	{
 		if (level == MARIO_LEVEL_TANUKI)
 		{
@@ -394,10 +394,10 @@ void CMario::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 {
 	CFirePlant_Short* f = dynamic_cast<CFirePlant_Short*>(e->obj);
-	if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+	/*if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
 		if (f->GetState() != SHORT_PLANT_STATE_DIE)
-			f->SetState(SHORT_PLANT_STATE_DIE);
-	else if (untouchable == 0 && f->GetState() != SHORT_PLANT_STATE_DIE)
+			f->SetState(SHORT_PLANT_STATE_DIE);*/
+	 if (untouchable == 0 && f->GetState() != SHORT_PLANT_STATE_DIE)
 	{
 		if (level == MARIO_LEVEL_TANUKI)
 		{
@@ -419,10 +419,10 @@ void CMario::OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithChomper(LPCOLLISIONEVENT e)
 {
 	CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
-	if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
+	/*if (state == MARIO_STATE_SLAP || state == Mario_STATE_SLAP_RIGHT)
 		if (chomper->GetState() != SHORT_PLANT_STATE_DIE)
-			chomper->SetState(SHORT_PLANT_STATE_DIE);
-	else if (untouchable == 0)
+			chomper->SetState(SHORT_PLANT_STATE_DIE);*/
+	 if (untouchable == 0)
 	{
 		
 		if (level == MARIO_LEVEL_TANUKI)

@@ -51,7 +51,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (state == TAIL_STATE_ACTIVE)
+	//if (state == TAIL_STATE_ACTIVE)
 	{
 		DebugOut(L"tail active\n");
 		if (dynamic_cast<CKoopa*>(e->obj))
