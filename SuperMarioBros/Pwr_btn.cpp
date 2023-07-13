@@ -60,9 +60,9 @@ void CBtn::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	x = X;
 	if(state!=BTN_STATE_HIDDEN)
-		y = Y - 15;
+		y = Y - 14;
 	CGameObject::Update(dt, coObjects);
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	//CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CBtn::OnCollisionWith(LPCOLLISIONEVENT e)

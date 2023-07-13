@@ -32,9 +32,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			mario->IsHolding_AKey(true);
 			if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
 			{
-
+				float mario_vx, mario_vy;
 				CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
-				if (mario->GetAbsAx() < MARIO_ACCEL_RUN_X)
+				mario->GetSpeed(mario_vx, mario_vy);
+				if (mario_vx < MARIO_RUNNING_SPEED)
 					tail->SetState(TAIL_STATE_ACTIVE);
 				else
 					tail->SetState(TAIL_STATE_IDLE);
@@ -181,15 +182,13 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			else
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
-		else if (game->IsKeyDown(DIK_UP))
+		
+		else if (game->IsKeyDown(DIK_A))
 		{
-			if (game->IsKeyDown(DIK_S))
+			if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
 			{
-				mario->IsHoldingUp(1);
-			}
-			else
-				mario->IsHoldingUp(0);
 
+			}
 		}
 		else
 			mario->SetState(MARIO_STATE_IDLE);

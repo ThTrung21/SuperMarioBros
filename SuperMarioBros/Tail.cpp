@@ -3,6 +3,7 @@
 #include "WingKoopa.h"
 #include "FirePlant.h"
 #include "FirePlant_Short.h"
+#include "GoldBrick.h"
 CTail::CTail(float x, float y) :CGameObject(x,y)
 {
 
@@ -18,7 +19,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	mario_y = (float)mario->GetY();
 
 	
-	y = mario_y + 6;
+	y = mario_y + 4;
 	x = mario_x;
 
 	if (state == TAIL_STATE_ACTIVE)
@@ -52,6 +53,7 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (state == TAIL_STATE_ACTIVE)
 	{
+		DebugOut(L"tail active\n");
 		if (dynamic_cast<CKoopa*>(e->obj))
 		{
 			CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
@@ -66,14 +68,30 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 			if (f->GetState() != PLANT_STATE_DIE)
 				f->SetState(PLANT_STATE_DIE);
 		}
-
+		
 
 
 
 
 
 	}
+	if (dynamic_cast<CGoldBrick*>(e->obj))
+	{
+		DebugOut(L"HITTTTTT  brick\n");
+		CGoldBrick* gb = dynamic_cast<CGoldBrick*>(e->obj);
+		if (gb->GetType() == 2)
+		{
+			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(gb->GetId());
+			brick->SetForceBreak(true);
+			brick->SetState(GBRICK_STATE_BROKEN);
 
+		}
+	}
+
+}
+
+void CTail::OnNoCollision(DWORD dt)
+{
 }
 
 

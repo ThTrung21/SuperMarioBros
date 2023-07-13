@@ -199,7 +199,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOLD_BRICK:
 	{
 		int content = atoi(tokens[3].c_str());
-		obj = new CGoldBrick(x, y,content);
+		int id = atoi(tokens[4].c_str());
+		obj = new CGoldBrick(x, y,content,id);
+		if (content != 1)
+		{
+			bricks.push_back(obj);
+		}
 		break;
 	}
 	case OBJECT_TYPE_CLOUD_BLOCK: obj = new CCloudBlock(x, y); break;

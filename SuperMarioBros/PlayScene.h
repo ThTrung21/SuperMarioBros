@@ -27,8 +27,11 @@ protected:
 	LPGAMEOBJECT button;
 	LPGAMEOBJECT portal;
 	LPGAMEOBJECT mini;
+
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> fireballs;
+	vector<LPGAMEOBJECT> bricks;
+
+
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
@@ -53,6 +56,13 @@ public:
 			return fireball_1;
 		return fireball_2;
 	}
+	LPGAMEOBJECT GetIdGoldBrick(int index)
+	{
+		if (index < bricks.size())
+			return bricks[index];
+		return NULL;
+	}
+
 
 	LPGAMEOBJECT GetKoopa() { return koopa; }
 	LPGAMEOBJECT GetWKoopa() { return wkoopa; }

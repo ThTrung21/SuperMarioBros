@@ -13,6 +13,7 @@
 #include"FirePlant_Short.h"
 #include"Chomper.h"
 #include "Tail.h"
+#include "GoldBrick.h"
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -91,8 +92,11 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if(state ==KOOPA_STATE_HIT && e->ny!=0)
 		SetState(KOOPA_STATE_SHELL);
+	
 	if (state == KOOPA_STATE_HIT) return;
-
+	/*if (dynamic_cast<CGoldBrick*>(e->obj) &&( e->obj->GetState() == GBRICK_STATE_BROKEN || e->obj->GetState() ==GBRICK_STATE_HIDDEN) )
+		return;*/
+	
 	if (dynamic_cast<CTail*>(e->obj))
 	{
 		CTail* tail = dynamic_cast<CTail*>(e->obj);
@@ -113,6 +117,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->obj->IsKoopa() && e->obj->GetState() == KOOPA_STATE_HIDDEN) return;
 	if (dynamic_cast<CWingKoopa*>(e->obj) && (e->obj->GetState() == WKOOPA_STATE_HIDDEN || e->obj->GetState() == WKOOPA_STATE_IDLE)) return;
 
+	if (dynamic_cast<CGoldBrick*>(e->obj))
+		OnCollisionWithGoldBrick(e);
 	
 	if (dynamic_cast<CTanukiLeaf*>(e->obj))
 		OnCollisionithTanukiLeaf(e);
@@ -153,6 +159,28 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	
 	
 }
+void CKoopa::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
+{
+
+	CGoldBrick* g = dynamic_cast<CGoldBrick*>(e->obj);
+	//if (g->GetState() == GBRICK_STATE_BROKEN)	return;
+	if (g->GetType() == 2)
+	{
+		if (state == KOOPA_STATE_KICK_RIGHT || state == KOOPA_STATE_KICK_LEFT)
+		{
+
+			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(g->GetId());
+			brick->SetForceBreak(true);
+			brick->SetState(GBRICK_STATE_BROKEN);
+			
+		}
+	}
+	
+	{
+
+	}
+}
+
 void CKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
 {
 	CFirePlant* plant = dynamic_cast<CFirePlant*>(e->obj);

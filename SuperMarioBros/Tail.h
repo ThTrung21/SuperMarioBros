@@ -19,6 +19,7 @@ protected:
 	virtual void Render() { RenderBoundingBox(); }
 	virtual int IsBlocking() { return 0; }
 	void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnNoCollision(DWORD dt);
 	virtual int IsCollidable() { return 1; }
 
 	ULONGLONG slaptime;

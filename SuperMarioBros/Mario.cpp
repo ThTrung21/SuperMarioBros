@@ -45,16 +45,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 	vy += ay * dt;
 	vx += ax * dt;
+	//mario not tanuki
 	if (level != MARIO_LEVEL_TANUKI)
 	{
 		isSlapTail = false;
 		if(tail!=NULL)
 		tail->SetState(TAIL_STATE_IDLE);
 	}
+	//mario glide disable tail
 	if (isGlide == true)
 	{
 		isSlapTail = false;
 	}
+	//isrunning detector
 	if (abs(vx) >= MARIO_ACCEL_RUN_X)
 		IsRunning(true);
 	if (abs(vx) < MARIO_ACCEL_RUN_X)
@@ -62,18 +65,31 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	float x_now, y_now;
 	GetPosition(x_now, y_now);
 
+	//die when fall out of map
 	if (y_now > 280)
 	{
 		SetState(MARIO_STATE_DIE);
 	}
+	//prevent mario flying too high
 	if (y_now < -200)
 	{
 		SetPosition(x, -200);
 	}
+
+	//left border
 	if (x_now < 10)
 		SetPosition(16, y_now);
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
+	
+	if (isSlapTail)
+	{
+		tail->SetState(TAIL_STATE_ACTIVE);
+	}
+	else
+	{
+		tail->SetState(TAIL_STATE_IDLE);
+	}
 
 	if (isFlying) {
 		if (GetTickCount64() - resetGravity_start > TANUKI_FLY_SET_GRAVITY_BACK) {
@@ -130,7 +146,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
 	}
-	else
+	//else
 		if (e->nx != 0 && e->obj->IsBlocking())
 		{
 			
@@ -166,8 +182,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = 0; return;
 	}*/
-	else if (dynamic_cast<CGoldBrick*>(e->obj))
-		OnCollisionWithGoldBrick(e);
+	
+
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
 		OnCollisionWithGoldBrick(e);
 	else if (dynamic_cast<CFirePlant_Short*>(e->obj))
@@ -284,24 +300,25 @@ void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 {
 	CGoldBrick* gb = dynamic_cast<CGoldBrick*>(e->obj);
-	if (gb->GetType() == 2) return;
-
-	if (level == MARIO_LEVEL_SMALL && gb->GetState() == GBRICK_STATE_NEW)
+	if (gb->GetType() == 2)
 	{
-		if(e->ny>0)
+		if (e->ny > 0 && level >= MARIO_LEVEL_BIG)
 		{
-			gb->SetState(GBRICK_STATE_BOUNCE,MARIO_LEVEL_SMALL);
+
+			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(gb->GetId());
+			brick->SetForceBreak(true);
+			brick->SetState(GBRICK_STATE_BROKEN);
+
 		}
 	}
-	else
-	if (gb->GetState() == GBRICK_STATE_NEW && level != MARIO_LEVEL_SMALL)
-	{
-		if (e->ny > 0)
+		if (gb->GetState() == GBRICK_STATE_NEW)
 		{
-			gb->SetState(GBRICK_STATE_BOUNCE,level);
+			if (e->ny > 0)
+			{
+				gb->SetState(GBRICK_STATE_BOUNCE);
+			}
 		}
-
-	}
+	
 }
 
 void CMario::OnCollisionWithBtn(LPCOLLISIONEVENT e)
