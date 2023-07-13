@@ -142,7 +142,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 				CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 				if (tail != NULL)
 					tail->SetState(TAIL_STATE_IDLE);
-				mario->IsSlappingTail(false);
+				//mario->IsSlappingTail(false);
 			}
 			mario->IsHolding_AKey(false);
 

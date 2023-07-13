@@ -11,7 +11,7 @@
 #define MINI_BBOX_WIDTH 16
 #define MINI_BBOX_HEIGHT 16
 
-#define MINI_SPEED 0.003f
+#define MINI_SPEED 0.0006f
 class CMini : public CGameObject
 {
 protected:

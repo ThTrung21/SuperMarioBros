@@ -91,7 +91,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if(state ==KOOPA_STATE_HIT && e->ny!=0)
 		SetState(KOOPA_STATE_SHELL);
-	else if (state == KOOPA_STATE_HIT) return;
+	if (state == KOOPA_STATE_HIT) return;
 
 	if (dynamic_cast<CTail*>(e->obj))
 	{
@@ -124,6 +124,11 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFirePlantShort(e);
 	if (dynamic_cast<CChomper*>(e->obj))
 		OnCollisionWithChomper(e);
+	if (dynamic_cast<CWingKoopa*>(e->obj))
+		OnCollisionWithWingKoopa(e);
+	if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
+
 	//invisible barrier for red koopa
 	else if (state == KOOPA_STATE_WALKING && Ktype == 1 && dynamic_cast<CInvis*>(e->obj))
 	{
@@ -144,10 +149,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CWingGoomba*>(e->obj))
 		OnCollisionWithWingGoomba(e);
-	else if (dynamic_cast<CKoopa*>(e->obj))
-		OnCollisionWithKoopa(e);
-	else if (dynamic_cast<CWingKoopa*>(e->obj))
-		OnCollisionWithWingKoopa(e);
+	
+	
 	
 }
 void CKoopa::OnCollisionWithFirePlant(LPCOLLISIONEVENT e)
@@ -188,7 +191,7 @@ void CKoopa::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 }
 void CKoopa::OnCollisionWithWingKoopa(LPCOLLISIONEVENT e)
 {
-	CKoopa* k = dynamic_cast<CKoopa*>(e->obj);
+	CWingKoopa* k = dynamic_cast<CWingKoopa*>(e->obj);
 	if (state == KOOPA_STATE_KICK_LEFT || state == KOOPA_STATE_KICK_RIGHT)
 	{
 		if (k->GetState() == WKOOPA_STATE_KICK_LEFT || k->GetState() == WKOOPA_STATE_KICK_RIGHT)

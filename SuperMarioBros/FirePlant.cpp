@@ -190,6 +190,7 @@ void CFirePlant::OnCollisionWith(LPCOLLISIONEVENT e)
 	
 	if (dynamic_cast<CTail*>(e->obj))
 	{
+		DebugOut(L"TAIL HIT PLANT\n");
 		CTail* tail = dynamic_cast<CTail*>(e->obj);
 		if (tail->GetState() == TAIL_STATE_ACTIVE)
 		{

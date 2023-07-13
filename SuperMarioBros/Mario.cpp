@@ -93,6 +93,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			isGlide = false;
 		}
 	}
+	else if (isSlapTail)
+	{
+		if(GetTickCount64()-slap_time> TANUKI_SLAP_TIME)
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -451,11 +455,15 @@ void CMario::OnCollisionithTanukiLeaf(LPCOLLISIONEVENT e)
 	{
 		leaf->SetState(LEAF_STATE_SHOW);
 	}
-	else if(leaf->GetState()== LEAF_STATE_SHOW || leaf->GetState()==LEAF_STATE_FALL)
-	if (level != MARIO_LEVEL_TANUKI)
+	else if (leaf->GetState() == LEAF_STATE_SHOW || leaf->GetState() == LEAF_STATE_FALL)
 	{
-		level = MARIO_LEVEL_TANUKI;
-		e->obj->Delete();
+		if (level != MARIO_LEVEL_TANUKI)
+		{
+			level = MARIO_LEVEL_TANUKI;
+			e->obj->Delete();
+		}
+		else
+			e->obj->Delete();
 	}
 }
 
@@ -884,12 +892,12 @@ int CMario::GetAniIdTanuki()
 					if (nx > 0)
 					{
 						aniId = ID_ANI_MARIO_TANUKI_SLAP_RIGHT;
-						DebugOut(L"[info]slpa trigger right\n");
+						//DebugOut(L"[info]slpa trigger right\n");
 						slap_time = GetTickCount64();
 					}
 					else if (nx < 0)
 					{
-						DebugOut(L"[info]slpa trigger LEFT\n");
+						//DebugOut(L"[info]slpa trigger LEFT\n");
 						aniId = ID_ANI_MARIO_TANUKI_SLAP_LEFT;
 						slap_time = GetTickCount64();
 					}
@@ -925,7 +933,7 @@ int CMario::GetAniIdTanuki()
 				if (isSlapTail == true && isRunning == false)
 				{
 					aniId = ID_ANI_MARIO_TANUKI_SLAP_LEFT;
-					DebugOut(L"[info]slpa walk LEFT\n");
+					//DebugOut(L"[info]slpa walk LEFT\n");
 					slap_time = GetTickCount64();
 				}
 				else if (ax > 0)

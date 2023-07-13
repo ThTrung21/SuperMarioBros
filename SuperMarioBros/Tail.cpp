@@ -1,6 +1,8 @@
 #include "Tail.h"
 #include "Koopa.h"
 #include "WingKoopa.h"
+#include "FirePlant.h"
+#include "FirePlant_Short.h"
 CTail::CTail(float x, float y) :CGameObject(x,y)
 {
 
@@ -57,7 +59,21 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 				koopa->SetState(KOOPA_STATE_HIT);
 
 		}
+
+		if (dynamic_cast<CFirePlant*>(e->obj))
+		{
+			CFirePlant* f = dynamic_cast<CFirePlant*>(e->obj);
+			if (f->GetState() != PLANT_STATE_DIE)
+				f->SetState(PLANT_STATE_DIE);
+		}
+
+
+
+
+
+
 	}
+
 }
 
 

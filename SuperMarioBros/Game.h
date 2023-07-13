@@ -29,7 +29,7 @@ class CGame
 	int Coin = 0;
 	int level = 1;
 	float mario_x=1200, mario_y=20;
-	int LoadTime = 0;
+	int LoadTime = -1;
 	int backBufferWidth = 0;					// Backbuffer width & height, will be set during Direct3D initialization
 	int backBufferHeight = 0;
 

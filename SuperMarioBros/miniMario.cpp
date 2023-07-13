@@ -7,6 +7,7 @@
 CMini::CMini(float x, float y) :CGameObject(x, y)
 {
 	SetState(MINI_STATE_STOP);
+
 }
 
 void CMini::Render()
@@ -38,8 +39,8 @@ void CMini::OnNoCollision(DWORD dt)
 }
 void CMini::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	/*if (e->nx != 0 || e->ny != 0)
-		SetState(MINI_STATE_STOP);*/
+	if (e->nx != 0 || e->ny != 0)
+		SetState(MINI_STATE_STOP);
 
 }
 void CMini::SetState(int state)

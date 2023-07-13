@@ -76,6 +76,7 @@ protected:
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithWingKoopa(LPCOLLISIONEVENT e);
 
+
 	void OnCollisionWithFirePlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithFirePlantShort(LPCOLLISIONEVENT e);
 	void OnCollisionWithChomper(LPCOLLISIONEVENT e);

@@ -43,8 +43,11 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (state == WKOOPA_STATE_HIT && e->ny != 0)
 		SetState(WKOOPA_STATE_SHELL);
-	if (state == WKOOPA_STATE_HIT) return;
-	
+	else if (state == WKOOPA_STATE_HIT) return;
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CWingKoopa*>(e->obj))
+		OnCollisionWithWingKoopa(e);
 	if (dynamic_cast<CTail*>(e->obj))
 	{
 		CTail* tail = dynamic_cast<CTail*>(e->obj);
@@ -54,12 +57,12 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			if (state == WKOOPA_STATE_WALKING|| state == WKOOPA_STATE_JUMPING
 				|| state == WKOOPA_STATE_JUMPING_TIMEOUT || state == WKOOPA_STATE_SHELL)
 			{
-				ay = WKOOPA_GRAVITY;
+				//ay = WKOOPA_GRAVITY;
 				SetState(WKOOPA_STATE_HIT);
 			}
 			else if (state == WKOOPA_STATE_JUMPING)
 			{
-				ay = WKOOPA_GRAVITY;
+				//ay = WKOOPA_GRAVITY;
 				SetState(WKOOPA_STATE_HIT);
 			}
 			return;
@@ -88,8 +91,7 @@ void CWingKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithMysteryBox(e);
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
-	else if (dynamic_cast<CKoopa*>(e->obj))
-		OnCollisionWithKoopa(e);
+
 	else if (dynamic_cast<CWingGoomba*>(e->obj))
 		OnCollisionWithWingGoomba(e);
 	/*else if (dynamic_cast<CWingKoopa*>(e->obj))
@@ -198,7 +200,7 @@ void CWingKoopa::OnCollisionWithWingGoomba(LPCOLLISIONEVENT e)
 void CWingKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* k = dynamic_cast<CKoopa*>(e->obj);
-	DebugOut(L"[info] koopa hit koopa\n");
+	DebugOut(L"[info] wkoopa hit koopa\n");
 	if (state == WKOOPA_STATE_KICK_LEFT || state == WKOOPA_STATE_KICK_RIGHT)
 	{
 		if (k->GetState() == KOOPA_STATE_KICK_LEFT || k->GetState() == KOOPA_STATE_KICK_RIGHT)
@@ -297,9 +299,9 @@ void CWingKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(WKOOPA_STATE_HIDDEN);
 		return;
 	}
-	if (state == KOOPA_STATE_HIT && y < pop_height)
+	if (state == WKOOPA_STATE_HIT && y < pop_height)
 	{
-		ay = KOOPA_GRAVITY;
+		ay = WKOOPA_GRAVITY;
 
 	}
 	//revive after turn into shell
