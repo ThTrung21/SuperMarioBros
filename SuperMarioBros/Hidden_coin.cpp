@@ -37,20 +37,7 @@ void CHiddenCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CHiddenCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 		
-//#pragma region hide_when_times_up
-//	if (state == HCOIN_STATE_SHOW && (GetTickCount64() - show_start > SHOW_TIME))
-//	{
-//		//if (!isEaten)
-//			SetState(HCOIN_STATE_HIDDEN);
-//		/*else
-//		{
-//			isDeleted = true;
-//			return;
-//		}*/
-//	}
-//
-//
-//#pragma endregion
+
 
 #pragma region button_pushed_logic
 	CBtn* button = (CBtn*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetButton();

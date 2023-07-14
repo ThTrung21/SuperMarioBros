@@ -17,7 +17,7 @@ void CMushroom::Render()
 		animations->Get(ID_ANI_MUSHROOM_RED)->Render(x, y);
 	else if(color==2)
 		animations->Get(ID_ANI_MUSHROOM_GREEN)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CMushroom::GetBoundingBox(float& l, float& t, float& r, float& b)

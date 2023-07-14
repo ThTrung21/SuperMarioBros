@@ -66,7 +66,7 @@ void CTanukiLeaf::Render()
 			aniID = ID_ANI_LEAF_POPUP;
 
 		CAnimations::GetInstance()->Get(aniID)->Render(x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 

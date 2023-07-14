@@ -36,12 +36,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//change loacation after exit secret room
 	int load_time = CGame::GetInstance()->GetLoadTime();
 	
-	if (load_time % 2 != 0 && load_time != 1)
+	if (load_time % 2 != 0 && load_time > 1)
 	{
 		if(posChangeLock)
 		{
 			
-			SetPosition(1200, 20);
+			SetPosition(2300, 140);
 			posChangeLock = 0;
 		}
 	}
@@ -297,6 +297,7 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+	
 }
 
 void CMario::OnCollisionWithBox(LPCOLLISIONEVENT e)

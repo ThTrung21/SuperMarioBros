@@ -424,10 +424,11 @@ void CKoopa::SetState(int state)
 		break;
 		
 		x = default_x;
-		y = default_y-3;
+		
 		//walking
 	case KOOPA_STATE_WALKING:
 		y -= 3;
+		
 		ay = KOOPA_GRAVITY;
 		if (pre_vx > 0)
 			vx = -KOOPA_WALKING_SPEED;
