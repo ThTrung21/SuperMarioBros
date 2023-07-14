@@ -51,7 +51,9 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	//if (state == TAIL_STATE_ACTIVE)
+	if (state == TAIL_STATE_IDLE)
+		return;
+	else
 	{
 		DebugOut(L"tail active\n");
 		if (dynamic_cast<CKoopa*>(e->obj))
@@ -68,30 +70,31 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 			if (f->GetState() != PLANT_STATE_DIE)
 				f->SetState(PLANT_STATE_DIE);
 		}
-		
-
-
-
-
-
-	}
-	if (dynamic_cast<CGoldBrick*>(e->obj))
-	{
-		DebugOut(L"HITTTTTT  brick\n");
-		CGoldBrick* gb = dynamic_cast<CGoldBrick*>(e->obj);
-		if (gb->GetType() == 2)
+		if (dynamic_cast<CGoldBrick*>(e->obj))
 		{
-			CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(gb->GetId());
-			brick->SetForceBreak(true);
-			brick->SetState(GBRICK_STATE_BROKEN);
-
+			CGoldBrick* gb = dynamic_cast<CGoldBrick*>(e->obj);
+			if (gb->GetState() == GBRICK_STATE_NEW)
+			{
+				if (gb->GetType() == 1)
+				{
+					gb->SetState(GBRICK_STATE_USED);
+				}
+				else
+				{
+					CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(gb->GetId());
+					CHiddenCoin* coin = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(gb->GetId());
+					brick->SetForceBreak(true);
+					coin->SetDestroy(true);
+					brick->SetState(GBRICK_STATE_HIDDEN);
+				}
+			}
 		}
 	}
-
 }
 
 void CTail::OnNoCollision(DWORD dt)
 {
+
 }
 
 

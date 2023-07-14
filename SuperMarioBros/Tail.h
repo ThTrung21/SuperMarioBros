@@ -11,17 +11,19 @@
 #define TAIL_HEIGHT 20
 
 #define SLAP_TIME 300
+;
 class CTail : public CGameObject
 {
 protected:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render() { RenderBoundingBox(); }
-	virtual int IsBlocking() { return 0; }
+	
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnNoCollision(DWORD dt);
-	virtual int IsCollidable() { return 1; }
 
+	virtual int IsCollidable() { return 1; }
+	virtual int IsBlocking() { return 0; }
 	ULONGLONG slaptime;
 public:
 	CTail(float x, float y);

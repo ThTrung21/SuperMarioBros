@@ -17,6 +17,7 @@
 #include "Hidden_Coin.h"
 CWingKoopa::CWingKoopa(float x, float y)
 {
+	Y = y;
 	die_flag = 0;
 	this->ax = 0;
 	this->ay = WKOOPA_GRAVITY;
@@ -37,7 +38,7 @@ CWingKoopa::CWingKoopa(float x, float y)
 bool CWingKoopa::RespawnDetector(int mario_x)
 {
 	int xx = mario_x - (int)default_x;
-	if (abs(xx) > 240)
+	if (abs(xx) > 230)
 		return 1;
 	return 0;
 }
@@ -482,7 +483,7 @@ void CWingKoopa::SetState(int state)
 	case WKOOPA_STATE_HIDDEN:
 		die_flag = 1;
 		x = default_x;
-		y = default_y - 3;
+		y = Y - 3;
 		vx = 0;
 		ay = WKOOPA_GRAVITY;
 		break;

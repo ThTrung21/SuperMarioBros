@@ -34,6 +34,8 @@
 #include"Hidden_Coin.h"
 #include"title.h"
 #include "miniMario.h"
+
+#include "Node.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -42,9 +44,11 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	player = NULL;
 	fireball_1 = NULL;
 	fireball_2 = NULL;
-	
-	key_handler = new CSampleKeyHandler(this);
-
+	mini = NULL;
+	if (id != 2)
+		key_handler = new CSampleKeyHandler(this);
+	else
+		key_handler = new CSampleKeyHandlerMap(this);
 }
 
 
@@ -341,6 +345,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_WINGKOOPA:
 		obj = new CWingKoopa(x, y);
 		break;
+
+	case OBJECT_TYPE_NODE:
+	{
+		int Left = (int)atof(tokens[3].c_str());
+		int Right = (int)atof(tokens[4].c_str());
+		int Top = (int)atof(tokens[5].c_str());
+		int Bot = (int)atof(tokens[6].c_str());
+
+		int id = (int)atof(tokens[3].c_str());
+		int isStage = (int)atof(tokens[4].c_str());
+		obj = new CNode(x, y, Left, Right, Top, Bot, id, isStage);
+		break;
+	}
+
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -453,24 +471,34 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	if (player == NULL) return; 
 
-	// Update camera to follow mario
-	float cx, cy;
-	
-	player->GetPosition(cx, cy);
-	
-	CGame *game = CGame::GetInstance();
-	cx -= game->GetBackBufferWidth() / 2;
-	cy -= game->GetBackBufferHeight() / 2;
-	
-	if (cx < 0) cx = 0;
-	
-	if (cy > -75)cy = 1.0f;
-	//if (id != 2)
+	if (player == NULL && mini==NULL) //map scenen
+	{ 
+		return; 
+	}
+	else //title scene and play scene
+	{
+		
+		float cx, cy;
+		if (player != NULL) {
+			player->GetPosition(cx, cy);
+
+			CGame* game = CGame::GetInstance();
+			cx -= game->GetBackBufferWidth() / 2;
+			cy -= game->GetBackBufferHeight() / 2;
+
+			if (cx < 0) cx = 0;
+
+			if (cy > -75)cy = 0.0f;
+		}
+		else 
+		{
+			cx = 0;
+			cy = 0;
+		}
 		CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
-	//else
-		//CGame::GetInstance()->SetCamPos(1.0f, 1.0f);
+		
+	}
 	PurgeDeletedObjects();
 }
 
@@ -506,6 +534,18 @@ void CPlayScene::Unload()
 
 	objects.clear();
 	player = NULL;
+	mini = NULL;
+	fireball_1 = NULL;
+	fireball_2 = NULL;
+	koopa = NULL;
+	wkoopa = NULL;
+	tail = NULL;
+	button = NULL;
+	portal = NULL;
+	for (int i = 0; i < bricks.size(); i++)
+		delete bricks[i];
+	for (int i = 0; i < hidden_coins.size(); i++)
+		delete hidden_coins[i];
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }

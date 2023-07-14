@@ -24,9 +24,9 @@
 
 class CGoldBrick : public CGameObject {
 protected:
-	//1- can be hit from under for powerup ;		2-none
+	
+	int interact;	//1- can be hit from under for powerup ;		2-none
 	int id;
-	int interact;
 	float X,Y, max_y;
 	bool isForceBreak = false;
 	ULONGLONG hide_start;

@@ -6,11 +6,12 @@
 #include "Brick.h"
 #include "Mario.h"
 #include "Goomba.h"
+#include "Hidden_Coin.h"
 #include "Decoration.h"
 #include "MysteryBox.h"
 #include "FirePlant.h"
 #include "FireBall.h"
-
+#include "miniMario.h"
 
 
 class CPlayScene: public CScene
@@ -49,7 +50,9 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+
 	LPGAMEOBJECT GetMini() { return mini; }
+
 	LPGAMEOBJECT GetFireBall(int index) 
 	{
 		if(index==1)
@@ -81,7 +84,7 @@ public:
 
 	void SetKoopa(LPGAMEOBJECT thisKoopa) { this->koopa = thisKoopa; }
 	void SetWKoopa(LPGAMEOBJECT thisWingKoopa) { this->wkoopa = thisWingKoopa; }
-	//void SetFireBall(LPGAMEOBJECT thisFireball) { this->fireball = thisFireball; }
+
 
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);

@@ -46,6 +46,7 @@ protected:
 	float ax;
 	float ay;
 	float default_y, default_x;
+	float Y;
 	float pre_vx;
 	int flag;
 	int pop_height;

@@ -13,7 +13,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	CMini* mini = (CMini*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetMini();
+	
 	if (mario != NULL)
 
 	{
@@ -32,9 +32,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			mario->IsHolding_AKey(true);
 			if (mario->GetLevel() == MARIO_LEVEL_TANUKI)
 			{
-				
+
 				CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
-				
+
 				if (mario->GetAbsAx() < MARIO_ACCEL_RUN_X)
 					tail->SetState(TAIL_STATE_ACTIVE);
 				else
@@ -60,34 +60,13 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			break;
 		}
 	}
-	else
-	{
-		switch (KeyCode)
-		{
-		case DIK_UP:
-			mini->SetState(MINI_STATE_TOP);
-			break;
-		case DIK_LEFT:
-			mini->SetState(MINI_STATE_LEFT);
-			break;
-		case DIK_RIGHT:
-			mini->SetState(MINI_STATE_RIGHT);
-			break;
-		case DIK_DOWN:
-			mini->SetState(MINI_STATE_BOT);
-			break;
-		case DIK_A:
-			break;
-		}
-		
-	}
-	}
+}
 
 
 
 void CSampleKeyHandler::OnKeyUp(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	if (mario != NULL) {
@@ -156,6 +135,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
+	
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CTail* tail = (CTail*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetTail();
 	if (mario != NULL) {
@@ -187,4 +167,9 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		else
 			mario->SetState(MARIO_STATE_IDLE);
 	}
+	
+	
+
+	
+	
 }

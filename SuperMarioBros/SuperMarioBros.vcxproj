@@ -157,6 +157,7 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="miniMario.h" />
     <ClInclude Include="MysteryBox.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Pwr_btn.cpp" />
     <ClCompile Include="RedMushroom.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
+    <ClCompile Include="SampleKeyEventHandlerMap.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="Sprite.cpp" />

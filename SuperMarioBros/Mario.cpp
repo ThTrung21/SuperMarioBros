@@ -10,6 +10,7 @@
 #include "MysteryBox.h"
 #include "GameObject.h"
 #include "PlayScene.h"
+
 #include "RedMushroom.h"
 #include "FirePlant.h"
 #include "FirePlant_Short.h"
@@ -17,7 +18,9 @@
 #include "FireBall.h"
 #include "Tanuki_Leaf.h"
 #include "WingGoomba.h"
+
 #include "Collision.h"
+
 #include "ColorBox.h"
 #include "debug.h"
 #include "GoldBrick.h"
@@ -1095,7 +1098,7 @@ void CMario::SetState(int state)
 		vx = 0.0f;
 		break;
 	case MARIO_STATE_SLAP:
-		//DebugOut(L"[INFO] SLAP TIME\n");
+		
 		slap_time = GetTickCount64();
 		break;
 	case MARIO_STATE_FLY:
