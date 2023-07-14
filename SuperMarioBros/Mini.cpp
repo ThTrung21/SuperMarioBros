@@ -1,17 +1,16 @@
 #pragma once
 
 #include "debug.h"
-
+#include "Brick.h"
 #include "Mini.h"
 #include "Node.h"
 
 void CMarioMini::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
-	float width = 10.0f;
-	float height = 10.0f;
-	left = x - width / 2;
-	top = y - height / 2;
-	right = x + width;
-	bottom = y + height;
+	
+	left = x - MINI_WIDTH / 2;
+	top = y - MINI_HEIGHT / 2;
+	right = x + MINI_WIDTH;
+	bottom = y + MINI_HEIGHT;
 }
 void CMarioMini::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	CGameObject::Update(dt, coObjects);
@@ -28,12 +27,20 @@ void CMarioMini::OnNoCollision(DWORD dt) {
 	y += vy * dt;
 }
 void CMarioMini::OnCollisionWith(LPCOLLISIONEVENT e) {
-	if (dynamic_cast<CNode*>(e->obj)) {
+	if (dynamic_cast<CNode*>(e->obj))
+	{
 		CNode* node = dynamic_cast<CNode*>(e->obj);
 		node->GetDirections(Left, Right, Top, Bot);
+		DebugOut(L"TOUCH NODE\n");
 		isAtStage = node->GetisStage();
 		x = node->Getx();
 		y = node->Gety();
+		vx = 0;
+		vy = 0;
+	}
+	if (dynamic_cast<CBrick*>(e->obj))
+	{
+		Right = 1;
 		vx = 0;
 		vy = 0;
 	}

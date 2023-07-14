@@ -14,6 +14,8 @@
 
 #define MINI_SPEED 0.2f
 
+#define MINI_WIDTH 10.0f
+#define MINI_HEIGHT	10.0f
 class CMarioMini : public CGameObject
 {
 private:

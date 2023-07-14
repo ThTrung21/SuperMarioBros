@@ -90,7 +90,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		tail->SetState(TAIL_STATE_ACTIVE);
 	}
-	else
+	else if( tail!=NULL)
 	{
 		tail->SetState(TAIL_STATE_IDLE);
 	}

@@ -341,7 +341,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int Top = (int)atof(tokens[5].c_str());
 		int Bot = (int)atof(tokens[6].c_str());
 		
-		int isStage = (int)atof(tokens[4].c_str());
+		int isStage = (int)atof(tokens[7].c_str());
 		obj = new CNode(x, y, Left, Right, Top, Bot, isStage);
 		break;
 	}
