@@ -19,6 +19,9 @@ title.txt
 
 #Portal 
 50	128	140	144	150	5	2
+
+#bg
+27	0	0	1001
 #title screen
 27	160	100	1000
 

@@ -1,6 +1,9 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 1000	516	226	771	449	80
+#bg color
+1001	0	0	1200	600	81
+
 2000	0	0	237	201	90
 
 

@@ -33,7 +33,7 @@
 #include"Tail.h"
 #include"Hidden_Coin.h"
 #include"title.h"
-#include "miniMario.h"
+#include "Mini.h"
 
 #include "Node.h"
 using namespace std;
@@ -143,38 +143,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
-		}
-		
-		//if (CGame::GetInstance()->GetFirstLoad()==1 &&GetId() == 5)
-		{
-			
+		}		
 			obj = new CMario(x, y);
 			player = (CMario*)obj;
-			
-			
-		}
-		/*else if (CGame::GetInstance()->GetLoadTime() == 0 && GetId() == 5)
-		{
-			obj = new CMario(1200, 10);
-			player = (CMario*)obj;
-		}
-		else
-		{
-			obj = new CMario(x, y);
-			player = (CMario*)obj;
-			
-		}*/
-
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
+
 	case OBJECT_TYPE_TAIL:
 		obj = new CTail(x, y);
 		tail = (CTail*)obj;
 		break;
-	case OBJECT_TYPE_MINI:
+	case OBJECT_TYPE_MARIO_MINI:
 	{
-		obj = new CMini(x, y);
-		mini = (CMini*)obj;
+		if (mini!= NULL)
+		{
+			DebugOut(L"[ERROR] Mini object was created before!\n");
+			return;
+		}
+		obj = new CMarioMini(x, y);
+		mini = (CMarioMini*)obj;
+		DebugOut(L"[INFO] Mini object has been created!\n");
 		break;
 	}
 	case OBJECT_TYPE_TITLE:
@@ -352,10 +340,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int Right = (int)atof(tokens[4].c_str());
 		int Top = (int)atof(tokens[5].c_str());
 		int Bot = (int)atof(tokens[6].c_str());
-
-		int id = (int)atof(tokens[3].c_str());
+		
 		int isStage = (int)atof(tokens[4].c_str());
-		obj = new CNode(x, y, Left, Right, Top, Bot, id, isStage);
+		obj = new CNode(x, y, Left, Right, Top, Bot, isStage);
 		break;
 	}
 
@@ -480,7 +467,8 @@ void CPlayScene::Update(DWORD dt)
 	{
 		
 		float cx, cy;
-		if (player != NULL) {
+		if (id!=2) 
+		{
 			player->GetPosition(cx, cy);
 
 			CGame* game = CGame::GetInstance();

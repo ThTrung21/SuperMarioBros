@@ -1,9 +1,7 @@
 # list of object assets to load in this scene
 [ASSETS]
 title.txt
-brick.txt
 mini.txt
-portal.txt
 Node.txt
 
 [OBJECTS]
@@ -15,15 +13,15 @@ Node.txt
 
 
 
-#brick
-#1	0	180	20	1	20001
-#1	20	8	1	1	20001
+
 
 #nodes:(x, y, Left, Right, Top, Bot, id, isStage, renderid)
 #			lef	rig	top	bot	stg
 29	64	45	0	1	0	0	0
 29	96	45	1	0	1	0	0
 
+#the map
+27	160	100	2000
 
 #1
 29	96	13	0	1	0	1	1
@@ -67,8 +65,8 @@ Node.txt
 #castle final:
 29	224	109	1	0	0	0	1
 
+
 #mini
-28	64	45
-#Portal 
-50	200	160	216	180	5	2
+30	64	45
+
 

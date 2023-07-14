@@ -11,7 +11,7 @@
 #include "MysteryBox.h"
 #include "FirePlant.h"
 #include "FireBall.h"
-#include "miniMario.h"
+
 
 
 class CPlayScene: public CScene

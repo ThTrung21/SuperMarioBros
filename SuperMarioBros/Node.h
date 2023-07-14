@@ -14,7 +14,7 @@ class CNode : public CGameObject {
 	bool Top = false;
 	bool Bot = false;
 public:
-	CNode(float x, float y, int left, int right, int top, int bot, int id, int isStage) : CGameObject(x, y) {
+	CNode(float x, float y, int left, int right, int top, int bot, int isStage) : CGameObject(x, y) {
 	
 		this->Left = (bool)left;
 		this->Right = (bool)right;
@@ -24,16 +24,17 @@ public:
 	}
 	virtual int IsBlocking() { return 0; }
 	virtual int IsCollidable() { return 1; };
-	bool GetisStage() { return this->isStage; }
-
-	float Getx() { return this->x; }
-	float Gety() { return this->y; }
-	void Render() 
+	void Render()
 	{
 		CAnimations* animations = CAnimations::GetInstance();
 		animations->Get(ID_ANI_NODE)->Render(x, y);
 		RenderBoundingBox();
 	}
+	bool GetisStage() { return this->isStage; }
+
+	float Getx() { return this->x; }
+	float Gety() { return this->y; }
+	
 	void GetDirections(bool& left, bool& right, bool& top, bool& bot) {
 		left = this->Left;
 		right = this->Right;

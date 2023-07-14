@@ -8,7 +8,7 @@
 #include "Koopa.h"
 #include "Tail.h"
 #include "WingKoopa.h"
-#include "miniMario.h"
+
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);

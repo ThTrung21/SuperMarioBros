@@ -153,10 +153,10 @@
     <ClInclude Include="title.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="miniMario.h">
+    <ClInclude Include="Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
+    <ClInclude Include="Mini.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -287,10 +287,10 @@
     <ClCompile Include="title.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="miniMario.cpp">
+    <ClCompile Include="SampleKeyEventHandlerMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SampleKeyEventHandlerMap.cpp">
+    <ClCompile Include="Mini.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
