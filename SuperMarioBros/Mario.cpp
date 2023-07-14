@@ -277,6 +277,12 @@ void CMario::OnCollisionWithHiddenCoin(LPCOLLISIONEVENT e)
 	CHiddenCoin* hidden= dynamic_cast<CHiddenCoin*>(e->obj);
 	if (hidden->GetState() == HCOIN_STATE_SHOW)
 	{
+
+		//CHiddenCoin* c = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(hidden->GetId());
+		//CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(hidden->GetId());
+		//c->SetEaten(true);
+		/*DebugOut(L"brick gon\n");
+		brick->SetForceBreak(true);*/
 		e->obj->Delete();
 		coin++;
 		CGame::GetInstance()->SetCoin(coin);

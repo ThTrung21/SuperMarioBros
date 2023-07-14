@@ -15,8 +15,10 @@
 #include "Tail.h"
 #include "GoldBrick.h"
 #include "Hidden_Coin.h"
+#include "Shadow.h"
 CKoopa::CKoopa(float x, float y,int type) :CGameObject(x, y)
 {
+	Y = y;
 	this->ax = 0;
 	default_y = y;
 	default_x = x;
@@ -62,7 +64,7 @@ bool CKoopa::MarioDetection(int mario_x)
 bool CKoopa::RespawnDetector(int mario_x)
 {
 	int xx = mario_x - (int)default_x;
-	if (abs(xx) > 300)
+	if (abs(xx) > 230)
 		return 1;
 	return 0;
 }
@@ -137,7 +139,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 
 	//invisible barrier for red koopa
-	else if (state == KOOPA_STATE_WALKING && Ktype == 1 && dynamic_cast<CInvis*>(e->obj))
+	else if (state == KOOPA_STATE_WALKING && Ktype == 1/*&& !dynamic_cast<CShadow*>(e->obj)*/ && dynamic_cast<CInvis*>(e->obj))
 	{
 
 		vx = -vx;
@@ -146,7 +148,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vy = 0;
 	}
-	else if (e->nx != 0 && !e->obj->IsGoomba() && !dynamic_cast<CInvis*>(e->obj))
+	else if (e->nx != 0 && !e->obj->IsGoomba() && !dynamic_cast<CInvis*>(e->obj) && !dynamic_cast<CShadow*>(e->obj))
 	{
 		vx = -vx;
 	}
@@ -174,7 +176,7 @@ void CKoopa::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 			CHiddenCoin* coin = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(g->GetId());
 			brick->SetForceBreak(true);
 			coin->SetDestroy(true);
-			brick->SetState(GBRICK_STATE_BROKEN);
+			brick->SetState(GBRICK_STATE_HIDDEN);
 			
 		}
 	}
@@ -408,7 +410,7 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_SHELL:
 		shell_start = GetTickCount64();
 		kick_cooldown = GetTickCount64();
-		
+		default_y = y;
 		//y += (KOOPA_BBOX_HEIGHT - SHELL_BBOX_HEIGHT) / 2;
 		pre_vx = vx;
 		vx = 0;
@@ -458,6 +460,7 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_HIT:
 		ay = -KOOPA_GRAVITY;
+		default_y = y;
 		pop_height = (int)y - 20;
 		vx = 0;
 		break;
@@ -469,7 +472,7 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_HIDDEN:
 		
 		x = default_x;
-		y = default_y-3;
+		y = Y-3;
 		vx = 0;
 		ay = KOOPA_GRAVITY;
 		break;

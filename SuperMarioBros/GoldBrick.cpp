@@ -10,7 +10,7 @@ CGoldBrick::CGoldBrick(float x, float y, int brick_type,int id):CGameObject(x,y)
 	this->Y = y;
 	this->X = x;
 	this->id = id;
-	
+	hide_start = -1;
 	SetState(GBRICK_STATE_NEW);
 	
 }
@@ -76,23 +76,38 @@ void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 #pragma endregion
 
-	if (state == GBRICK_STATE_HIDDEN )
+
+#pragma region reappear_when_times_up
+	if (state == GBRICK_STATE_HIDDEN &&(GetTickCount64() - hide_start > TIME_HIDDEN))
 	{
-		isDeleted = true;
-		return;
+		
+		if (!isForceBreak)
+		{
+			SetState(GBRICK_STATE_NEW);
+			
+		}
+		else
+		{
+			
+			isDeleted = true;
+			//return;
+		}
 	}
+#pragma endregion
 
 	//brick disapear when button push
 #pragma region button_pushed_logic
 	CBtn* button = (CBtn*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetButton();
 	if (button->GetState() == BTN_STATE_USED)
 	{
-		if (interact == 2 && state==GBRICK_STATE_NEW)
+		if (interact == 2 && state == GBRICK_STATE_NEW)
 		{
 			SetState(GBRICK_STATE_HIDDEN);
-			
+
 			//return;
 		}
+		
+			//isDeleted = true;
 	}
 #pragma endregion
 
@@ -121,6 +136,7 @@ void CGoldBrick::SetState(int state)
 		break;
 
 	case GBRICK_STATE_HIDDEN:
+		hide_start = GetTickCount64();
 		break;
 	case GBRICK_STATE_BROKEN:
 		break;

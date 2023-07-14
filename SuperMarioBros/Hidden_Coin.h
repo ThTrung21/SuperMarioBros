@@ -15,6 +15,7 @@
 #define HCOIN_STATE_HIDDEN 100
 #define HCOIN_STATE_SHOW	200
 
+#define SHOW_TIME 2000
 
 #define HCOIN 100
 #define HCOIN_TIMEOUT 300
@@ -28,7 +29,8 @@ protected:
 	bool hidden;
 	int id;
 	bool isDestroy = 0;
-
+	bool isEaten = 0;
+	ULONGLONG show_start;
 public:
 	CHiddenCoin(float x, float y, int id);
 	void Render();
@@ -37,6 +39,10 @@ public:
 	int IsBlocking() { return 0; }
 	
 	int GetId() { return id; }
+	void SetEaten(bool index)
+	{
+		isEaten = index;
+	}
 
 	void SetDestroy(bool index)
 	{

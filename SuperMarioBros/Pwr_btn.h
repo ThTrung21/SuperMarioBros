@@ -21,7 +21,7 @@ public:
 	{
 		X = x;
 		Y = y;
-		SetState(BTN_STATE_SHOW);
+		SetState(BTN_STATE_HIDDEN);
 	}
 	void Render();
 	void Update(DWORD dt) {}

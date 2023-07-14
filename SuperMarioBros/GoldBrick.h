@@ -16,6 +16,8 @@
 #define ID_ANI_GOLD_BRICK 22000
 #define ID_ANI_GOLD_BRICK_USED 22001
 
+#define TIME_HIDDEN 300
+
 #define GBRICK_WIDTH 16
 #define GBRICK_BBOX_WIDTH 16
 #define GBRICK_BBOX_HEIGHT 16
@@ -27,6 +29,7 @@ protected:
 	int interact;
 	float X,Y, max_y;
 	bool isForceBreak = false;
+	ULONGLONG hide_start;
 public:
 	CGoldBrick(float x, float y,int brick_type,int id) ;
 	void Render();
