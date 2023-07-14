@@ -77,7 +77,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 			{
 				if (abs(mario->Getvx()) >= 0.2f) {
 					mario->SetState(MARIO_STATE_FLY);
-					DebugOut(L"FLYYYY\n");
+					
 					break;
 				}
 				else mario->SetState(MARIO_STATE_RELEASE_JUMP);

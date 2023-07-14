@@ -53,7 +53,7 @@ void CBtn::Render()
 		animations->Get(aniId)->Render(x, y);
 		
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CBtn::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

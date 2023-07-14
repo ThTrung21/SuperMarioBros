@@ -28,7 +28,7 @@ public:
 	{
 		CAnimations* animations = CAnimations::GetInstance();
 		animations->Get(ID_ANI_NODE)->Render(x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 	bool GetisStage() { return this->isStage; }
 

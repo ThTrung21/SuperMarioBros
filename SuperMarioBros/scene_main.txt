@@ -249,7 +249,8 @@ Hidden_coin.txt
 
 #Portal
 #id	l	t	r	b	scene	dir
-50	200	160	216	200	6	2
+#50	200	160	216	200	6	2
+50	2236	-111	2252	-90	6	2
 
 
 

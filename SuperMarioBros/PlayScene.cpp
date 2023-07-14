@@ -522,18 +522,8 @@ void CPlayScene::Unload()
 
 	objects.clear();
 	player = NULL;
-	mini = NULL;
-	fireball_1 = NULL;
-	fireball_2 = NULL;
-	koopa = NULL;
-	wkoopa = NULL;
-	tail = NULL;
-	button = NULL;
-	portal = NULL;
-	for (int i = 0; i < bricks.size(); i++)
-		delete bricks[i];
-	for (int i = 0; i < hidden_coins.size(); i++)
-		delete hidden_coins[i];
+	
+	
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }

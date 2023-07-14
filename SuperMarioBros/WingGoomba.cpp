@@ -158,7 +158,7 @@ void CWingGoomba::Render()
 
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CWingGoomba::SetState(int state)

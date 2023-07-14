@@ -16,23 +16,23 @@ void CSampleKeyHandlerMap::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_LEFT:
-		DebugOut(L"LEFT\n");
+		//DebugOut(L"LEFT\n");
 		mini->SetState(MARIO_MINI_LEFT);
 		break;
 	case DIK_RIGHT:
-		DebugOut(L"RIGHT\n");
+		//DebugOut(L"RIGHT\n");
 		mini->SetState(MARIO_MINI_RIGHT);
 		break;
 	case DIK_DOWN:
-		DebugOut(L"BOTTOM\n");
+		//DebugOut(L"BOTTOM\n");
 		mini->SetState(MARIO_MINI_BOT);
 		break;
 	case DIK_UP:
-		DebugOut(L"UP\n");
+		//DebugOut(L"UP\n");
 		mini->SetState(MARIO_MINI_TOP);
 		break;
 	case DIK_S:
-		DebugOut(L"PRESSED S\n");
+		//DebugOut(L"PRESSED S\n");
 		if (mini->GetIsAtStage()) {
 			CGame::GetInstance()->InitiateSwitchScene(5);
 		}

@@ -19,7 +19,7 @@ void CMarioMini::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 void CMarioMini::Render() {
 	int aniID = ID_ANI_MINI;
 	CAnimations::GetInstance()->Get(aniID)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 }
 void CMarioMini::OnNoCollision(DWORD dt) {

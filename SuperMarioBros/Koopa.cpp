@@ -111,8 +111,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 				//bounce_start = GetTickCount64();
 			}
 		}
-		else
-			return;
+		
 	}
 
 	if (e->obj->IsGoomba() && e->obj->GetState() == GOOMBA_STATE_DIE) return;
@@ -399,7 +398,7 @@ void CKoopa::Render()
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 void CKoopa::SetState(int state)
 {
@@ -428,7 +427,7 @@ void CKoopa::SetState(int state)
 		y = default_y-3;
 		//walking
 	case KOOPA_STATE_WALKING:
-		y = default_y - 3;
+		y -= 3;
 		ay = KOOPA_GRAVITY;
 		if (pre_vx > 0)
 			vx = -KOOPA_WALKING_SPEED;

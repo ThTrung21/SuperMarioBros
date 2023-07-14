@@ -37,8 +37,8 @@ public:
 	bool GetContent(){ return interact; }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void SetState(int state);
-	
-	//virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	//void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	int IsCollidable() { return 1; }
 	int IsBlocking() { return 1; }
 	int GetType() { return interact; }

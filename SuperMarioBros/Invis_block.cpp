@@ -5,7 +5,7 @@ void CInvis::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(ID_ANI_INVIS)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 void CInvis::GetBoundingBox(float& l, float& t, float& r, float& b)
 {

@@ -167,7 +167,7 @@ void CFirePlant_Short::Render()
 
 		CAnimations::GetInstance()->Get(aniID)->Render(x, y);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CFirePlant_Short::GetBoundingBox(float& left, float& top, float& right, float& bottom)

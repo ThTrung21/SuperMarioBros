@@ -127,7 +127,7 @@ void CGoomba::Render()
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
 	
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 bool CGoomba::MarioDetection(int mario_x)

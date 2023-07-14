@@ -1,9 +1,12 @@
 #include "Tail.h"
+
 #include "Koopa.h"
 #include "WingKoopa.h"
+
 #include "FirePlant.h"
 #include "FirePlant_Short.h"
 #include "GoldBrick.h"
+#include"MysteryBox.h"
 CTail::CTail(float x, float y) :CGameObject(x,y)
 {
 
@@ -59,9 +62,10 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (dynamic_cast<CKoopa*>(e->obj))
 		{
 			CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-			if (koopa->GetState() == KOOPA_STATE_SHELL)
+			if(koopa->GetState() != KOOPA_STATE_HOLD && koopa->GetState() != KOOPA_STATE_HIDDEN
+				)
 				koopa->SetState(KOOPA_STATE_HIT);
-
+			
 		}
 
 		if (dynamic_cast<CFirePlant*>(e->obj))
@@ -72,6 +76,7 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 		if (dynamic_cast<CGoldBrick*>(e->obj))
 		{
+			DebugOut(L"TAIL TOUCH BRICK\n");
 			CGoldBrick* gb = dynamic_cast<CGoldBrick*>(e->obj);
 			if (gb->GetState() == GBRICK_STATE_NEW)
 			{
@@ -84,17 +89,27 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 					CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(gb->GetId());
 					CHiddenCoin* coin = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(gb->GetId());
 					brick->SetForceBreak(true);
+					//e->obj->Delete();
 					coin->SetDestroy(true);
 					brick->SetState(GBRICK_STATE_HIDDEN);
 				}
 			}
 		}
+		if (dynamic_cast<CBox*>(e->obj))
+		{
+			CBox* b = dynamic_cast<CBox*>(e->obj);
+			if (b->GetState() != BOX_STATE_USED)
+			{
+				b->SetState(BOX_STATE_USED);
+			}
+		}
+
 	}
 }
 
 void CTail::OnNoCollision(DWORD dt)
 {
-
+	x = x; y = y;
 }
 
 

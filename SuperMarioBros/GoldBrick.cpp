@@ -1,6 +1,7 @@
 #include "GoldBrick.h"
 #include "Mario.h"
 #include "Pwr_btn.h"
+#include "Tail.h"
 #include "PlayScene.h"
 
 CGoldBrick::CGoldBrick(float x, float y, int brick_type,int id):CGameObject(x,y)
@@ -41,7 +42,7 @@ void CGoldBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	y += vy * dt;
-	//x = X;
+	x = X;
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	if (state == GBRICK_STATE_USED)
@@ -115,6 +116,29 @@ void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	//CCollision::GetInstance()->Process(this, dt, coObjects);
 }
+void CGoldBrick::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	if (dynamic_cast<CTail*>(e->obj))
+	{
+		CTail* tail = dynamic_cast<CTail*>(e->obj);
+		if (tail->GetState() == TAIL_STATE_ACTIVE)
+		{
+			if (interact == 1)
+				SetState(GBRICK_STATE_USED);
+			else
+			{
+				DebugOut(L"TAIL TOUCH BRICK\n");
+				CGoldBrick* brick = (CGoldBrick*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdGoldBrick(GetId());
+				CHiddenCoin* coin = (CHiddenCoin*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIdCoins(GetId());
+				brick->SetForceBreak(true);
+				coin->SetDestroy(true);
+				brick->SetState(GBRICK_STATE_HIDDEN);
+			}
+		}
+
+	}
+}
+
 void CGoldBrick::SetState(int state)
 {
 	

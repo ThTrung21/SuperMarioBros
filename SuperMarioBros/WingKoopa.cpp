@@ -401,7 +401,7 @@ void CWingKoopa::Render()
 		}
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CWingKoopa::SetState(int state)
@@ -414,7 +414,7 @@ void CWingKoopa::SetState(int state)
 		shell_start = GetTickCount64();
 		kick_cooldown = GetTickCount64();
 		y += (WKOOPA_BBOX_HEIGHT - WSHELL_BBOX_HEIGHT) / 2;
-		pre_vx = vx;
+		
 		vx = 0;
 		//vy = 0;
 		ay = 0;
@@ -434,7 +434,7 @@ void CWingKoopa::SetState(int state)
 		//walking
 	case WKOOPA_STATE_WALKING:
 		//if(die_flag==1)
-		y = default_y - 3;
+		y -=  3;
 		ay = WKOOPA_GRAVITY;
 		if (pre_vx > 0)
 			vx = -WKOOPA_WALKING_SPEED;
@@ -442,7 +442,7 @@ void CWingKoopa::SetState(int state)
 			vx = WKOOPA_WALKING_SPEED;
 		else
 			vx = -WKOOPA_WALKING_SPEED;
-
+		pre_vx = vx;
 		break;
 
 		//revive
@@ -490,7 +490,9 @@ void CWingKoopa::SetState(int state)
 	case WKOOPA_STATE_HIT:
 		ay = -WKOOPA_GRAVITY;
 		pop_height = (int)y - 20;
+		pre_vx = vx;
 		vx = 0;
+
 		break;
 	case KOOPA_STATE_HOLD:
 		vx = 0;
