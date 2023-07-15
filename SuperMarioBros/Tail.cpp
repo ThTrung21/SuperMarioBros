@@ -58,7 +58,7 @@ void CTail::OnCollisionWith(LPCOLLISIONEVENT e)
 		return;
 	else
 	{
-		DebugOut(L"tail active\n");
+	//	DebugOut(L"tail active\n");
 		if (dynamic_cast<CKoopa*>(e->obj))
 		{
 			CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
